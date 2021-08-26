@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.7] - 2021-08-XX
+## [0.0.8] - 2021-08-26
+
+### Added
+
+- `apiKeys` (api-keys) endpoints
+
+## [0.0.7] - 2021-08-26
 
 ### Added
 
