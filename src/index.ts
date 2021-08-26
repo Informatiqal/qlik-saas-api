@@ -7,6 +7,7 @@ import { Origins, IClassOrigins } from "./modules/Origins";
 import { Quotas, IClassQuotas } from "./modules/Quotas";
 import { Themes, IClassThemes } from "./modules/Themes";
 import { Extensions, IClassExtensions } from "./modules/Extensions";
+import { Evaluations, IClassEvaluations } from "./modules/Evaluations";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -19,6 +20,7 @@ export namespace QlikSaaSApi {
     public quotas: IClassQuotas;
     public themes: IClassThemes;
     public extensions: IClassExtensions;
+    public evaluations: IClassEvaluations;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -31,6 +33,7 @@ export namespace QlikSaaSApi {
       this.quotas = new Quotas(this.saasClient);
       this.themes = new Themes(this.saasClient);
       this.extensions = new Extensions(this.saasClient);
+      this.evaluations = new Evaluations(this.saasClient);
     }
   }
 }
