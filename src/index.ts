@@ -2,6 +2,7 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { Apps, IClassApps } from "./modules/Apps";
 import { APIKeys, IClassAPIKeys } from "./modules/APIKeys";
 import { Audits, IClassAudits } from "./modules/Audits";
+import { Conditions, IClassConditions } from "./modules/Conditions";
 import { Spaces, IClassSpaces } from "./modules/Spaces";
 import { Items, IClassItems } from "./modules/Items";
 import { Origins, IClassOrigins } from "./modules/Origins";
@@ -16,6 +17,7 @@ export namespace QlikSaaSApi {
     public apps: IClassApps;
     public apiKeys: IClassAPIKeys;
     public audits: IClassAudits;
+    public conditions: IClassConditions;
     public spaces: IClassSpaces;
     public items: IClassItems;
     public origins: IClassOrigins;
@@ -30,6 +32,7 @@ export namespace QlikSaaSApi {
       this.apps = new Apps(this.saasClient);
       this.apiKeys = new APIKeys(this.saasClient);
       this.audits = new Audits(this.saasClient);
+      this.conditions = new Conditions(this.saasClient);
       this.spaces = new Spaces(this.saasClient);
       this.items = new Items(this.saasClient);
       this.origins = new Origins(this.saasClient);
