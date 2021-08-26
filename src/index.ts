@@ -10,6 +10,7 @@ import { Quotas, IClassQuotas } from "./modules/Quotas";
 import { Themes, IClassThemes } from "./modules/Themes";
 import { Extensions, IClassExtensions } from "./modules/Extensions";
 import { Evaluations, IClassEvaluations } from "./modules/Evaluations";
+import { Reloads, IClassReloads } from "./modules/Reloads";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -25,6 +26,7 @@ export namespace QlikSaaSApi {
     public themes: IClassThemes;
     public extensions: IClassExtensions;
     public evaluations: IClassEvaluations;
+    public reloads: IClassReloads;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -40,6 +42,7 @@ export namespace QlikSaaSApi {
       this.themes = new Themes(this.saasClient);
       this.extensions = new Extensions(this.saasClient);
       this.evaluations = new Evaluations(this.saasClient);
+      this.reloads = new Reloads(this.saasClient);
     }
   }
 }
