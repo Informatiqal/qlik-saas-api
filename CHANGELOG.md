@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.11] - 2021-08-27
+
+### Added
+
+- `dataConnections` (data-connections) endpoints
+
 ## [0.0.10] - 2021-08-27
 
 ### Added
