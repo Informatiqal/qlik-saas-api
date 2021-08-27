@@ -50,6 +50,7 @@
         "staticbytesize",
         "topfieldsbybytes",
         "toptablesbybytes",
-        "typedoc"
+        "typedoc",
+        "zoneinfo"
     ]
 }

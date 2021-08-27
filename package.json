@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
