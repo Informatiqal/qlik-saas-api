@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.12] - 2021-08-27
+
+### Added
+
+- `dataCredentials` (data-credentials) endpoints
+
 ## [0.0.11] - 2021-08-27
 
 ### Added

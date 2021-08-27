@@ -6,6 +6,10 @@ import {
   DataConnections,
   IClassDataConnections,
 } from "./modules/DataConnections";
+import {
+  DataCredentials,
+  IClassDataCredentials,
+} from "./modules/DataCredentials";
 import { Spaces, IClassSpaces } from "./modules/Spaces";
 import { Items, IClassItems } from "./modules/Items";
 import { NL, IClassNL } from "./modules/NaturalLanguage";
@@ -23,6 +27,7 @@ export namespace QlikSaaSApi {
     public apiKeys: IClassAPIKeys;
     public audits: IClassAudits;
     public dataConnections: IClassDataConnections;
+    public dataCredentials: IClassDataCredentials;
     public spaces: IClassSpaces;
     public items: IClassItems;
     public naturalLanguage: IClassNL;
@@ -40,6 +45,7 @@ export namespace QlikSaaSApi {
       this.apiKeys = new APIKeys(this.saasClient);
       this.audits = new Audits(this.saasClient);
       this.dataConnections = new DataConnections(this.saasClient);
+      this.dataCredentials = new DataCredentials(this.saasClient);
       this.spaces = new Spaces(this.saasClient);
       this.items = new Items(this.saasClient);
       this.naturalLanguage = new NL(this.saasClient);
