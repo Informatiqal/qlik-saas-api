@@ -13,6 +13,7 @@ import {
 import { Spaces, IClassSpaces } from "./modules/Spaces";
 import { Items, IClassItems } from "./modules/Items";
 import { NL, IClassNL } from "./modules/NaturalLanguage";
+import { Licenses, IClassLicenses } from "./modules/Licenses";
 import { Origins, IClassOrigins } from "./modules/Origins";
 import { Quotas, IClassQuotas } from "./modules/Quotas";
 import { Themes, IClassThemes } from "./modules/Themes";
@@ -33,6 +34,7 @@ export namespace QlikSaaSApi {
     public naturalLanguage: IClassNL;
     public origins: IClassOrigins;
     public quotas: IClassQuotas;
+    public licenses: IClassLicenses;
     public themes: IClassThemes;
     public extensions: IClassExtensions;
     public evaluations: IClassEvaluations;
@@ -49,6 +51,7 @@ export namespace QlikSaaSApi {
       this.spaces = new Spaces(this.saasClient);
       this.items = new Items(this.saasClient);
       this.naturalLanguage = new NL(this.saasClient);
+      this.licenses = new Licenses(this.saasClient);
       this.origins = new Origins(this.saasClient);
       this.quotas = new Quotas(this.saasClient);
       this.themes = new Themes(this.saasClient);
