@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.14] - 2021-08-XX
+## [0.0.15] - 2021-08-27
+
+### Added
+
+- `webhooks` endpoints
+
+## [0.0.14] - 2021-08-27
 
 ### Added
 

@@ -21,6 +21,7 @@ import { Extensions, IClassExtensions } from "./modules/Extensions";
 import { Evaluations, IClassEvaluations } from "./modules/Evaluations";
 import { Reloads, IClassReloads } from "./modules/Reloads";
 import { Users, IClassUsers } from "./modules/Users";
+import { WebHooks, IClassWebHooks } from "./modules/WebHooks";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -41,6 +42,7 @@ export namespace QlikSaaSApi {
     public evaluations: IClassEvaluations;
     public reloads: IClassReloads;
     public users: IClassUsers;
+    public webHooks: IClassWebHooks;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -61,6 +63,7 @@ export namespace QlikSaaSApi {
       this.evaluations = new Evaluations(this.saasClient);
       this.reloads = new Reloads(this.saasClient);
       this.users = new Users(this.saasClient);
+      this.webHooks = new WebHooks(this.saasClient);
     }
   }
 }
