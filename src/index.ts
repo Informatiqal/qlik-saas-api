@@ -22,6 +22,7 @@ import { Evaluations, IClassEvaluations } from "./modules/Evaluations";
 import { Reloads, IClassReloads } from "./modules/Reloads";
 import { Users, IClassUsers } from "./modules/Users";
 import { WebHooks, IClassWebHooks } from "./modules/WebHooks";
+import { OAuthTokens, IClassOAuthTokens } from "./modules/OAuthTokens";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -43,6 +44,7 @@ export namespace QlikSaaSApi {
     public reloads: IClassReloads;
     public users: IClassUsers;
     public webHooks: IClassWebHooks;
+    public oauthTokens: IClassOAuthTokens;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -64,6 +66,7 @@ export namespace QlikSaaSApi {
       this.reloads = new Reloads(this.saasClient);
       this.users = new Users(this.saasClient);
       this.webHooks = new WebHooks(this.saasClient);
+      this.oauthTokens = new OAuthTokens(this.saasClient);
     }
   }
 }
