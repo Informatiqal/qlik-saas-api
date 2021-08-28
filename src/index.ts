@@ -24,6 +24,10 @@ import { Users, IClassUsers } from "./modules/Users";
 import { WebHooks, IClassWebHooks } from "./modules/WebHooks";
 import { OAuthTokens, IClassOAuthTokens } from "./modules/OAuthTokens";
 import { Collections, IClassCollections } from "./modules/Collections";
+import {
+  IdentityProviders,
+  IClassIdentityProviders,
+} from "./modules/IdentityProviders";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -47,6 +51,7 @@ export namespace QlikSaaSApi {
     public webHooks: IClassWebHooks;
     public oauthTokens: IClassOAuthTokens;
     public collections: IClassCollections;
+    public identityProviders: IClassIdentityProviders;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -70,6 +75,7 @@ export namespace QlikSaaSApi {
       this.webHooks = new WebHooks(this.saasClient);
       this.oauthTokens = new OAuthTokens(this.saasClient);
       this.collections = new Collections(this.saasClient);
+      this.identityProviders = new IdentityProviders(this.saasClient);
     }
   }
 }

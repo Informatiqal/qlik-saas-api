@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.17] - 2021-08-28
+
+### Added
+
+- base of `identityProviders` (identity-providers) endpoints. The documentation is incomplete
+
 ## [0.0.16] - 2021-08-28
 
 ### Added
