@@ -23,6 +23,7 @@ import { Reloads, IClassReloads } from "./modules/Reloads";
 import { Users, IClassUsers } from "./modules/Users";
 import { WebHooks, IClassWebHooks } from "./modules/WebHooks";
 import { OAuthTokens, IClassOAuthTokens } from "./modules/OAuthTokens";
+import { Collections, IClassCollections } from "./modules/Collections";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -45,6 +46,7 @@ export namespace QlikSaaSApi {
     public users: IClassUsers;
     public webHooks: IClassWebHooks;
     public oauthTokens: IClassOAuthTokens;
+    public collections: IClassCollections;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -67,6 +69,7 @@ export namespace QlikSaaSApi {
       this.users = new Users(this.saasClient);
       this.webHooks = new WebHooks(this.saasClient);
       this.oauthTokens = new OAuthTokens(this.saasClient);
+      this.collections = new Collections(this.saasClient);
     }
   }
 }
