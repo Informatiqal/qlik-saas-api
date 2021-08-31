@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -17,7 +17,7 @@
     "build-tsc": "tsc",
     "build": "rollup -c",
     "watch": "rollup -cw",
-    "docs": "npx typedoc src/index.doc.ts --name \"Qlik Proxy API\" --excludePrivate --hideGenerator"
+    "docs": "npx typedoc src/index.doc.ts --name \"Qlik SaaS API\" --excludePrivate --hideGenerator"
   },
   "keywords": [
     "qlik",

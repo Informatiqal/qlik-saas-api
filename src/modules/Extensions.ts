@@ -1,6 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Extension, IClassExtension, IExtension } from "./Extension";
 
+//TODO: import extension method
 export interface IClassExtensions {
   get(id: string): Promise<IClassExtension>;
   getAll(): Promise<IClassExtension[]>;
