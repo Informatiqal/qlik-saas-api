@@ -1,14 +1,11 @@
 import { QlikSaaSClient } from "qlik-rest-api";
+import { FormDataCustom } from "../util/FormData";
 import { IClassTheme, ITheme, Theme } from "./Theme";
-
-// export interface IThemeCreate {
-//   id: string;
-//   file: Buffer;
-// }
 
 export interface IClassThemes {
   get(id: string): Promise<IClassTheme>;
   getAll(): Promise<IClassTheme[]>;
+  import(file: Buffer, fileName?: string): Promise<IClassTheme>;
 }
 
 export class Themes implements IClassThemes {
@@ -32,9 +29,24 @@ export class Themes implements IClassThemes {
       .then((data) => data.map((t) => new Theme(this.saasClient, t.id, t)));
   }
 
-  // async create(arg: IThemeCreate) {
-  //   return await this.saasClient
-  //     .Post(`themes`, arg)
-  //     .then((res) => new Theme(this.saasClient, res.data.id, res.data));
-  // }
+  async import(file: Buffer, fileName?: string) {
+    if (!file) throw new Error(`themes.import: "file" parameter is required`);
+
+    if (!fileName) fileName = "some-file.zip";
+
+    const fd = new FormDataCustom();
+    fd.append(
+      "data",
+      JSON.stringify({
+        tags: [],
+      })
+    );
+
+    fd.append("file", file, fileName);
+    const data = fd.getData();
+
+    return await this.saasClient
+      .Post(`themes`, data, fd.headers)
+      .then((res) => new Theme(this.saasClient, res.data.id, res.data));
+  }
 }

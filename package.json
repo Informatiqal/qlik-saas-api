@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -63,6 +63,6 @@
   "dependencies": {
     "@types/form-data": "^2.5.0",
     "form-data": "^4.0.0",
-    "qlik-rest-api": "^1.1.6"
+    "qlik-rest-api": "^1.1.9"
   }
 }
