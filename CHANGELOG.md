@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.20] - 2021-11-26
+
+### Fix
+
+- updated `qlik-rest-api` to `1.3.1`
+
 ## [0.0.19] - 2021-08-29
 
 ### Added
