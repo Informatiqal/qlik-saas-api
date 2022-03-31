@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.24] - 2022-03-31
+
+- merged [#14 Creating assignment fix](https://github.com/Informatiqal/qlik-saas-api/pull/14)
+
 ## [0.0.23] - 2022-03-31
 
 ### Fix
