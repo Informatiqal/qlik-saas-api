@@ -34,7 +34,7 @@ export interface ISpaceUpdate {
 }
 
 export interface IAssignmentCreate {
-  type?: string;
+  type?: "user" | "group";
   assigneeId?: string;
   roles?: string[];
 }
@@ -99,7 +99,7 @@ export class Space implements IClassSpace {
   async assignmentCreate(arg: IAssignmentCreate) {
     let data: { [k: string]: any } = {};
     if (arg.type) data["type"] = arg.type;
-    if (arg.type) data["type"] = arg.type;
+    if (arg.assigneeId) data["assigneeId"] = arg.assigneeId;
     if (arg.roles) data["roles"] = arg.roles;
 
     return await this.saasClient

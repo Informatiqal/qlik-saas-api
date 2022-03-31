@@ -2,7 +2,7 @@ import { QlikSaaSClient } from "qlik-rest-api";
 
 export interface IAssignment {
   id: string;
-  type: string;
+  type: "user" | "group";
   assigneeId: string;
   roles: string[];
   spaceId: string;
