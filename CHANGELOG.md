@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.23] - 2022-03-31
+
+### Fix
+
+- Space assignments method changed - from `Delete` to `Get` [#13](https://github.com/Informatiqal/qlik-saas-api/issues/13)
+
 ## [0.0.21] - 2021-11-26
 
 ### Fix

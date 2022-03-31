@@ -86,7 +86,7 @@ export class Space implements IClassSpace {
 
   async assignments() {
     return await this.saasClient
-      .Delete(`spaces/${this.id}/assignments`)
+      .Get(`spaces/${this.id}/assignments`)
       .then((res) => res.data as IAssignment[])
       .then((assignments) =>
         assignments.map(
