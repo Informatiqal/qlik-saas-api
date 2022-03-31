@@ -34,7 +34,7 @@ export interface ISpaceUpdate {
 }
 
 export interface IAssignmentCreate {
-  type?: string;
+  type?: "user" | "group";
   assigneeId?: string;
   roles?: string[];
 }
