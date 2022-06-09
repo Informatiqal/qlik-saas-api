@@ -2,11 +2,11 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { Privileges, ResourceType } from "../types/types";
 import { IApp } from "./Apps.interfaces";
 
-interface IResourceAttributeNote {
+export interface IResourceAttributeNote {
   thumbnail: string;
 }
 
-interface IResourceAttributeLink {
+export interface IResourceAttributeLink {
   linkType: string;
   url: string;
 }

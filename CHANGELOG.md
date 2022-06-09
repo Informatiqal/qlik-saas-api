@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.26] - 2022-05-09
+
+- (fix) export all types (used in documentation)
+
 ## [0.0.25] - 2022-05-09
 
 - merged [#41 Add groups and assignedGroups fields to IUser](https://github.com/Informatiqal/qlik-saas-api/pull/41). Thanks [mikara89](https://github.com/mikara89)
