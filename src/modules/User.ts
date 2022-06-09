@@ -14,7 +14,9 @@ export interface IUser {
   picture: string;
   email: string;
   roles?: string[];
-  assignedRoles?: string[];
+  assignedRoles?: IAssignedRole[];
+  groups?: string[];
+  assignedGroups?: IAssignedGroup[];
   zoneinfo: string;
   locale: string;
   preferredZoneinfo: string;
@@ -24,6 +26,19 @@ export interface IUser {
       href: string;
     };
   };
+}
+
+export interface IAssignedGroup {
+  id: string;
+  name: string;
+  assignedRoles?: [];
+}
+
+export interface IAssignedRole {
+  id: string;
+  name: string;
+  type: string;
+  level: string;
 }
 
 // TODO: provide the options for "op"?
