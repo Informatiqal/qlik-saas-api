@@ -61,7 +61,7 @@
     "rollup-plugin-typescript2": "0.32.1",
     "ts-node": "10.8.2",
     "typescript": "4.6.2",
-    "typedoc": "0.23.5"
+    "typedoc": "0.23.6"
   },
   "dependencies": {
     "@types/form-data": "^2.5.0",
