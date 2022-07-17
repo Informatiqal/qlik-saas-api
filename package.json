@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -38,7 +38,8 @@
     "CHANGELOG.md",
     "!tsconfig.json",
     "!renovate.json",
-    "!tsconfig.test.json"
+    "!tsconfig.test.json",
+    "!.markdownlint.json"
   ],
   "repository": {
     "type": "git",

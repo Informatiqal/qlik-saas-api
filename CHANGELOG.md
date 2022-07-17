@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.0.5 - 2022-07-18
+
+- (change) `Users` endpoints changes to reflect the latest [API changes](https://qlik.dev/changelog/api-updates---users-groups-and-roles#api-deprecations-users) from Qlik [#57](https://github.com/Informatiqal/qlik-saas-api/issues/57) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
+
+## 0.0.4 - 2022-07-17
+
+- (add) `Groups` - new API ednpoints implementation [#56](https://github.com/Informatiqal/qlik-saas-api/issues/56) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
+
+## 0.0.3 - 2022-07-17
+
+- (add) `Roles` - new API ednpoints implementation [#55](https://github.com/Informatiqal/qlik-saas-api/issues/55) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
+
 ## 0.0.26 - 2022-05-09
 
 - (fix) export all types (used in documentation)

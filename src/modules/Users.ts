@@ -1,4 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
+import { URLBuild } from "../util/UrlBuild";
 import { IClassUser, IUser, User } from "./User";
 
 export interface IUserCreate {
@@ -7,16 +8,42 @@ export interface IUserCreate {
   name: string;
   picture?: string;
   email?: string;
-  roles?: string[];
+  assignedRoles?: string[];
   status?: "active" | "inactive" | string;
 }
 
 export interface IClassUsers {
+  /**
+   * Info about the tenant accessing the endpoint
+   */
   get(id: string): Promise<IClassUser>;
+  /**
+   * Retrieves a list of users matching the filter using an advanced query string
+   * @param filter example:
+   *     (id eq \"626949b9017b657805080bbd\" or id eq \"626949bf017b657805080bbe\") and (status eq \"active\" or status eq \"deleted\")
+   * @param [sort] OPTIONAL name; +name; -name
+   */
+  getFilter(filter: string, sort?: string): Promise<IUser[]>;
+  /**
+   * Returns a list of users. Each element of the list is an instance of the User class
+   */
   getAll(): Promise<IClassUser[]>;
+  /**
+   * Returns the number of users in a given tenant
+   * @returns number
+   */
   actionsCount(): Promise<{ total: number }>;
   me(): Promise<IClassUser>;
+  /**
+   * Returns the metadata with regard to the user configuration. Deprecated, use GET /v1/roles instead
+   * @deprecated It will no longer be available after 01/11/2022.
+   *     The role names can now be retrieved from the list roles endpoint.
+   */
   metadata(): Promise<{ valid_roles: string[] }>;
+  /**
+   * Creates an invited user
+   * @returns IClassUser
+   */
   create(arg: IUserCreate): Promise<IClassUser>;
 }
 
@@ -27,11 +54,26 @@ export class Users implements IClassUsers {
   }
 
   async get(id: string) {
-    if (!id) throw new Error(`users.get: "id" parameter is required`);
-    const user: User = new User(this.saasClient, id);
-    await user.init();
+    return await this.saasClient
+      .Post("users/actions/filter", { filter: `id eq "${id}"` })
+      .then((res) => res.data.data as IUser[])
+      .then((userData) => {
+        return userData.length == 1
+          ? new User(this.saasClient, userData[0].id, userData[0])
+          : undefined;
+      });
+  }
 
-    return user;
+  async getFilter(filter: string, sort?: string) {
+    const urlBuild = new URLBuild(`users/actions/filter`);
+    urlBuild.addParam("NoData", sort);
+
+    if (!filter)
+      throw new Error(`users.getFilter: "filter" parameter is required`);
+
+    return await this.saasClient
+      .Post(urlBuild.getUrl(), { filter })
+      .then((res) => res.data as IUser[]);
   }
 
   async getAll() {
