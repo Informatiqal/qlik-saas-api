@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.0.26",
+  "version": "0.0.3",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -51,7 +51,7 @@
   "devDependencies": {
     "@types/chai": "4.3.1",
     "@types/mocha": "9.1.1",
-    "@types/node": "17.0.41",
+    "@types/node": "18.0.5",
     "chai": "4.3.6",
     "dotenv": "16.0.1",
     "mocha": "10.0.0",

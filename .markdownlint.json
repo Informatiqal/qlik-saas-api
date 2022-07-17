@@ -1,0 +1,18 @@
+{
+    "line-length": false,
+    "no-duplicate-heading": {
+        "siblings_only": true
+    },
+    "proper-names": {
+        "code_blocks": false,
+        "names": [
+            "Cake.Markdownlint",
+            "CommonMark",
+            "JavaScript",
+            "Markdown",
+            "markdown-it",
+            "markdownlint",
+            "Node.js"
+        ]
+    }
+}
