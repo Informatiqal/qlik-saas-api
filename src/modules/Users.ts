@@ -9,7 +9,7 @@ export interface IUserCreate {
   picture?: string;
   email?: string;
   assignedRoles?: string[];
-  status?: "active" | "inactive" | string;
+  status?: string;
 }
 
 export interface IClassUsers {
@@ -30,9 +30,12 @@ export interface IClassUsers {
   getAll(): Promise<IClassUser[]>;
   /**
    * Returns the number of users in a given tenant
-   * @returns number
+   * @returns {object} { total: number }
    */
   actionsCount(): Promise<{ total: number }>;
+  /**
+   * Redirects to retrieve the user resource associated with the JWT claims
+   */
   me(): Promise<IClassUser>;
   /**
    * Returns the metadata with regard to the user configuration. Deprecated, use GET /v1/roles instead
@@ -65,11 +68,11 @@ export class Users implements IClassUsers {
   }
 
   async getFilter(filter: string, sort?: string) {
-    const urlBuild = new URLBuild(`users/actions/filter`);
-    urlBuild.addParam("NoData", sort);
-
     if (!filter)
       throw new Error(`users.getFilter: "filter" parameter is required`);
+
+    const urlBuild = new URLBuild(`users/actions/filter`);
+    urlBuild.addParam("sort", sort);
 
     return await this.saasClient
       .Post(urlBuild.getUrl(), { filter })

@@ -5,7 +5,7 @@ export interface IUser {
   id: string;
   tenantId: string;
   subject: string;
-  status: "active" | "invited" | "disabled" | string;
+  status: "active" | "invited" | "disabled" | "deleted";
   inviteExpiry: number;
   name: string;
   createdAt?: string;
