@@ -1,20 +1,18 @@
 import { QlikSaaSClient } from "qlik-rest-api";
+import { IRoleCondensed } from "./Roles";
 
 export interface IUser {
   id: string;
   tenantId: string;
   subject: string;
-  status: "active" | "invited" | "disabled" | string;
+  status: "active" | "invited" | "disabled" | "deleted";
   inviteExpiry: number;
   name: string;
-  created?: string;
   createdAt?: string;
-  lastUpdated?: string;
   lastUpdatedAt?: string;
   picture: string;
   email: string;
-  roles?: string[];
-  assignedRoles?: IAssignedRole[];
+  assignedRoles: IRoleCondensed[];
   groups?: string[];
   assignedGroups?: IAssignedGroup[];
   zoneinfo: string;
@@ -41,19 +39,19 @@ export interface IAssignedRole {
   level: string;
 }
 
-// TODO: provide the options for "op"?
 export interface IUserUpdate {
   path:
     | "name"
-    | "roles"
+    | "assignedRoles"
     | "inviteExpiry"
     | "zoneinfo"
     | "locale"
     | "preferredZoneinfo"
     | "preferredLocale"
+    | "status"
     | string;
   value: string;
-  // op?: "replace" | "add" | "renew";
+  op: "replace" | "add" | "renew";
 }
 
 export interface IClassUser {
@@ -67,7 +65,7 @@ export class User implements IClassUser {
   private saasClient: QlikSaaSClient;
   details: IUser;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IUser) {
-    if (!id) throw new Error(`app.get: "id" parameter is required`);
+    if (!id) throw new Error(`user.get: "id" parameter is required`);
 
     this.id = id;
     this.saasClient = saasClient;
@@ -91,7 +89,7 @@ export class User implements IClassUser {
   async update(arg: IUserUpdate[]) {
     const data = arg.map((a) => {
       this.details[a.path] = a.value;
-      return { path: `/${a.path}`, value: a.value, op: "replace" };
+      return { path: `/${a.path}`, value: a.value, op: a.op };
     });
 
     return await this.saasClient

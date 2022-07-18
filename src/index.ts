@@ -21,6 +21,7 @@ import { Themes, IClassThemes } from "./modules/Themes";
 import { Extensions, IClassExtensions } from "./modules/Extensions";
 import { Evaluations, IClassEvaluations } from "./modules/Evaluations";
 import { Reloads, IClassReloads } from "./modules/Reloads";
+import { Roles, IClassRoles } from "./modules/Roles";
 import { Users, IClassUsers } from "./modules/Users";
 import { WebHooks, IClassWebHooks } from "./modules/WebHooks";
 import { OAuthTokens, IClassOAuthTokens } from "./modules/OAuthTokens";
@@ -29,6 +30,7 @@ import {
   IdentityProviders,
   IClassIdentityProviders,
 } from "./modules/IdentityProviders";
+import { Groups, IClassGroups } from "./modules/Groups";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -40,6 +42,7 @@ export namespace QlikSaaSApi {
     public dataCredentials: IClassDataCredentials;
     public conditions: IClassConditions;
     public spaces: IClassSpaces;
+    public groups: IClassGroups;
     public items: IClassItems;
     public naturalLanguage: IClassNL;
     public origins: IClassOrigins;
@@ -49,6 +52,7 @@ export namespace QlikSaaSApi {
     public extensions: IClassExtensions;
     public evaluations: IClassEvaluations;
     public reloads: IClassReloads;
+    public roles: IClassRoles;
     public users: IClassUsers;
     public webHooks: IClassWebHooks;
     public oauthTokens: IClassOAuthTokens;
@@ -65,6 +69,7 @@ export namespace QlikSaaSApi {
       this.dataCredentials = new DataCredentials(this.saasClient);
       this.conditions = new Conditions(this.saasClient);
       this.spaces = new Spaces(this.saasClient);
+      this.groups = new Groups(this.saasClient);
       this.items = new Items(this.saasClient);
       this.naturalLanguage = new NL(this.saasClient);
       this.licenses = new Licenses(this.saasClient);
@@ -74,6 +79,7 @@ export namespace QlikSaaSApi {
       this.extensions = new Extensions(this.saasClient);
       this.evaluations = new Evaluations(this.saasClient);
       this.reloads = new Reloads(this.saasClient);
+      this.roles = new Roles(this.saasClient);
       this.users = new Users(this.saasClient);
       this.webHooks = new WebHooks(this.saasClient);
       this.oauthTokens = new OAuthTokens(this.saasClient);
