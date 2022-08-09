@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.0.6 - 2022-08-09
+
+- (add) Data alerts API [#61](https://github.com/Informatiqal/qlik-saas-api/issues/61)
+
 ## 0.0.5 - 2022-07-18
 
 - (change) `Users` endpoints changes to reflect the latest [API changes](https://qlik.dev/changelog/api-updates---users-groups-and-roles#api-deprecations-users) from Qlik [#57](https://github.com/Informatiqal/qlik-saas-api/issues/57) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
