@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 
-export interface IConditionBase {
+export interface IConditionInternalBase {
   created: string;
   createdById: string;
   description: string;
@@ -14,20 +14,14 @@ export interface IConditionBase {
   lastReloadTime: string;
 }
 
-export interface ICondition {
+export interface IConditionBase {
   type: "compound" | "data";
-  compoundCondition: {
-    conditionBase: IConditionBase;
-    data: {
-      history: {
-        enabled: boolean;
-      };
-      conditions: string[];
-      expression: string;
-    };
-  };
+}
+
+export interface IConditionData extends IConditionBase {
+  compoundCondition: never;
   dataCondition: {
-    conditionBase: IConditionBase;
+    conditionBase: IConditionInternalBase;
     conditionData: {};
     history: {
       enabled: boolean;
@@ -50,6 +44,22 @@ export interface ICondition {
     }[];
   };
 }
+
+export interface IConditionComposite extends IConditionBase {
+  dataCondition: never;
+  compoundCondition: {
+    conditionBase: IConditionInternalBase;
+    data: {
+      history: {
+        enabled: boolean;
+      };
+      conditions: string[];
+      expression: string;
+    };
+  };
+}
+
+export type ICondition = IConditionData | IConditionComposite;
 
 export interface IClassCondition {
   details: ICondition;

@@ -1,9 +1,12 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Condition, IClassCondition, ICondition } from "./Condition";
 
-export interface IConditionCreate {
+export interface IConditionCreateBase {
   type: "compound" | "data";
-  dataCondition?: {
+}
+
+export interface IConditionCreateData extends IConditionCreateBase {
+  dataCondition: {
     conditionBase?: {
       created: string;
       createdById: string;
@@ -44,7 +47,15 @@ export interface IConditionCreate {
       }
     ];
   };
+  compoundCondition: never;
 }
+
+export interface IConditionCreateComposite extends IConditionCreateBase {
+  dataCondition: never;
+  compoundCondition: {};
+}
+
+export type IConditionCreate = IConditionCreateData | IConditionCreateComposite;
 
 export interface IClassConditions {
   get(id: string): Promise<IClassCondition>;
