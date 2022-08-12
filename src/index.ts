@@ -1,7 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Apps, IClassApps } from "./modules/Apps";
 import { DataAlerts, IClassDataAlerts } from "./modules/DataAlerts";
-// import { Automations, IClassAutomations } from "./modules/Automations";
+import { Automations, IClassAutomations } from "./modules/Automations";
 import { APIKeys, IClassAPIKeys } from "./modules/APIKeys";
 import { Audits, IClassAudits } from "./modules/Audits";
 import {
@@ -38,9 +38,12 @@ export namespace QlikSaaSApi {
   export class client {
     public saasClient: QlikSaaSClient;
     public apps: IClassApps;
-    // public automations: IClassAutomations;
+    public automations: IClassAutomations;
     public apiKeys: IClassAPIKeys;
     public audits: IClassAudits;
+    /**
+     * BETA
+     */
     public dataAlerts: IClassDataAlerts;
     public dataConnections: IClassDataConnections;
     public dataCredentials: IClassDataCredentials;
@@ -67,7 +70,7 @@ export namespace QlikSaaSApi {
       this.saasClient = new QlikSaaSClient(saasConfig);
 
       this.apps = new Apps(this.saasClient);
-      // this.automations = new Automations(this.saasClient);
+      this.automations = new Automations(this.saasClient);
       this.apiKeys = new APIKeys(this.saasClient);
       this.audits = new Audits(this.saasClient);
       this.dataAlerts = new DataAlerts(this.saasClient);

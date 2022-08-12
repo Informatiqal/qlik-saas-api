@@ -1,27 +1,19 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IAutomation, IAutomationCreate } from "./Automation.interfaces";
 import { URLBuild } from "../util/UrlBuild";
 import { Automation, IClassAutomation } from "./Automation";
+import {
+  IAutomation,
+  IAutomationCreate,
+  IAutomationsSettings,
+  IAutomationUsage,
+} from "./Automation.interfaces";
 
 export interface IClassAutomations {
-  /**
-   * Get single automation
-   * @param id
-   */
   get(id: string): Promise<IClassAutomation>;
-  /**
-   * Get all automations
-   */
   getAll(): Promise<IClassAutomation[]>;
-  /**
-   * Create new automation
-   * @param arg
-   */
-  create(arg: IAutomationCreate): Promise<IClassAutomation>;
-  // getFilter(filter: string): Promise<IClassApp[]>;
-  // removeFilter(filter: string): Promise<IEntityRemove[]>;
-  // import(arg: IAppImport): Promise<IClassApp>;
-  // privileges(): Promise<{ [key: string]: string }>;
+  usage(filter: string, breakdown?: string): Promise<IAutomationUsage[]>;
+  getSettings(): Promise<IAutomationsSettings>;
+  setSettings(automationsEnabled: boolean): Promise<IAutomationsSettings>;
 }
 
 export class Automations implements IClassAutomations {
@@ -31,43 +23,53 @@ export class Automations implements IClassAutomations {
   }
 
   async get(id: string) {
-    if (!id) throw new Error(`automation.get: "id" parameter is required`);
-    const automation: Automation = new Automation(this.saasClient, id);
-    await automation.init();
+    if (!id) throw new Error(`automations.get: "id" parameter is required`);
+    const a: Automation = new Automation(this.saasClient, id);
+    await a.init();
 
-    return automation;
+    return a;
   }
 
   async getAll() {
     return await this.saasClient
       .Get(`automations`)
-      .then((res) => {
-        let a = 1;
-        return res.data as IAutomation[];
-      })
-      .then((data) => {
-        return data.map((t) => new Automation(this.saasClient, t.guid));
+      .then((res) => res.data as IAutomation[])
+      .then((data: any) => {
+        return data.map((t) => new Automation(this.saasClient, t.id, t));
       });
   }
 
   async create(arg: IAutomationCreate) {
-    if (!arg.name)
-      throw new Error(`automation.create: "name" parameter is required`);
-    if (!arg.schedule)
-      throw new Error(`automation.schedule: "name" parameter is required`);
+    return await this.saasClient
+      .Post("automations", { ...arg })
+      .then((res) => res.data as IAutomation);
+  }
 
-    if (!arg.workspace) arg.workspace = {};
-    if (!arg.state) arg.state = "available";
+  async usage(filter: string, breakdown?: string) {
+    const urlBuild = new URLBuild(`automations/automations/usage`);
 
-    return this.saasClient
-      .Post("automations", arg)
-      .then(
-        (a) =>
-          new Automation(
-            this.saasClient,
-            (a.data as IAutomation).guid,
-            a.data as IAutomation
-          )
+    urlBuild.addParam("filter", filter);
+    urlBuild.addParam("breakdown", breakdown);
+
+    return await this.saasClient
+      .Get(urlBuild.getUrl())
+      .then((res) => res.data as IAutomationUsage[]);
+  }
+
+  async getSettings() {
+    return await this.saasClient
+      .Get(`automations/automations/settings`)
+      .then((res) => res.data as IAutomationsSettings);
+  }
+
+  async setSettings(automationsEnabled: boolean) {
+    if (!automationsEnabled)
+      throw new Error(
+        `automations.setSettings: "automationsEnabled" parameter is required`
       );
+
+    return await this.saasClient
+      .Put(`automations/automations/settings`, { automationsEnabled })
+      .then((res) => res.data as IAutomationsSettings);
   }
 }
