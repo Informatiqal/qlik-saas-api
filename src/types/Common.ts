@@ -12,3 +12,9 @@ export interface ILinks {
     href: string;
   };
 }
+
+export interface ILinksShort {
+  self: {
+    href: string;
+  };
+}

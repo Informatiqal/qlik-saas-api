@@ -33,6 +33,7 @@ import {
   IClassIdentityProviders,
 } from "./modules/IdentityProviders";
 import { Groups, IClassGroups } from "./modules/Groups";
+import { Tenants, IClassTenants } from "./modules/Tenants";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -65,6 +66,7 @@ export namespace QlikSaaSApi {
     public oauthTokens: IClassOAuthTokens;
     public collections: IClassCollections;
     public identityProviders: IClassIdentityProviders;
+    public tenants: IClassTenants;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -94,6 +96,7 @@ export namespace QlikSaaSApi {
       this.oauthTokens = new OAuthTokens(this.saasClient);
       this.collections = new Collections(this.saasClient);
       this.identityProviders = new IdentityProviders(this.saasClient);
+      this.tenants = new Tenants(this.saasClient);
     }
   }
 }

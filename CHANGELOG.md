@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## 0.1.0 - 2022-08-XX
+## 0.1.1 - 2022-08-12
+
+- (add) Tenant API
+
+## 0.1.0 - 2022-08-12
 
 - (add) Automations API [#60](https://github.com/Informatiqal/qlik-saas-api/issues/60)
 
