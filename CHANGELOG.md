@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0 - 2022-08-XX
+
+- (add) Automations API [#60](https://github.com/Informatiqal/qlik-saas-api/issues/60)
+
 ## 0.0.6 - 2022-08-09
 
 - (add) Data alerts API [#61](https://github.com/Informatiqal/qlik-saas-api/issues/61)
