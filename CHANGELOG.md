@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## 0.1.2 - 2022-08-XX
+## 0.1.3 - 2022-08-14
+
+- review and changes (where was necessary) to WebHooks
+
+## 0.1.2 - 2022-08-14
 
 - (add) Web Integrations API
 
