@@ -39,6 +39,10 @@ import {
   IClassWebIntegrations,
 } from "./modules/WebIntegrations";
 import { Notifications, IClassNotifications } from "./modules/Notifications";
+import {
+  NotificationDigests,
+  IClassNotificationDigests,
+} from "./modules/NotificationDigests";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -74,6 +78,7 @@ export namespace QlikSaaSApi {
     public tenants: IClassTenants;
     public webIntegrations: IClassWebIntegrations;
     public notifications: IClassNotifications;
+    public notificationDigests: IClassNotificationDigests;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
@@ -106,6 +111,7 @@ export namespace QlikSaaSApi {
       this.tenants = new Tenants(this.saasClient);
       this.webIntegrations = new WebIntegrations(this.saasClient);
       this.notifications = new Notifications(this.saasClient);
+      this.notificationDigests = new NotificationDigests(this.saasClient);
     }
   }
 }
