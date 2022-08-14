@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.4 - 2022-08-14
+
+- (add) Notifications API
+
+## 0.1.3 - 2022-08-14
+
+- review and changes (where was necessary) to WebHooks
+
+## 0.1.2 - 2022-08-14
+
+- (add) Web Integrations API
+
+## 0.1.1 - 2022-08-12
+
+- (add) Tenant API
+
+## 0.1.0 - 2022-08-12
+
+- (add) Automations API [#60](https://github.com/Informatiqal/qlik-saas-api/issues/60)
+
+## 0.0.6 - 2022-08-09
+
+- (add) Data alerts API [#61](https://github.com/Informatiqal/qlik-saas-api/issues/61)
+
 ## 0.0.5 - 2022-07-18
 
 - (change) `Users` endpoints changes to reflect the latest [API changes](https://qlik.dev/changelog/api-updates---users-groups-and-roles#api-deprecations-users) from Qlik [#57](https://github.com/Informatiqal/qlik-saas-api/issues/57) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)

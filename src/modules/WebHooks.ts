@@ -9,19 +9,30 @@ export interface IWebHookEvenType {
 
 export interface IWebHookCreate {
   name: string;
+  /**
+   * Must be top-level domain (should end with .com, .io, or similar)
+   */
   url: string;
   id?: string;
+  level?: "tenant" | "user";
+  filter?: string;
   description?: string;
-  eventTypes?: IWebHookEvenType[];
+  eventTypes?: string[];
   headers?: {
     [k: string]: string;
   };
+  /**
+   * Default value is "false"
+   */
   enabled?: boolean;
   secret?: string;
   createdByUserId?: string;
   updatedByUserId?: string;
   createdAt?: string;
   updatedAt?: string;
+  ownerId?: string;
+  disabledReason?: string;
+  disabledReasonCode?: string;
 }
 
 export interface IClassWebHooks {
@@ -45,7 +56,6 @@ export class WebHooks implements IClassWebHooks {
     return webHook;
   }
 
-  // TODO: 400 when called?
   async getAll() {
     return await this.saasClient
       .Get(`webhooks`)

@@ -46,7 +46,7 @@ export interface IWebHookDelivery {
     headers: {
       [k: string]: string;
     };
-    body: {};
+    body: object;
   };
   response: {
     statusCode: number;
@@ -57,11 +57,24 @@ export interface IWebHookDelivery {
   };
 }
 
-//TODO: whats the difference between the PUT and the PATCH methods
+export interface IWebHookPatch {
+  op: "add" | "remove" | "replace";
+  path:
+    | "name"
+    | "description"
+    | "url"
+    | "evenTypes"
+    | "headers"
+    | "enabled"
+    | "secret";
+  value?: string;
+}
+
 export interface IClassWebHook {
   details: IWebHook;
   remove(): Promise<number>;
   update(arg: IWebHookUpdate): Promise<number>;
+  patch(arg: IWebHookPatch[]): Promise<number>;
   delivery(id: string): Promise<IWebHookDelivery>;
   deliveryResend(id: string): Promise<IWebHookDelivery>;
   deliveries(): Promise<IWebHookDelivery[]>;
@@ -108,6 +121,24 @@ export class WebHook implements IClassWebHook {
 
     return await this.saasClient
       .Put(`webhooks/${this.id}`, this.details)
+      .then((res) => res.status);
+  }
+
+  async patch(arg: IWebHookPatch[]) {
+    return await this.saasClient
+      .Patch(
+        `/webhooks/${this.id}`,
+        arg.map((a) => {
+          const o: any = {
+            op: a.op,
+            path: `/${a.path}`,
+          };
+
+          if (a.value) o.value = a.value;
+
+          return o;
+        })
+      )
       .then((res) => res.status);
   }
 
