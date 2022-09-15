@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.2.1 - 2022-09-15
+
+- implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/deprecation-of-the-evaluations-api)
+  - `evaluations` methods is marked as deprecated
+  - added new methods for an `App` instance
+    - `evaluations.getAll()` - get all evaluations for the app id
+    - `evaluations.create()` - queue new evaluation for the app
+  - new method for `Apps` method
+    - `getEvaluation()` - returns `Evaluation` instance
+    - `Evaluation` instance have two methods - `compare` and `download`
+
 ## 0.1.4 - 2022-08-14
 
 - (add) Notifications API
@@ -32,11 +43,11 @@ All notable changes to this project will be documented in this file.
 
 ## 0.0.4 - 2022-07-17
 
-- (add) `Groups` - new API ednpoints implementation [#56](https://github.com/Informatiqal/qlik-saas-api/issues/56) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
+- (add) `Groups` - new API endpoints implementation [#56](https://github.com/Informatiqal/qlik-saas-api/issues/56) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
 
 ## 0.0.3 - 2022-07-17
 
-- (add) `Roles` - new API ednpoints implementation [#55](https://github.com/Informatiqal/qlik-saas-api/issues/55) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
+- (add) `Roles` - new API endpoints implementation [#55](https://github.com/Informatiqal/qlik-saas-api/issues/55) [#53](https://github.com/Informatiqal/qlik-saas-api/issues/53)
 
 ## 0.0.26 - 2022-05-09
 

@@ -10,6 +10,7 @@ import {
   IAppUpdate,
 } from "./Apps.interfaces";
 import { Media, IClassMedia, IAppMedia } from "./AppMedia";
+import { AppEvaluations } from "./AppEvaluations";
 
 export interface IClassApp {
   details: IApp;
@@ -26,17 +27,20 @@ export interface IClassApp {
   addMedia(content: Buffer, fileName: string): Promise<IClassMedia>;
   publish(arg: IAppPublish): Promise<number>;
   rePublish(arg: IAppRePublish): Promise<number>;
+  evaluations: AppEvaluations;
 }
 
 export class App implements IClassApp {
   private id: string;
   private saasClient: QlikSaaSClient;
+  evaluations: AppEvaluations;
   details: IApp;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IApp) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.id = id;
     this.saasClient = saasClient;
+    this.evaluations = new AppEvaluations(this.saasClient, this.id);
     if (details) this.details = details;
   }
 
@@ -227,4 +231,18 @@ export class App implements IClassApp {
           )
       );
   }
+
+  // c: InstanceType<typeof A.B> = new A.B();
+
+  // evaluations = {
+  //   async getAll() {
+  //     let a = this;
+  //     return await this.saasClient
+  //       .Get(`apps/${this.id}/evaluations`)
+  //       .then((res) => res.data as IAppEvaluation[])
+  //       .then((data) =>
+  //         data.map((t) => new AppEvaluation(this.saasClient, t.id, t))
+  //       );
+  //   },
+  // };
 }

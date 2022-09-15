@@ -8,9 +8,15 @@ import {
   IAppImport,
 } from "./Apps.interfaces";
 import { URLBuild } from "../util/UrlBuild";
+import {
+  AppEvaluation,
+  IAppEvaluation,
+  IClassAppEvaluation,
+} from "./AppEvaluation";
 
 export interface IClassApps {
   get(id: string): Promise<IClassApp>;
+  getEvaluation(id: string): Promise<IClassAppEvaluation>;
   getAll(): Promise<IClassApp[]>;
   getFilter(filter: string): Promise<IClassApp[]>;
   removeFilter(filter: string): Promise<IEntityRemove[]>;
@@ -31,6 +37,15 @@ export class Apps implements IClassApps {
     await app.init();
 
     return app;
+  }
+
+  async getEvaluation(id: string) {
+    return await this.saasClient
+      .Get(`apps/evaluations/${id}`)
+      .then((res) => res.data as IAppEvaluation)
+      .then(
+        (data) => new AppEvaluation(this.saasClient, data.id || data.ID, data)
+      );
   }
 
   async getAll() {
