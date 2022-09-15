@@ -22,7 +22,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../classes/Apps.html" class="tsd-signature-type" data-tsd-kind="Class">Apps</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L12">modules/Apps.ts:12</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L17">modules/Apps.ts:17</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -33,6 +33,7 @@
 <div class="tsd-index-list"><a href="IClassApps.html#create" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>create</span></a>
 <a href="IClassApps.html#get" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get</span></a>
 <a href="IClassApps.html#getAll" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>All</span></a>
+<a href="IClassApps.html#getEvaluation" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Evaluation</span></a>
 <a href="IClassApps.html#getFilter" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Filter</span></a>
 <a href="IClassApps.html#import" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>import</span></a>
 <a href="IClassApps.html#privileges" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>privileges</span></a>
@@ -52,7 +53,7 @@
 <h5>arg: <a href="IAppCreate.html" class="tsd-signature-type" data-tsd-kind="Interface">IAppCreate</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IClassApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassApp</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L18">modules/Apps.ts:18</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L24">modules/Apps.ts:24</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="get" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get</span><a href="#get" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -65,7 +66,7 @@
 <h5>id: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IClassApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassApp</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L13">modules/Apps.ts:13</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L18">modules/Apps.ts:18</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getAll" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>All</span><a href="#getAll" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -73,7 +74,20 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IClassApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassApp</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L14">modules/Apps.ts:14</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L20">modules/Apps.ts:20</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getEvaluation" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Evaluation</span><a href="#getEvaluation" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="getEvaluation.getEvaluation-1">get<wbr/>Evaluation<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IClassAppEvaluation.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassAppEvaluation</a><span class="tsd-signature-symbol">&gt;</span><a href="#getEvaluation.getEvaluation-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>id: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IClassAppEvaluation.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassAppEvaluation</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L19">modules/Apps.ts:19</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getFilter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Filter</span><a href="#getFilter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -86,7 +100,7 @@
 <h5>filter: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IClassApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassApp</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L15">modules/Apps.ts:15</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L21">modules/Apps.ts:21</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="import" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>import</span><a href="#import" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -99,7 +113,7 @@
 <h5>arg: <a href="IAppImport.html" class="tsd-signature-type" data-tsd-kind="Interface">IAppImport</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IClassApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassApp</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L17">modules/Apps.ts:17</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L23">modules/Apps.ts:23</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="privileges" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>privileges</span><a href="#privileges" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -107,7 +121,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>[key: <span class="tsd-signature-type">string</span>]<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L19">modules/Apps.ts:19</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L25">modules/Apps.ts:25</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="removeFilter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove<wbr/>Filter</span><a href="#removeFilter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -120,7 +134,7 @@
 <h5>filter: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IEntityRemove.html" class="tsd-signature-type" data-tsd-kind="Interface">IEntityRemove</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/Apps.ts#L16">modules/Apps.ts:16</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/Apps.ts#L22">modules/Apps.ts:22</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -149,6 +163,7 @@
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassApps.html#create" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassApps.html#get" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassApps.html#getAll" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>All</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassApps.html#getEvaluation" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Evaluation</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassApps.html#getFilter" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Filter</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassApps.html#import" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>import</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassApps.html#privileges" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>privileges</a></li>

@@ -22,7 +22,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../classes/WebHook.html" class="tsd-signature-type" data-tsd-kind="Class">WebHook</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/WebHook.ts#L61">modules/WebHook.ts:61</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L73">modules/WebHook.ts:73</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -37,6 +37,7 @@
 <div class="tsd-index-list"><a href="IClassWebHook.html#deliveries" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>deliveries</span></a>
 <a href="IClassWebHook.html#delivery" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>delivery</span></a>
 <a href="IClassWebHook.html#deliveryResend" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>delivery<wbr/>Resend</span></a>
+<a href="IClassWebHook.html#patch" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>patch</span></a>
 <a href="IClassWebHook.html#remove" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove</span></a>
 <a href="IClassWebHook.html#update" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>update</span></a>
 </div></section></div></details></section></section>
@@ -46,7 +47,7 @@
 <h3 class="tsd-anchor-link"><span>details</span><a href="#details" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
 <div class="tsd-signature">details<span class="tsd-signature-symbol">:</span> <a href="IWebHook.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebHook</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/WebHook.ts#L62">modules/WebHook.ts:62</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L74">modules/WebHook.ts:74</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="deliveries" class="tsd-anchor"></a>
@@ -56,7 +57,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IWebHookDelivery.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebHookDelivery</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/WebHook.ts#L67">modules/WebHook.ts:67</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L80">modules/WebHook.ts:80</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="delivery" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delivery</span><a href="#delivery" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -69,7 +70,7 @@
 <h5>id: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IWebHookDelivery.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebHookDelivery</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/WebHook.ts#L65">modules/WebHook.ts:65</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L78">modules/WebHook.ts:78</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="deliveryResend" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delivery<wbr/>Resend</span><a href="#deliveryResend" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -82,7 +83,20 @@
 <h5>id: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="IWebHookDelivery.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebHookDelivery</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/WebHook.ts#L66">modules/WebHook.ts:66</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L79">modules/WebHook.ts:79</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="patch" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>patch</span><a href="#patch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="patch.patch-1">patch<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="IWebHookPatch.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebHookPatch</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><a href="#patch.patch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>arg: <a href="IWebHookPatch.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebHookPatch</a><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L77">modules/WebHook.ts:77</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="remove" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove</span><a href="#remove" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -90,7 +104,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/WebHook.ts#L63">modules/WebHook.ts:63</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L75">modules/WebHook.ts:75</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -103,7 +117,7 @@
 <h5>arg: <a href="IWebHookUpdate.html" class="tsd-signature-type" data-tsd-kind="Interface">IWebHookUpdate</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/b974927/src/modules/WebHook.ts#L64">modules/WebHook.ts:64</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/bd2a07c/src/modules/WebHook.ts#L76">modules/WebHook.ts:76</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -133,6 +147,7 @@
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassWebHook.html#deliveries" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>deliveries</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassWebHook.html#delivery" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>delivery</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassWebHook.html#deliveryResend" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>delivery<wbr/>Resend</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassWebHook.html#patch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>patch</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassWebHook.html#remove" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IClassWebHook.html#update" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>update</a></li></ul></li></ul></nav></div></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>
