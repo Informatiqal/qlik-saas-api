@@ -63,6 +63,14 @@ export namespace QlikSaaSApi {
     public licenses: IClassLicenses;
     public themes: IClassThemes;
     public extensions: IClassExtensions;
+    /**
+     * @deprecated
+     * The evaluation endpoints are deprecated are moved under /apps endpoints.
+     *
+     * Deprecation date (announcement date) - 30 Aug 2022
+     *
+     * See https://qlik.dev/changelog/deprecation-of-the-evaluations-api
+     */
     public evaluations: IClassEvaluations;
     public reloads: IClassReloads;
     public roles: IClassRoles;

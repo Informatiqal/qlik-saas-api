@@ -38,9 +38,14 @@ export interface IClassUsers {
    */
   me(): Promise<IClassUser>;
   /**
-   * Returns the metadata with regard to the user configuration. Deprecated, use GET /v1/roles instead
-   * @deprecated It will no longer be available after 01/11/2022.
-   *     The role names can now be retrieved from the list roles endpoint.
+   * @deprecated
+   *
+   * Returns the metadata with regard to the user configuration.
+   *
+   * Use GET /v1/roles instead
+   *
+   * It will no longer be available after 01/11/2022.
+   * The role names can now be retrieved from the list roles endpoint.
    */
   metadata(): Promise<{ valid_roles: string[] }>;
   /**
