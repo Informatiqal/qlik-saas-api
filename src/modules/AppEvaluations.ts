@@ -30,6 +30,13 @@ export class AppEvaluations implements IClassAppEvaluations {
   async create() {
     return await this.saasClient
       .Post(`/apps/${this.appId}/evaluations`, {})
-      .then((res) => new AppEvaluation(this.saasClient, res.data.id, res.data));
+      .then(
+        (res) =>
+          new AppEvaluation(
+            this.saasClient,
+            res.data.id || res.data.ID,
+            res.data
+          )
+      );
   }
 }

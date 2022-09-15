@@ -262,15 +262,16 @@ export class AppEvaluation implements IClassAppEvaluation {
       .then((res) => res.data);
   }
 
-  async compare(comparisonId: string, format?: "json" | "xml") {
+  async compare(comparisonId: string) {
+    if (!comparisonId)
+      throw new Error(
+        `evaluation.compare: "comparisonId" parameter is required`
+      );
+
     const [result, log] = await Promise.all([
       this.saasClient
         .Get(
-          `apps/evaluations/${
-            this.id
-          }/actions/compare/${comparisonId}?all=true&format=${
-            format ? format : "json"
-          }`
+          `apps/evaluations/${this.id}/actions/compare/${comparisonId}?all=true&format=json`
         )
         .then((res) => res.data as IAppEvaluationComparison),
       this.saasClient

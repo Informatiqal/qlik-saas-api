@@ -62,12 +62,12 @@ Breaking changes will be introduced in the future v2+ of the package
 
   There are two reasons for that:
 
-  - consistency - the other Qlik REST API packages (Repoditory, Proxy etc.) are using the same approach
+  - consistency - the other Qlik REST API packages (Repository, Proxy etc.) are using the same approach
   - easier to use this package as part of [Automatical](https://github.com/Informatiqal/automatiqal) and [Automatical-CLI](https://github.com/Informatiqal/automatiqal-cli)
 
 - At the moment some methods are returning the details instead of the instance. Code review will be performed and for these methods the return will be changed to class instance
 
 > **Note**
-> In order to avoid usage issues the package will be released in two versions - v1+ and v2+. All new features, fixes, patches etc will be applied to both versions. v2+ will be the deafult version and v1+ will be installed with:
+> In order to avoid usage issues the package will be released in two versions - v1+ and v2+. All new features, fixes, patches etc will be applied to both versions. v2+ will be the default version and v1+ will be installed with:
 >
 > `npm install qlik-saas-api@v1`
