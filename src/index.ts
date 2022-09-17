@@ -23,6 +23,7 @@ import { Themes, IClassThemes } from "./modules/Themes";
 import { Extensions, IClassExtensions } from "./modules/Extensions";
 import { Evaluations, IClassEvaluations } from "./modules/Evaluations";
 import { Reloads, IClassReloads } from "./modules/Reloads";
+import { ReloadTasks, IClassReloadTasks } from "./modules/ReloadTasks";
 import { Roles, IClassRoles } from "./modules/Roles";
 import { Users, IClassUsers } from "./modules/Users";
 import { WebHooks, IClassWebHooks } from "./modules/WebHooks";
@@ -73,6 +74,7 @@ export namespace QlikSaaSApi {
      */
     public evaluations: IClassEvaluations;
     public reloads: IClassReloads;
+    public reloadTasks: IClassReloadTasks;
     public roles: IClassRoles;
     public users: IClassUsers;
     public webHooks: IClassWebHooks;
@@ -105,6 +107,7 @@ export namespace QlikSaaSApi {
       this.extensions = new Extensions(this.saasClient);
       this.evaluations = new Evaluations(this.saasClient);
       this.reloads = new Reloads(this.saasClient);
+      this.reloadTasks = new ReloadTasks(this.saasClient);
       this.roles = new Roles(this.saasClient);
       this.users = new Users(this.saasClient);
       this.webHooks = new WebHooks(this.saasClient);

@@ -18,3 +18,6 @@ export interface ILinksShort {
     href: string;
   };
 }
+
+export type MakeOptional<T, K extends keyof T> = Pick<Partial<T>, K> &
+  Omit<T, K>;

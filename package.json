@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -65,8 +65,8 @@
     "rollup-plugin-delete": "2.0.0",
     "rollup-plugin-typescript2": "0.34.0",
     "ts-node": "10.9.1",
-    "typescript": "4.7.4",
-    "typedoc": "0.23.14"
+    "typedoc": "0.23.14",
+    "typescript": "4.7.4"
   },
   "dependencies": {
     "@types/form-data": "^2.5.0",
