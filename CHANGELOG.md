@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.3.0 - 2022-09-17
+
+- [#76](https://github.com/Informatiqal/qlik-saas-api/issues/76) implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/new-api---reload-tasks)
+  - new method - `reloadTasks` and `reloadTask`
+
 ## 0.2.1 - 2022-09-15
 
 - implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/deprecation-of-the-evaluations-api)

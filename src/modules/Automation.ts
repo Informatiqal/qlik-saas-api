@@ -96,7 +96,7 @@ export class Automation implements IClassAutomation {
 
         if (runData.length > 1)
           throw new Error(
-            `automation.getRun: found more thatn one run with id "${runId}"`
+            `automation.getRun: found more than one run with id "${runId}"`
           );
 
         return new Run(this.saasClient, runData[0].id, this.id, runData[0]);
