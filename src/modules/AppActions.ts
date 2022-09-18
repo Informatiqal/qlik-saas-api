@@ -5,7 +5,7 @@ import { ReloadTask } from "./ReloadTask";
 import { IReloadTask, IReloadTaskCreate } from "./ReloadTask.interfaces";
 import { ReloadTasks } from "./ReloadTasks";
 
-export interface IClassApp {
+export interface IClassAppActions {
   /**
    * Create scheduled reload task for the app
    */
@@ -20,7 +20,7 @@ export interface IClassApp {
   reload(): Promise<Reload>;
 }
 
-export class AppActions implements IClassApp {
+export class AppActions implements IClassAppActions {
   private id: string;
   private saasClient: QlikSaaSClient;
   private reloadTasks: ReloadTasks;
