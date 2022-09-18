@@ -11,6 +11,7 @@ import {
 } from "./Apps.interfaces";
 import { Media, IClassMedia, IAppMedia } from "./AppMedia";
 import { AppEvaluations } from "./AppEvaluations";
+import { AppActions } from "./AppActions";
 
 export interface IClassApp {
   details: IApp;
@@ -28,12 +29,20 @@ export interface IClassApp {
   publish(arg: IAppPublish): Promise<number>;
   rePublish(arg: IAppRePublish): Promise<number>;
   evaluations: AppEvaluations;
+  /**
+   * Set of actions that are associated with the apps but are not part of the /apps API endpoints
+   * Such actions are:
+   * - reload - reloads an app. Originally part of /reloads endpoints
+   * - createReloadTask - create scheduled reload task. Originally part of /reload-tasks endpoints
+   */
+  _actions: AppActions;
 }
 
 export class App implements IClassApp {
   private id: string;
   private saasClient: QlikSaaSClient;
   evaluations: AppEvaluations;
+  _actions: AppActions;
   details: IApp;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IApp) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
@@ -41,6 +50,7 @@ export class App implements IClassApp {
     this.id = id;
     this.saasClient = saasClient;
     this.evaluations = new AppEvaluations(this.saasClient, this.id);
+    this._actions = new AppActions(this.saasClient, this.id);
     if (details) this.details = details;
   }
 
@@ -231,18 +241,4 @@ export class App implements IClassApp {
           )
       );
   }
-
-  // c: InstanceType<typeof A.B> = new A.B();
-
-  // evaluations = {
-  //   async getAll() {
-  //     let a = this;
-  //     return await this.saasClient
-  //       .Get(`apps/${this.id}/evaluations`)
-  //       .then((res) => res.data as IAppEvaluation[])
-  //       .then((data) =>
-  //         data.map((t) => new AppEvaluation(this.saasClient, t.id, t))
-  //       );
-  //   },
-  // };
 }

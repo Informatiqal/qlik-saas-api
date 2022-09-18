@@ -44,4 +44,10 @@ export class Reload implements IClassReload {
         .then((res) => res.data as IReload);
     }
   }
+
+  async cancel() {
+    return await this.saasClient
+      .Post(`reloads/${this.id}/actions/cancel`, {})
+      .then((res) => res.status);
+  }
 }

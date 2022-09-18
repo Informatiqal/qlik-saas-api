@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.4.0 - 2022-09-18
+
+- [fix] [#78](https://github.com/Informatiqal/qlik-saas-api/issues/78) add `cancel` method for `Reload`
+- [add] [#77](https://github.com/Informatiqal/qlik-saas-api/issues/77) for `App` instance new method is available `_actions`. This method will expose extra methods that are associated with apps but are not part of the `/apps` endpoints
+  - reload - start app reload. Originally part of the `/reloads` endpoints. `Reload` entity will be returned
+  - createReloadTask - create new scheduled reload task for the current app. Thanks to the new `/reload-tasks` endpoints
+  - getReloadTasks - get all reload tasks associated with the current app. Each task will be instance of the `ReloadTask` entity
+
 ## 0.3.0 - 2022-09-17
 
 - [#76](https://github.com/Informatiqal/qlik-saas-api/issues/76) implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/new-api---reload-tasks)
