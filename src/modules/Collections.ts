@@ -8,10 +8,10 @@ export interface ICollectionCreate {
 }
 
 export interface IClassCollections {
-  get(id: string): Promise<IClassCollection>;
-  getAll(): Promise<IClassCollection[]>;
-  favorites(): Promise<IClassCollection>;
-  create(arg: ICollectionCreate): Promise<IClassCollection>;
+  get(id: string): Promise<Collection>;
+  getAll(): Promise<Collection[]>;
+  favorites(): Promise<Collection>;
+  create(arg: ICollectionCreate): Promise<Collection>;
 }
 
 export class Collections implements IClassCollections {
@@ -30,8 +30,8 @@ export class Collections implements IClassCollections {
 
   async getAll() {
     return await this.saasClient
-      .Get(`collections`)
-      .then((res) => res.data as ICollection[])
+      .Get<ICollection[]>(`collections`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new Collection(this.saasClient, t.id, t))
       );
@@ -39,7 +39,7 @@ export class Collections implements IClassCollections {
 
   async favorites() {
     return await this.saasClient
-      .Get(`collections/favorites`)
+      .Get<ICollection>(`collections/favorites`)
       .then((res) => new Collection(this.saasClient, res.data.id, res.data));
   }
 
@@ -50,7 +50,7 @@ export class Collections implements IClassCollections {
       throw new Error(`collections.create: "type" parameter is required`);
 
     return await this.saasClient
-      .Post(`collections`, arg)
+      .Post<ICollection>(`collections`, arg)
       .then((res) => new Collection(this.saasClient, res.data.id, res.data));
   }
 }

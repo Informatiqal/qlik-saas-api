@@ -78,7 +78,7 @@ export namespace QlikSaaSApi {
     public roles: IClassRoles;
     public users: IClassUsers;
     public webHooks: IClassWebHooks;
-    public oauthTokens: IClassOAuthTokens;
+    public oauthTokens: OAuthTokens;
     public collections: IClassCollections;
     public identityProviders: IClassIdentityProviders;
     public tenants: IClassTenants;

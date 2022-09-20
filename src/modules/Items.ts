@@ -19,8 +19,8 @@ export interface IItemCreate {
   resourceCreatedAt?: string;
 }
 export interface IClassItems {
-  get(id: string): Promise<IClassItem>;
-  getAll(): Promise<IClassItem[]>;
+  get(id: string): Promise<Item>;
+  getAll(): Promise<Item[]>;
   // create(arg: IItemCreate): Promise<any>;
 }
 
@@ -40,8 +40,8 @@ export class Items implements IClassItems {
 
   async getAll() {
     return await this.saasClient
-      .Get(`items`)
-      .then((res) => res.data as IItem[])
+      .Get<IItem[]>(`items`)
+      .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new Item(this.saasClient, t.id, t));
       });

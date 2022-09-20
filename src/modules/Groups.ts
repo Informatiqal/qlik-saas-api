@@ -1,5 +1,4 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { isGeneratorFunction } from "util/types";
 import { URLBuild } from "../util/UrlBuild";
 import { IGroup, Group } from "./Group";
 
@@ -21,8 +20,8 @@ export interface IGroupSettingsUpdate {
 
 export interface IClassGroups {
   get(id: string): Promise<Group>;
-  getFilter(filter: string, sort?: string): Promise<IGroup[]>;
-  getAll(): Promise<IGroup[]>;
+  getFilter(filter: string, sort?: string): Promise<Group[]>;
+  getAll(): Promise<Group[]>;
   getSettings(): Promise<IGroupSettings>;
   updateSettings(arg: IGroupSettingsUpdate[]): Promise<number>;
 }
@@ -50,20 +49,22 @@ export class Groups implements IClassGroups {
       throw new Error(`groups.getFilter: "filter" parameter is required`);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), { filter })
-      .then((res) => res.data as IGroup[]);
+      .Post<IGroup[]>(urlBuild.getUrl(), { filter })
+      .then((res) => res.data)
+      .then((data) => data.map((t) => new Group(this.saasClient, t.id, t)));
   }
 
   async getAll() {
     return await this.saasClient
-      .Get(`groups`)
-      .then((res) => res.data as IGroup[]);
+      .Get<IGroup[]>(`groups`)
+      .then((res) => res.data)
+      .then((data) => data.map((t) => new Group(this.saasClient, t.id, t)));
   }
 
   async getSettings() {
     return await this.saasClient
-      .Get(`groups/settings`)
-      .then((res) => res.data as IGroupSettings);
+      .Get<IGroupSettings>(`groups/settings`)
+      .then((res) => res.data);
   }
 
   async updateSettings(arg: IGroupSettingsUpdate[]) {

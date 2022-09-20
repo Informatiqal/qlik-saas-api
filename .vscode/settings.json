@@ -27,9 +27,11 @@
         "filesizemib",
         "Fractiles",
         "genericlink",
+        "groupid",
         "Guids",
         "hassectionaccess",
         "IAPI",
+        "idpid",
         "Informatiqal",
         "itemid",
         "maxmemorymib",
@@ -59,7 +61,10 @@
         "staticbytesize",
         "topfieldsbybytes",
         "toptablesbybytes",
+        "triggertime",
         "typedoc",
+        "userid",
+        "yxxx",
         "zoneinfo"
     ]
 }

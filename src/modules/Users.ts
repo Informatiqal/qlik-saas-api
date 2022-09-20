@@ -16,18 +16,18 @@ export interface IClassUsers {
   /**
    * Info about the tenant accessing the endpoint
    */
-  get(id: string): Promise<IClassUser>;
+  get(id: string): Promise<User>;
   /**
    * Retrieves a list of users matching the filter using an advanced query string
    * @param filter example:
    *     (id eq \"626949b9017b657805080bbd\" or id eq \"626949bf017b657805080bbe\") and (status eq \"active\" or status eq \"deleted\")
    * @param [sort] OPTIONAL name; +name; -name
    */
-  getFilter(filter: string, sort?: string): Promise<IUser[]>;
+  getFilter(filter: string, sort?: string): Promise<User[]>;
   /**
    * Returns a list of users. Each element of the list is an instance of the User class
    */
-  getAll(): Promise<IClassUser[]>;
+  getAll(): Promise<User[]>;
   /**
    * Returns the number of users in a given tenant
    * @returns {object} { total: number }
@@ -36,7 +36,7 @@ export interface IClassUsers {
   /**
    * Redirects to retrieve the user resource associated with the JWT claims
    */
-  me(): Promise<IClassUser>;
+  me(): Promise<User>;
   /**
    * @deprecated
    *
@@ -50,9 +50,9 @@ export interface IClassUsers {
   metadata(): Promise<{ valid_roles: string[] }>;
   /**
    * Creates an invited user
-   * @returns IClassUser
+   * @returns User
    */
-  create(arg: IUserCreate): Promise<IClassUser>;
+  create(arg: IUserCreate): Promise<User>;
 }
 
 export class Users implements IClassUsers {
@@ -63,8 +63,8 @@ export class Users implements IClassUsers {
 
   async get(id: string) {
     return await this.saasClient
-      .Post("users/actions/filter", { filter: `id eq "${id}"` })
-      .then((res) => res.data.data as IUser[])
+      .Post<IUser[]>("users/actions/filter", { filter: `id eq "${id}"` })
+      .then((res) => res.data)
       .then((userData) => {
         return userData.length == 1
           ? new User(this.saasClient, userData[0].id, userData[0])
@@ -80,31 +80,34 @@ export class Users implements IClassUsers {
     urlBuild.addParam("sort", sort);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), { filter })
-      .then((res) => res.data as IUser[]);
+      .Post<IUser[]>(urlBuild.getUrl(), { filter })
+      .then((res) => res.data)
+      .then((data) => data.map((t) => new User(this.saasClient, t.id, t)));
   }
 
   async getAll() {
     return await this.saasClient
-      .Get(`users`)
-      .then((res) => res.data as IUser[])
+      .Get<IUser[]>(`users`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new User(this.saasClient, t.id, t)));
   }
 
   async actionsCount() {
     return await this.saasClient
-      .Get(`users/actions/count`)
+      .Get<{ total: number }>(`users/actions/count`)
       .then((res) => res.data);
   }
 
   async me() {
     return await this.saasClient
-      .Get(`users/me`)
+      .Get<IUser>(`users/me`)
       .then((res) => new User(this.saasClient, res.data.id, res.data));
   }
 
   async metadata() {
-    return await this.saasClient.Get(`users/metadata`).then((res) => res.data);
+    return await this.saasClient
+      .Get<{ valid_roles: string[] }>(`users/metadata`)
+      .then((res) => res.data);
   }
 
   async create(arg: IUserCreate) {
@@ -116,7 +119,7 @@ export class Users implements IClassUsers {
       throw new Error(`users.create: "tenantId" parameter is required`);
 
     return await this.saasClient
-      .Post(`users`, arg)
+      .Post<IUser>(`users`, arg)
       .then((res) => new User(this.saasClient, res.data.id, res.data));
   }
 }

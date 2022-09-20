@@ -34,13 +34,11 @@ export class Roles implements IClassRoles {
   async get(id: string) {
     if (!id) throw new Error(`roles.get: "id" parameter is required`);
     return await this.saasClient
-      .Get(`roles/${id}`)
-      .then((res) => res.data as IRole);
+      .Get<IRole>(`roles/${id}`)
+      .then((res) => res.data);
   }
 
   async getAll() {
-    return await this.saasClient
-      .Get(`roles`)
-      .then((res) => res.data as IRole[]);
+    return await this.saasClient.Get<IRole[]>(`roles`).then((res) => res.data);
   }
 }

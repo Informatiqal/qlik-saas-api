@@ -36,10 +36,10 @@ export interface IWebHookCreate {
 }
 
 export interface IClassWebHooks {
-  get(id: string): Promise<IClassWebHook>;
-  getAll(): Promise<IClassWebHook[]>;
+  get(id: string): Promise<WebHook>;
+  getAll(): Promise<WebHook[]>;
   eventTypes(): Promise<IWebHookEvenType[]>;
-  create(arg: IWebHookCreate): Promise<IClassWebHook>;
+  create(arg: IWebHookCreate): Promise<WebHook>;
 }
 
 export class WebHooks implements IClassWebHooks {
@@ -58,15 +58,15 @@ export class WebHooks implements IClassWebHooks {
 
   async getAll() {
     return await this.saasClient
-      .Get(`webhooks`)
-      .then((res) => res.data as IWebHook[])
+      .Get<IWebHook[]>(`webhooks`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new WebHook(this.saasClient, t.id, t)));
   }
 
   async eventTypes() {
     return await this.saasClient
-      .Get(`webhooks/event-types`)
-      .then((res) => res.data as IWebHookEvenType[]);
+      .Get<IWebHookEvenType[]>(`webhooks/event-types`)
+      .then((res) => res.data);
   }
 
   async create(arg: IWebHookCreate) {
@@ -76,7 +76,7 @@ export class WebHooks implements IClassWebHooks {
       throw new Error(`webHooks.create: "url" parameter is required`);
 
     return await this.saasClient
-      .Post(`webhooks`, arg)
+      .Post<IWebHook>(`webhooks`, arg)
       .then((res) => new WebHook(this.saasClient, res.data.id, res.data));
   }
 }

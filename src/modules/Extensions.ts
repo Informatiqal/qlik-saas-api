@@ -3,8 +3,8 @@ import { Extension, IClassExtension, IExtension } from "./Extension";
 
 //TODO: import extension method
 export interface IClassExtensions {
-  get(id: string): Promise<IClassExtension>;
-  getAll(): Promise<IClassExtension[]>;
+  get(id: string): Promise<Extension>;
+  getAll(): Promise<Extension[]>;
 }
 
 export class Extensions implements IClassExtensions {
@@ -23,8 +23,8 @@ export class Extensions implements IClassExtensions {
 
   async getAll() {
     return await this.saasClient
-      .Get(`extensions`)
-      .then((res) => res.data as IExtension[])
+      .Get<IExtension[]>(`extensions`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Extension(this.saasClient, t.id, t)));
   }
 }

@@ -40,8 +40,8 @@ export class Reload implements IClassReload {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`reloads/${this.id}`)
-        .then((res) => res.data as IReload);
+        .Get<IReload>(`reloads/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

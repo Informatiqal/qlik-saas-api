@@ -40,8 +40,8 @@ export class Group implements IClassGroup {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`groups/${this.id}`)
-        .then((res) => res.data as IGroup);
+        .Get<IGroup>(`groups/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

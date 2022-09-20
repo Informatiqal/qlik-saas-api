@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { APIKey, IAPIKey, IClassAPIKey } from "./APIKey";
+import { APIKey, IAPIKey } from "./APIKey";
 
 export interface IAPIKeyCreate {
   description: string;
@@ -24,9 +24,9 @@ export interface IAPIKeysConfigsUpdate {
 }
 
 export interface IClassAPIKeys {
-  get(id: string): Promise<IClassAPIKey>;
-  getAll(): Promise<IClassAPIKey[]>;
-  create(arg: IAPIKeyCreate): Promise<IClassAPIKey>;
+  get(id: string): Promise<APIKey>;
+  getAll(): Promise<APIKey[]>;
+  create(arg: IAPIKeyCreate): Promise<APIKey>;
   configs(tenantId: string): Promise<IAPIKeysConfigs>;
   configsUpdate(
     tenantId: string,
@@ -50,8 +50,8 @@ export class APIKeys implements IClassAPIKeys {
 
   async getAll() {
     return await this.saasClient
-      .Get(`api-keys`)
-      .then((res) => res.data as IAPIKey[])
+      .Get<IAPIKey[]>(`api-keys`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new APIKey(this.saasClient, t.id, t)));
   }
 
@@ -60,7 +60,7 @@ export class APIKeys implements IClassAPIKeys {
       throw new Error(`apiKeys.create: "description" parameter is required`);
 
     return await this.saasClient
-      .Post(`api-keys`, arg)
+      .Post<IAPIKey>(`api-keys`, arg)
       .then((res) => new APIKey(this.saasClient, res.data.id, res.data));
   }
 
@@ -69,8 +69,8 @@ export class APIKeys implements IClassAPIKeys {
       throw new Error(`apiKeys.configs: "tenantId" parameter is required`);
 
     return await this.saasClient
-      .Get(`api-keys/configs/${tenantId}`)
-      .then((res) => res.data as IAPIKeysConfigs);
+      .Get<IAPIKeysConfigs>(`api-keys/configs/${tenantId}`)
+      .then((res) => res.data);
   }
 
   async configsUpdate(tenantId: string, arg: IAPIKeysConfigsUpdate[]) {

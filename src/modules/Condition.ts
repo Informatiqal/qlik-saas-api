@@ -81,8 +81,8 @@ export class Condition implements IClassCondition {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`conditions/${this.id}`)
-        .then((res) => res.data as ICondition);
+        .Get<ICondition>(`conditions/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

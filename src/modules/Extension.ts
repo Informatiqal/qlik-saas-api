@@ -56,8 +56,8 @@ export class Extension implements IClassExtension {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`extensions/${this.id}`)
-        .then((res) => res.data as IExtension);
+        .Get<IExtension>(`extensions/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -69,17 +69,17 @@ export class Extension implements IClassExtension {
 
   async file(fileName: string) {
     return await this.saasClient
-      .Get(`extensions/${this.id}/file/${fileName}`)
-      .then((res) => res.data as string);
+      .Get<string>(`extensions/${this.id}/file/${fileName}`)
+      .then((res) => res.data);
   }
 
   async download() {
     return await this.saasClient
-      .Get(
+      .Get<string>(
         `extensions/${this.id}/file`,
         "application/x-zip-compressed",
         "arraybuffer"
       )
-      .then((res) => res.data as string);
+      .then((res) => res.data);
   }
 }

@@ -54,8 +54,8 @@ export interface IClassCollection {
   details: ICollection;
   remove(): Promise<number>;
   update(arg: ICollectionUpdate): Promise<number>;
-  items(): Promise<IClassCollectionItem[]>;
-  addItem(id: string): Promise<IClassCollectionItem>;
+  items(): Promise<CollectionItem[]>;
+  addItem(id: string): Promise<CollectionItem>;
 }
 
 export class Collection implements IClassCollection {
@@ -73,8 +73,8 @@ export class Collection implements IClassCollection {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`collections/${this.id}`)
-        .then((res) => res.data as ICollection);
+        .Get<ICollection>(`collections/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -95,8 +95,8 @@ export class Collection implements IClassCollection {
 
   async items() {
     return await this.saasClient
-      .Get(`collections/${this.id}/items`)
-      .then((res) => res.data as ICollectionItem[])
+      .Get<ICollectionItem[]>(`collections/${this.id}/items`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new CollectionItem(this.saasClient, t.id, this.id, t))
       );
@@ -106,7 +106,7 @@ export class Collection implements IClassCollection {
     if (!id) throw new Error(`collection.addItem: "id" parameter is required`);
 
     return await this.saasClient
-      .Post(`collections/${this.id}/items`, { id })
+      .Post<ICollectionItem>(`collections/${this.id}/items`, { id })
       .then(
         (res) =>
           new CollectionItem(this.saasClient, res.data.id, this.id, res.data)

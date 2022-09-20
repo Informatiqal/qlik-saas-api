@@ -32,8 +32,8 @@ export class DataAlert implements IClassDataAlert {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`data-alerts/${this.id}`)
-        .then((res) => res.data as IDataAlert);
+        .Get<IDataAlert>(`data-alerts/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -58,14 +58,16 @@ export class DataAlert implements IClassDataAlert {
 
   async getConditions() {
     return await this.saasClient
-      .Get(`data-alerts/${this.id}/condition`)
-      .then((res) => res.data as IAlertingConditionResponse);
+      .Get<IAlertingConditionResponse>(`data-alerts/${this.id}/condition`)
+      .then((res) => res.data);
   }
 
   async getRecipientStats() {
     return await this.saasClient
-      .Get(`data-alerts/${this.id}/recipient-stats`)
-      .then((res) => res.data as IAlertingRecipientStatsResponse);
+      .Get<IAlertingRecipientStatsResponse>(
+        `data-alerts/${this.id}/recipient-stats`
+      )
+      .then((res) => res.data);
   }
 
   async getExecution(executionId: string) {
@@ -75,8 +77,10 @@ export class DataAlert implements IClassDataAlert {
       );
 
     return await this.saasClient
-      .Get(`/data-alerts/${this.id}/executions/${executionId}`)
-      .then((res) => res.data as IAlertingExecutionResponse);
+      .Get<IAlertingExecutionResponse>(
+        `/data-alerts/${this.id}/executions/${executionId}`
+      )
+      .then((res) => res.data);
   }
 
   async removeExecution(executionId: string) {

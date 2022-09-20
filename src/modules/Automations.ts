@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
-import { Automation, IClassAutomation } from "./Automation";
+import { Automation } from "./Automation";
 import {
   IAutomation,
   IAutomationCreate,
@@ -9,8 +9,8 @@ import {
 } from "./Automation.interfaces";
 
 export interface IClassAutomations {
-  get(id: string): Promise<IClassAutomation>;
-  getAll(): Promise<IClassAutomation[]>;
+  get(id: string): Promise<Automation>;
+  getAll(): Promise<Automation[]>;
   usage(filter: string, breakdown?: string): Promise<IAutomationUsage[]>;
   getSettings(): Promise<IAutomationsSettings>;
   setSettings(automationsEnabled: boolean): Promise<IAutomationsSettings>;
@@ -32,8 +32,8 @@ export class Automations implements IClassAutomations {
 
   async getAll() {
     return await this.saasClient
-      .Get(`automations`)
-      .then((res) => res.data as IAutomation[])
+      .Get<IAutomation[]>(`automations`)
+      .then((res) => res.data)
       .then((data: any) => {
         return data.map((t) => new Automation(this.saasClient, t.id, t));
       });
@@ -41,8 +41,8 @@ export class Automations implements IClassAutomations {
 
   async create(arg: IAutomationCreate) {
     return await this.saasClient
-      .Post("automations", { ...arg })
-      .then((res) => res.data as IAutomation);
+      .Post<IAutomation>("automations", { ...arg })
+      .then((res) => res.data);
   }
 
   async usage(filter: string, breakdown?: string) {
@@ -52,14 +52,14 @@ export class Automations implements IClassAutomations {
     urlBuild.addParam("breakdown", breakdown);
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data as IAutomationUsage[]);
+      .Get<IAutomationUsage[]>(urlBuild.getUrl())
+      .then((res) => res.data);
   }
 
   async getSettings() {
     return await this.saasClient
-      .Get(`automations/automations/settings`)
-      .then((res) => res.data as IAutomationsSettings);
+      .Get<IAutomationsSettings>(`automations/automations/settings`)
+      .then((res) => res.data);
   }
 
   async setSettings(automationsEnabled: boolean) {
@@ -69,7 +69,9 @@ export class Automations implements IClassAutomations {
       );
 
     return await this.saasClient
-      .Put(`automations/automations/settings`, { automationsEnabled })
-      .then((res) => res.data as IAutomationsSettings);
+      .Put<IAutomationsSettings>(`automations/automations/settings`, {
+        automationsEnabled,
+      })
+      .then((res) => res.data);
   }
 }

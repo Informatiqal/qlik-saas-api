@@ -22,8 +22,8 @@ export class ReloadTask implements IClassReloadTask {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`reload-tasks/${this.id}`)
-        .then((res) => res.data as IReloadTask);
+        .Get<IReloadTask>(`reload-tasks/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -47,7 +47,7 @@ export class ReloadTask implements IClassReloadTask {
     // if (!arg.state) arg.state = this.details.state;
 
     return await this.saasClient
-      .Put(`reload-tasks/${this.id}`, arg)
+      .Put<IReloadTask>(`reload-tasks/${this.id}`, arg)
       .then((res) => {
         this.details = res.data;
         return res.status;

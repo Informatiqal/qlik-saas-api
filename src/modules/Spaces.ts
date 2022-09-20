@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IEntityRemove } from "../types/types";
-import { Space, IClassSpace, ISpace } from "./Space";
+import { Space, ISpace } from "./Space";
 
 export interface ISpacesExt {
   data: ISpace[];
@@ -32,11 +32,11 @@ export interface ISpaceCreate {
 }
 
 export interface IClassSpaces {
-  get(id: string): Promise<IClassSpace>;
-  getAll(): Promise<IClassSpace[]>;
-  getFilter(arg: ISpaceFilter): Promise<IClassSpace[]>;
+  get(id: string): Promise<Space>;
+  getAll(): Promise<Space[]>;
+  getFilter(arg: ISpaceFilter): Promise<Space[]>;
   removeFilter(arg: ISpaceFilter): Promise<IEntityRemove[]>;
-  create(arg: ISpaceCreate): Promise<IClassSpace>;
+  create(arg: ISpaceCreate): Promise<Space>;
 }
 
 export class Spaces implements IClassSpaces {
@@ -55,8 +55,8 @@ export class Spaces implements IClassSpaces {
 
   async getAll() {
     return await this.saasClient
-      .Get(`spaces`)
-      .then((res) => res.data as ISpace[])
+      .Get<ISpace[]>(`spaces`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
@@ -66,8 +66,8 @@ export class Spaces implements IClassSpaces {
       names: arg.names || [],
     };
     return await this.saasClient
-      .Post(`spaces/filter`, filter)
-      .then((res) => res.data as ISpace[])
+      .Post<ISpace[]>(`spaces/filter`, filter)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
@@ -87,7 +87,7 @@ export class Spaces implements IClassSpaces {
     if (!arg.type) throw new Error(`spaces.type: "type" parameter is required`);
 
     return await this.saasClient
-      .Post(`spaces`, arg)
+      .Post<ISpace>(`spaces`, arg)
       .then((res) => new Space(this.saasClient, res.data.id, res.data));
   }
 }

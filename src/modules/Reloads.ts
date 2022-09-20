@@ -2,9 +2,9 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { IClassReload, IReload, Reload } from "./Reload";
 
 export interface IClassReloads {
-  get(id: string): Promise<IClassReload>;
-  getAll(): Promise<IClassReload[]>;
-  start(appId: string, partial?: boolean): Promise<IClassReload>;
+  get(id: string): Promise<Reload>;
+  getAll(): Promise<Reload[]>;
+  start(appId: string, partial?: boolean): Promise<Reload>;
 }
 
 export class Reloads implements IClassReloads {
@@ -23,8 +23,8 @@ export class Reloads implements IClassReloads {
 
   async getAll() {
     return await this.saasClient
-      .Get(`reloads`)
-      .then((res) => res.data as IReload[])
+      .Get<IReload[]>(`reloads`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Reload(this.saasClient, t.id, t)));
   }
 
@@ -32,7 +32,7 @@ export class Reloads implements IClassReloads {
     if (!appId) throw new Error(`reloads.start: "appId" parameter is required`);
 
     return await this.saasClient
-      .Post(`reloads`, { appId, partial })
+      .Post<IReload>(`reloads`, { appId, partial })
       .then((res) => new Reload(this.saasClient, res.data.id, res.data));
   }
 }

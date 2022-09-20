@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassTenant, ITenant, Tenant } from "./Tenant";
+import { ITenant, Tenant } from "./Tenant";
 
 export interface ITenantCreationRequest {
   name: string;
@@ -8,7 +8,7 @@ export interface ITenantCreationRequest {
 }
 
 export interface IClassTenants {
-  create(arg: ITenantCreationRequest): Promise<IClassTenant>;
+  create(arg: ITenantCreationRequest): Promise<Tenant>;
 }
 
 export class Tenants implements IClassTenants {
@@ -26,14 +26,7 @@ export class Tenants implements IClassTenants {
       throw new Error(`tenants.create: "licenseKey" parameter is required`);
 
     return this.saasClient
-      .Post("tenants", arg)
-      .then(
-        (res) =>
-          new Tenant(
-            this.saasClient,
-            (res.data as ITenant).id,
-            res.data as ITenant
-          )
-      );
+      .Post<ITenant>("tenants", arg)
+      .then((res) => new Tenant(this.saasClient, res.data.id, res.data));
   }
 }

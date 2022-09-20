@@ -1,12 +1,9 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
-// import { Condition } from "./Condition";
-// import { Conditions } from "./Conditions";
-import { DataAlert, IClassDataAlert } from "./DataAlert";
+import { DataAlert } from "./DataAlert";
 import {
   IDataAlert,
   IDataAlertCreate,
-  // IDataAlertCreateWithNewCondition,
   IDataAlertEvaluationGetResponse,
   IDataAlertExecutionStatsAggregatedResponse,
   IDataAlertSettings,
@@ -61,8 +58,8 @@ export interface IGetTaskExecutionsFilter {
 }
 
 export interface IClassDataAlerts {
-  get(id: string): Promise<IClassDataAlert>;
-  getAll(): Promise<IClassDataAlert[]>;
+  get(id: string): Promise<DataAlert>;
+  getAll(): Promise<DataAlert[]>;
   create(arg: IDataAlertCreate): Promise<IDataAlert>;
   triggerAction(
     alertingTaskId: string
@@ -106,8 +103,8 @@ export class DataAlerts implements IClassDataAlerts {
   // https://community.qlik.com/t5/Integration-Extension-APIs/Inconsistencies-in-SaaS-REST-API/m-p/1958356#M17079
   async getAll() {
     return await this.saasClient
-      .Get(`data-alerts`)
-      .then((res) => res.data as IDataAlert[])
+      .Get<IDataAlert[]>(`data-alerts`)
+      .then((res) => res.data)
       .then((data: any) => {
         return data.tasks.map((t) => new DataAlert(this.saasClient, t.id, t));
       });
@@ -115,8 +112,8 @@ export class DataAlerts implements IClassDataAlerts {
 
   async create(arg: IDataAlertCreate) {
     return await this.saasClient
-      .Post("data-alerts", { ...arg })
-      .then((res) => res.data as IDataAlert);
+      .Post<IDataAlert>("data-alerts", { ...arg })
+      .then((res) => res.data);
   }
 
   async triggerAction(alertingTaskId: string) {
@@ -126,14 +123,16 @@ export class DataAlerts implements IClassDataAlerts {
       );
 
     return await this.saasClient
-      .Post("data-alerts/actions/trigger", { alertingTaskID: alertingTaskId })
-      .then((res) => res.data as IDataAlertTriggerActionResponse);
+      .Post<IDataAlertTriggerActionResponse>("data-alerts/actions/trigger", {
+        alertingTaskID: alertingTaskId,
+      })
+      .then((res) => res.data);
   }
 
   async getSettings() {
     return await this.saasClient
-      .Get("data-alerts/settings")
-      .then((res) => res.data as IDataAlertSettings);
+      .Get<IDataAlertSettings>("data-alerts/settings")
+      .then((res) => res.data);
   }
 
   async updateSettings(enableDataAlerting: boolean) {
@@ -156,8 +155,10 @@ export class DataAlerts implements IClassDataAlerts {
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${taskId}/stats`)
-      .then((res) => res.data as IDataAlertExecutionStatsAggregatedResponse);
+      .Get<IDataAlertExecutionStatsAggregatedResponse>(
+        `data-alerts/${taskId}/stats`
+      )
+      .then((res) => res.data);
   }
 
   async getTaskIdExecutions(taskId: string, filter?: IGetTaskExecutionsFilter) {
@@ -190,8 +191,8 @@ export class DataAlerts implements IClassDataAlerts {
     }
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data as IDataAlertExecutionStatsAggregatedResponse);
+      .Get<IDataAlertExecutionStatsAggregatedResponse>(urlBuild.getUrl())
+      .then((res) => res.data);
   }
 
   async getTaskIdExecutionsStats(taskId: string, period: string) {
@@ -206,8 +207,10 @@ export class DataAlerts implements IClassDataAlerts {
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${taskId}/executions?period=${period}`)
-      .then((res) => res.data as IDataAlertTaskExecutionStatsResponse);
+      .Get<IDataAlertTaskExecutionStatsResponse>(
+        `data-alerts/${taskId}/executions?period=${period}`
+      )
+      .then((res) => res.data);
   }
 
   async getTaskIdExecutionIdEvaluation(taskId: string, executionId: string) {
@@ -222,13 +225,17 @@ export class DataAlerts implements IClassDataAlerts {
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${taskId}/executions/${executionId}/evaluations`)
-      .then((res) => res.data as IDataAlertEvaluationGetResponse);
+      .Get<IDataAlertEvaluationGetResponse>(
+        `data-alerts/${taskId}/executions/${executionId}/evaluations`
+      )
+      .then((res) => res.data);
   }
 
   async validateActions(arg: IDataAlertCreate) {
     return await this.saasClient
-      .Post(`data-alerts/actions/validate`, { ...arg })
-      .then((res) => res.data as IDataAlertValidateActionsResponse);
+      .Post<IDataAlertValidateActionsResponse>(`data-alerts/actions/validate`, {
+        ...arg,
+      })
+      .then((res) => res.data);
   }
 }

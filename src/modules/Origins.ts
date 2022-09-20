@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Origin, IClassOrigin, IOrigin } from "./Origin";
+import { Origin, IOrigin } from "./Origin";
 
 export interface IOriginCreate {
   origin: string;
@@ -23,10 +23,10 @@ export interface IOriginCreate {
 }
 
 export interface IClassOrigins {
-  get(id: string): Promise<IClassOrigin>;
-  getAll(): Promise<IClassOrigin[]>;
+  get(id: string): Promise<Origin>;
+  getAll(): Promise<Origin[]>;
   generateHeader(): Promise<{ [k: string]: any }>;
-  create(arg: IOriginCreate): Promise<IClassOrigin>;
+  create(arg: IOriginCreate): Promise<Origin>;
 }
 
 export class Origins implements IClassOrigins {
@@ -46,15 +46,15 @@ export class Origins implements IClassOrigins {
   // TODO: 400 when called?
   async getAll() {
     return await this.saasClient
-      .Get(`csp-origins`)
-      .then((res) => res.data as IOrigin[])
+      .Get<IOrigin[]>(`csp-origins`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Origin(this.saasClient, t.id, t)));
   }
 
   async generateHeader() {
     return await this.saasClient
-      .Get(`csp-origins/actions/generate-header`)
-      .then((res) => res.data as { [k: string]: any });
+      .Get<{ [k: string]: any }>(`csp-origins/actions/generate-header`)
+      .then((res) => res.data);
   }
 
   async create(arg: IOriginCreate) {
@@ -62,7 +62,7 @@ export class Origins implements IClassOrigins {
       throw new Error(`origins.create: "origin" parameter is required`);
 
     return await this.saasClient
-      .Post(`csp-origins`, arg)
+      .Post<IOrigin>(`csp-origins`, arg)
       .then((res) => new Origin(this.saasClient, res.data.id, res.data));
   }
 }

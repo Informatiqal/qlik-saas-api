@@ -8,9 +8,9 @@ export interface IEvaluationGetAll {
 }
 
 export interface IClassEvaluations {
-  get(id: string): Promise<IClassEvaluation>;
-  getAll(arg: IEvaluationGetAll): Promise<IClassEvaluation[]>;
-  create(appid: string, itemid: string): Promise<IClassEvaluation>;
+  get(id: string): Promise<Evaluation>;
+  getAll(arg: IEvaluationGetAll): Promise<Evaluation[]>;
+  create(appid: string, itemid: string): Promise<Evaluation>;
 }
 
 export class Evaluations implements IClassEvaluations {
@@ -34,8 +34,8 @@ export class Evaluations implements IClassEvaluations {
       );
 
     return await this.saasClient
-      .Get(`evaluations`)
-      .then((res) => res.data as IEvaluation[])
+      .Get<IEvaluation[]>(`evaluations`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new Evaluation(this.saasClient, t.id, t))
       );
@@ -48,7 +48,7 @@ export class Evaluations implements IClassEvaluations {
       throw new Error(`evaluations.getAll: "itemid" parameters is required`);
 
     return await this.saasClient
-      .Post(`evaluations`, { appid, itemid })
+      .Post<IEvaluation>(`evaluations`, { appid, itemid })
       .then((res) => new Evaluation(this.saasClient, res.data.id, res.data));
   }
 }

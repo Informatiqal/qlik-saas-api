@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Actions } from "../types/types";
-import { Assignment, IAssignment, IClassAssignment } from "./Assignment";
+import { Assignment, IAssignment } from "./Assignment";
 
 export interface ISpace {
   id: string;
@@ -43,7 +43,7 @@ export interface IClassSpace {
   details: ISpace;
   remove(): Promise<number>;
   update(arg: ISpaceUpdate): Promise<number>;
-  assignments(): Promise<IClassAssignment[]>;
+  assignments(): Promise<Assignment[]>;
 }
 
 export class Space implements IClassSpace {
@@ -61,8 +61,8 @@ export class Space implements IClassSpace {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`spaces/${this.id}`)
-        .then((res) => res.data as ISpace);
+        .Get<ISpace>(`spaces/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -78,16 +78,18 @@ export class Space implements IClassSpace {
     if (arg.description) data["description"] = arg.description;
     if (arg.ownerId) data["ownerId"] = arg.ownerId;
 
-    return await this.saasClient.Put(`spaces/${this.id}`, data).then((res) => {
-      this.details = res.data;
-      return res.status;
-    });
+    return await this.saasClient
+      .Put<ISpace>(`spaces/${this.id}`, data)
+      .then((res) => {
+        this.details = res.data;
+        return res.status;
+      });
   }
 
   async assignments() {
     return await this.saasClient
-      .Get(`spaces/${this.id}/assignments`)
-      .then((res) => res.data as IAssignment[])
+      .Get<IAssignment[]>(`spaces/${this.id}/assignments`)
+      .then((res) => res.data)
       .then((assignments) =>
         assignments.map(
           (assignment) =>
@@ -103,8 +105,8 @@ export class Space implements IClassSpace {
     if (arg.roles) data["roles"] = arg.roles;
 
     return await this.saasClient
-      .Post(`spaces/${this.id}/assignments`, data)
-      .then((res) => res.data as IAssignment)
+      .Post<IAssignment>(`spaces/${this.id}/assignments`, data)
+      .then((res) => res.data)
       .then(
         (assignment) =>
           new Assignment(this.saasClient, assignment.id, this.id, assignment)

@@ -251,14 +251,14 @@ export class AppEvaluation implements IClassAppEvaluation {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`/app/evaluations/${this.id}`)
-        .then((res) => res.data as IAppEvaluation);
+        .Get<IAppEvaluation>(`/app/evaluations/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
   async download() {
     return await this.saasClient
-      .Get(`apps/evaluations/${this.id}/actions/download`)
+      .Get<string>(`apps/evaluations/${this.id}/actions/download`)
       .then((res) => res.data);
   }
 
@@ -270,15 +270,16 @@ export class AppEvaluation implements IClassAppEvaluation {
 
     const [result, log] = await Promise.all([
       this.saasClient
-        .Get(
+        .Get<IAppEvaluationComparison>(
           `apps/evaluations/${this.id}/actions/compare/${comparisonId}?all=true&format=json`
         )
-        .then((res) => res.data as IAppEvaluationComparison),
+        .then((res) => res.data),
+
       this.saasClient
-        .Get(
+        .Get<string>(
           `apps/evaluations/${this.id}/actions/compare/${comparisonId}/actions/download`
         )
-        .then((res) => res.data as string),
+        .then((res) => res.data),
     ]);
 
     return { result, log };

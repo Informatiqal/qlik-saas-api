@@ -1,9 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  IClassWebIntegration,
-  IWebIntegration,
-  WebIntegration,
-} from "./WebIntegration";
+import { IWebIntegration, WebIntegration } from "./WebIntegration";
 
 export interface IWebIntegrationCreate {
   name: string;
@@ -14,8 +10,8 @@ export interface IWebIntegrationCreate {
 }
 
 export interface IClassWebIntegrations {
-  get(id: string): Promise<IClassWebIntegration>;
-  getAll(): Promise<IClassWebIntegration[]>;
+  get(id: string): Promise<WebIntegration>;
+  getAll(): Promise<WebIntegration[]>;
   create(arg: IWebIntegrationCreate): Promise<IWebIntegration>;
 }
 
@@ -26,7 +22,7 @@ export class WebIntegrations implements IClassWebIntegrations {
   }
 
   async get(id: string) {
-    if (!id) throw new Error(`webIntegraions.get: "id" parameter is required`);
+    if (!id) throw new Error(`webIntegrations.get: "id" parameter is required`);
     const wi: WebIntegration = new WebIntegration(this.saasClient, id);
     await wi.init();
 
@@ -35,8 +31,8 @@ export class WebIntegrations implements IClassWebIntegrations {
 
   async getAll() {
     return await this.saasClient
-      .Get(`web-integrations`)
-      .then((res) => res.data as IWebIntegration[])
+      .Get<IWebIntegration[]>(`web-integrations`)
+      .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new WebIntegration(this.saasClient, t.id, t));
       });
@@ -47,7 +43,7 @@ export class WebIntegrations implements IClassWebIntegrations {
       throw new Error(`webIntegrations.create: "name" parameter is required`);
 
     return await this.saasClient
-      .Post("web-integrations", { ...arg })
-      .then((res) => res.data as IWebIntegration);
+      .Post<IWebIntegration>("web-integrations", { ...arg })
+      .then((res) => res.data);
   }
 }

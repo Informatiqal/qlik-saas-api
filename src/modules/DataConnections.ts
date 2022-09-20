@@ -1,9 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  DataConnection,
-  IClassDataConnection,
-  IDataConnection,
-} from "./DataConnection";
+import { DataConnection, IDataConnection } from "./DataConnection";
 
 export interface IDataConnectionsCreate {
   qName: string;
@@ -25,9 +21,9 @@ export interface IDataConnectionsCreate {
 }
 
 export interface IClassDataConnections {
-  get(id: string): Promise<IClassDataConnection>;
-  getAll(): Promise<IClassDataConnection[]>;
-  create(arg: IDataConnectionsCreate): Promise<IClassDataConnection>;
+  get(id: string): Promise<DataConnection>;
+  getAll(): Promise<DataConnection[]>;
+  create(arg: IDataConnectionsCreate): Promise<DataConnection>;
 }
 
 export class DataConnections implements IClassDataConnections {
@@ -49,8 +45,8 @@ export class DataConnections implements IClassDataConnections {
 
   async getAll() {
     return await this.saasClient
-      .Get(`data-connections`)
-      .then((res) => res.data as IDataConnection[])
+      .Get<IDataConnection[]>(`data-connections`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new DataConnection(this.saasClient, t.id, t))
       );
@@ -67,7 +63,7 @@ export class DataConnections implements IClassDataConnections {
       throw new Error(`dataConnections.create: "qType" parameter is required`);
 
     return await this.saasClient
-      .Post(`data-connections`, arg)
+      .Post<IDataConnection>(`data-connections`, arg)
       .then(
         (res) => new DataConnection(this.saasClient, res.data.id, res.data)
       );

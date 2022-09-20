@@ -18,6 +18,10 @@ export interface INotificationItem {
   };
 }
 
+export interface INotificationItems {
+  notifications: INotificationItem[];
+}
+
 export interface IClassNotification {
   details: INotificationItem;
 }

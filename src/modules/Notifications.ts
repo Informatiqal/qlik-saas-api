@@ -2,13 +2,13 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 
 import {
-  IClassNotification,
   INotificationItem,
+  INotificationItems,
   Notification,
 } from "./Notification";
 
 export interface IClassNotifications {
-  getAll(): Promise<IClassNotification[]>;
+  getAll(): Promise<Notification[]>;
 }
 
 export class Notifications implements IClassNotifications {
@@ -23,8 +23,8 @@ export class Notifications implements IClassNotifications {
     urlBuild.addParam("subscribable", subscribable);
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data.notifications as INotificationItem[])
+      .Get<INotificationItems>(urlBuild.getUrl())
+      .then((res) => res.data.notifications)
       .then((data) => data.map((t) => new Notification(this.saasClient, t)));
   }
 }

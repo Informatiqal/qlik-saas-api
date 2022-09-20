@@ -6,8 +6,8 @@ import {
 } from "./DataCredential";
 
 export interface IClassDataCredentials {
-  get(id: string): Promise<IClassDataCredential>;
-  getAll(): Promise<IClassDataCredential[]>;
+  get(id: string): Promise<DataCredential>;
+  getAll(): Promise<DataCredential[]>;
 }
 
 export class DataCredentials implements IClassDataCredentials {
@@ -29,8 +29,8 @@ export class DataCredentials implements IClassDataCredentials {
 
   async getAll() {
     return await this.saasClient
-      .Get(`data-credentials`)
-      .then((res) => res.data as IDataCredential[])
+      .Get<IDataCredential[]>(`data-credentials`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new DataCredential(this.saasClient, t.qID, t))
       );

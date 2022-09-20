@@ -27,8 +27,8 @@ export class IdentityProviders implements IClassIdentityProviders {
 
   async getAll() {
     return await this.saasClient
-      .Get(`identity-providers`)
-      .then((res) => res.data as IIdentityProvider[])
+      .Get<IIdentityProvider[]>(`identity-providers`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new IdentityProvider(this.saasClient, t.id, t))
       );

@@ -1,9 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  IClassLicenseAssignment,
-  ILicenseAssignment,
-  LicenseAssignment,
-} from "./LicenseAssignment";
+import { ILicenseAssignment, LicenseAssignment } from "./LicenseAssignment";
 
 export interface ILicenseConsumption {
   id: string;
@@ -54,10 +50,10 @@ export interface ILicenseOverview {
 
 export interface IClassLicenses {
   consumption(): Promise<ILicenseConsumption[]>;
-  assignments(): Promise<IClassLicenseAssignment[]>;
+  assignments(): Promise<LicenseAssignment[]>;
   assignmentsAdd(
     arg: { subject: string; type: string }[]
-  ): Promise<IClassLicenseAssignment[]>;
+  ): Promise<LicenseAssignment[]>;
   status(): Promise<ILicenseStatus>;
   overview(): Promise<ILicenseOverview>;
 }
@@ -71,15 +67,15 @@ export class Licenses implements IClassLicenses {
   // TODO: Cannot read property 'Href' of undefined
   async consumption() {
     return await this.saasClient
-      .Get(`licenses/consumption`)
-      .then((res) => res.data as ILicenseConsumption[]);
+      .Get<ILicenseConsumption[]>(`licenses/consumption`)
+      .then((res) => res.data);
   }
 
   // TODO: Cannot read property 'Href' of undefined
   async assignments() {
     return await this.saasClient
-      .Get(`licenses/assignments`)
-      .then((res) => res.data as ILicenseAssignment[])
+      .Get<ILicenseAssignment[]>(`licenses/assignments`)
+      .then((res) => res.data)
       .then((assignments) =>
         assignments.map((a) => new LicenseAssignment(this.saasClient, a))
       );
@@ -87,8 +83,8 @@ export class Licenses implements IClassLicenses {
 
   async assignmentsAdd(arg: { subject: string; type: string }[]) {
     return await this.saasClient
-      .Post(`licenses/assignments/actions/add`, arg)
-      .then((res) => res.data as ILicenseAssignment[])
+      .Post<ILicenseAssignment[]>(`licenses/assignments/actions/add`, arg)
+      .then((res) => res.data)
       .then((assignments) =>
         assignments.map((a) => new LicenseAssignment(this.saasClient, a))
       );
@@ -96,13 +92,13 @@ export class Licenses implements IClassLicenses {
 
   async status() {
     return await this.saasClient
-      .Get(`licenses/status`)
-      .then((res) => res.data as ILicenseStatus);
+      .Get<ILicenseStatus>(`licenses/status`)
+      .then((res) => res.data);
   }
 
   async overview() {
     return await this.saasClient
-      .Get(`licenses/overview`)
-      .then((res) => res.data as ILicenseOverview);
+      .Get<ILicenseOverview>(`licenses/overview`)
+      .then((res) => res.data);
   }
 }

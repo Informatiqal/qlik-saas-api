@@ -156,14 +156,14 @@ export class Evaluation implements IClassEvaluation {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`evaluations/${this.id}`)
-        .then((res) => res.data as IEvaluation);
+        .Get<IEvaluation>(`evaluations/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
   async download() {
     return await this.saasClient
-      .Get(`evaluations/${this.id}/download`)
-      .then((res) => res.data as IEvaluation);
+      .Get<IEvaluation>(`evaluations/${this.id}/download`)
+      .then((res) => res.data);
   }
 }

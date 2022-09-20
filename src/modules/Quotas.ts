@@ -33,8 +33,8 @@ export class Quotas implements IClassQuotas {
   async get(id: QuotaType) {
     if (!id) throw new Error(`quotas.get: "id" parameter is required`);
     return await this.saasClient
-      .Get(`quotas/${id}`)
-      .then((res) => res.data as IQuotas);
+      .Get<IQuotas>(`quotas/${id}`)
+      .then((res) => res.data);
   }
 
   async getAll() {
@@ -42,7 +42,7 @@ export class Quotas implements IClassQuotas {
     urlBuild.addParam("reportUsage", "true");
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data as IQuotas[]);
+      .Get<IQuotas[]>(urlBuild.getUrl())
+      .then((res) => res.data);
   }
 }

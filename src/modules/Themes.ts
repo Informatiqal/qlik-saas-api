@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassTheme, ITheme, Theme } from "./Theme";
+import { ITheme, Theme } from "./Theme";
 
 // export interface IThemeCreate {
 //   id: string;
@@ -7,8 +7,8 @@ import { IClassTheme, ITheme, Theme } from "./Theme";
 // }
 
 export interface IClassThemes {
-  get(id: string): Promise<IClassTheme>;
-  getAll(): Promise<IClassTheme[]>;
+  get(id: string): Promise<Theme>;
+  getAll(): Promise<Theme[]>;
 }
 
 export class Themes implements IClassThemes {
@@ -27,8 +27,8 @@ export class Themes implements IClassThemes {
 
   async getAll() {
     return await this.saasClient
-      .Get(`themes`)
-      .then((res) => res.data as ITheme[])
+      .Get<ITheme[]>(`themes`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Theme(this.saasClient, t.id, t)));
   }
 

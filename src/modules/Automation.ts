@@ -1,15 +1,15 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IAutomation } from "./Automation.interfaces";
-import { IClassRun, IRun, Run } from "./Run";
+import { IRun, Run } from "./Run";
 
 export interface IClassAutomation {
   details: IAutomation;
   remove(): Promise<number>;
-  copy(name: string): Promise<IClassAutomation>;
+  copy(name: string): Promise<Automation>;
   enable(): Promise<number>;
   disable(): Promise<number>;
   move(): Promise<number>;
-  getRuns(): Promise<IClassRun[]>;
+  getRuns(): Promise<Run[]>;
 }
 
 export class Automation implements IClassAutomation {
@@ -27,8 +27,8 @@ export class Automation implements IClassAutomation {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`automations/${this.id}`)
-        .then((res) => res.data as IAutomation);
+        .Get<IAutomation>(`automations/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -42,12 +42,12 @@ export class Automation implements IClassAutomation {
     if (!name) throw new Error(`automation.copy: "name" parameter is required`);
 
     const copyResponse = await this.saasClient
-      .Post(`automations/${this.id}/actions/copy`, { name })
-      .then((res) => res.data as IAutomation);
+      .Post<IAutomation>(`automations/${this.id}/actions/copy`, { name })
+      .then((res) => res.data);
 
     const newAutomation = new Automation(
       this.saasClient,
-      (copyResponse as any).id
+      copyResponse.id ? copyResponse.id : copyResponse.guid
     );
     await newAutomation.init();
 
@@ -74,7 +74,7 @@ export class Automation implements IClassAutomation {
 
   async getRuns() {
     return await this.saasClient
-      .Get(`automations/automations/${this.id}/runs`)
+      .Get<IRun[]>(`automations/automations/${this.id}/runs`)
       .then((res) => {
         return res.data.map((t) => new Run(this.saasClient, t.id, this.id, t));
       });
@@ -85,7 +85,7 @@ export class Automation implements IClassAutomation {
       throw new Error(`automation.getRun: "runId" parameter is required`);
 
     return await this.saasClient
-      .Get(`automations/automations/${this.id}/runs`)
+      .Get<IRun[]>(`automations/automations/${this.id}/runs`)
       .then((res) => {
         const runData = res.data.filter((r) => r.id == runId);
 

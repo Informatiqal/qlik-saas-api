@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Condition, IClassCondition, ICondition } from "./Condition";
+import { Condition, ICondition } from "./Condition";
 
 export interface IConditionCreateBase {
   type: "compound" | "data";
@@ -58,9 +58,8 @@ export interface IConditionCreateComposite extends IConditionCreateBase {
 export type IConditionCreate = IConditionCreateData | IConditionCreateComposite;
 
 export interface IClassConditions {
-  get(id: string): Promise<IClassCondition>;
-  create(arg: IConditionCreate): Promise<IClassCondition>;
-  // getAll(): Promise<IClassCondition[]>;
+  get(id: string): Promise<Condition>;
+  create(arg: IConditionCreate): Promise<Condition>;
 }
 
 export class Conditions implements IClassConditions {
@@ -86,7 +85,13 @@ export class Conditions implements IClassConditions {
 
   async create(arg: IConditionCreate) {
     return await this.saasClient
-      .Post(`conditions`, arg)
-      .then((res) => new Condition(this.saasClient, res.data.id, res.data));
+      .Post<ICondition>(`conditions`, arg)
+      .then((res) => {
+        const conditionBaseId = res.data.compoundCondition?.conditionBase.id
+          ? res.data.compoundCondition.conditionBase.appId
+          : res.data.dataCondition?.conditionBase.id;
+
+        return new Condition(this.saasClient, conditionBaseId, res.data);
+      });
   }
 }

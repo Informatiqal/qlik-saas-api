@@ -1,8 +1,8 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassOAuthToken, IOAuthToken, OAuthToken } from "./OAuthToken";
+import { IOAuthToken, OAuthToken } from "./OAuthToken";
 
 export interface IClassOAuthTokens {
-  getAll(): Promise<IClassOAuthToken[]>;
+  getAll(): Promise<OAuthToken[]>;
 }
 
 export class OAuthTokens implements IClassOAuthTokens {
@@ -14,8 +14,8 @@ export class OAuthTokens implements IClassOAuthTokens {
   // TODO: 400 when called?
   async getAll() {
     return await this.saasClient
-      .Get(`oauth-tokens`)
-      .then((res) => res.data as IOAuthToken[])
+      .Get<IOAuthToken[]>(`oauth-tokens`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new OAuthToken(this.saasClient, t.id, t))
       );

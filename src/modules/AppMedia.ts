@@ -32,8 +32,8 @@ export class Media implements IClassMedia {
 
   async content() {
     return await this.saasClient
-      .Get(this.shortLink, "", "arraybuffer")
-      .then((res) => res.data as Buffer);
+      .Get<Buffer>(this.shortLink, "", "arraybuffer")
+      .then((res) => res.data);
   }
 
   async remove() {

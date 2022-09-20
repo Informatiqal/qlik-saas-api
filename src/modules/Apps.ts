@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IEntityRemove } from "../types/types";
-import { App, IClassApp } from "./App";
+import { App } from "./App";
 import {
   IApp,
   IAppAttributes,
@@ -8,20 +8,16 @@ import {
   IAppImport,
 } from "./Apps.interfaces";
 import { URLBuild } from "../util/UrlBuild";
-import {
-  AppEvaluation,
-  IAppEvaluation,
-  IClassAppEvaluation,
-} from "./AppEvaluation";
+import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 
 export interface IClassApps {
-  get(id: string): Promise<IClassApp>;
-  getEvaluation(id: string): Promise<IClassAppEvaluation>;
-  getAll(): Promise<IClassApp[]>;
-  getFilter(filter: string): Promise<IClassApp[]>;
+  get(id: string): Promise<App>;
+  getEvaluation(id: string): Promise<AppEvaluation>;
+  getAll(): Promise<App[]>;
+  getFilter(filter: string): Promise<App[]>;
   removeFilter(filter: string): Promise<IEntityRemove[]>;
-  import(arg: IAppImport): Promise<IClassApp>;
-  create(arg: IAppCreate): Promise<IClassApp>;
+  import(arg: IAppImport): Promise<App>;
+  create(arg: IAppCreate): Promise<App>;
   privileges(): Promise<{ [key: string]: string }>;
 }
 
@@ -41,8 +37,8 @@ export class Apps implements IClassApps {
 
   async getEvaluation(id: string) {
     return await this.saasClient
-      .Get(`apps/evaluations/${id}`)
-      .then((res) => res.data as IAppEvaluation)
+      .Get<IAppEvaluation>(`apps/evaluations/${id}`)
+      .then((res) => res.data)
       .then(
         (data) => new AppEvaluation(this.saasClient, data.id || data.ID, data)
       );
@@ -50,8 +46,8 @@ export class Apps implements IClassApps {
 
   async getAll() {
     return await this.saasClient
-      .Get(`items?resourceType=app,qvapp,qlikview`)
-      .then((res) => res.data as IAppAttributes[])
+      .Get<IAppAttributes[]>(`items?resourceType=app,qvapp,qlikview`)
+      .then((res) => res.data)
       .then((data) => {
         return data.map(
           (t) => new App(this.saasClient, t.id, { attributes: t })
@@ -63,8 +59,10 @@ export class Apps implements IClassApps {
     if (!filter)
       throw new Error(`apps.getFilter: "filter" parameter is required`);
     return await this.saasClient
-      .Get(`items?resourceType=app,qvapp,qlikview&query=${filter}`)
-      .then((res) => res.data as IAppAttributes[])
+      .Get<IAppAttributes[]>(
+        `items?resourceType=app,qvapp,qlikview&query=${filter}`
+      )
+      .then((res) => res.data)
       .then((data) => {
         return data.map(
           (t) => new App(this.saasClient, t.id, { attributes: t })
@@ -96,14 +94,9 @@ export class Apps implements IClassApps {
     urlBuild.addParam("fallbackName", arg.fallbackName);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), arg.file, "application/octet-stream")
+      .Post<IApp>(urlBuild.getUrl(), arg.file, "application/octet-stream")
       .then(
-        (res) =>
-          new App(
-            this.saasClient,
-            (res.data as IApp).attributes.id,
-            res.data as IApp
-          )
+        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
       );
   }
 
@@ -111,18 +104,13 @@ export class Apps implements IClassApps {
     if (!arg.name) throw new Error(`apps.create: "name" parameter is required`);
 
     return this.saasClient
-      .Post("apps", arg)
-      .then(
-        (a) =>
-          new App(
-            this.saasClient,
-            (a.data as IApp).attributes.id,
-            a.data as IApp
-          )
-      );
+      .Post<IApp>("apps", arg)
+      .then((a) => new App(this.saasClient, a.data.attributes.id, a.data));
   }
 
   async privileges() {
-    return await this.saasClient.Get(`apps/privileges`).then((p) => p.data);
+    return await this.saasClient
+      .Get<{ [key: string]: string }>(`apps/privileges`)
+      .then((p) => p.data);
   }
 }

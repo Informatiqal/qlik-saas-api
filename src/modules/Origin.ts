@@ -44,8 +44,8 @@ export class Origin implements IClassOrigin {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`csp-origins/${this.id}`)
-        .then((res) => res.data as IOrigin);
+        .Get<IOrigin>(`csp-origins/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -60,7 +60,7 @@ export class Origin implements IClassOrigin {
       throw new Error(`origins.create: "origin" parameter is required`);
 
     return await this.saasClient
-      .Put(`csp-origins/${this.id}`, arg)
+      .Put<IOrigin>(`csp-origins/${this.id}`, arg)
       .then((res) => {
         this.details = res.data;
         return res.status;

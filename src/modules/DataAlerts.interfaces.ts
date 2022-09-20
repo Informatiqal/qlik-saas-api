@@ -33,7 +33,7 @@ export interface IAlertingTaskRecipientErrors {
     | "MAX_ALERTS_LIMIT_REACHED";
 }
 
-export interface IDataAlertalertingTaskError {
+export interface IDataAlertingTaskError {
   added: string;
   value:
     | "OWNER_DISABLED"
@@ -146,7 +146,7 @@ export interface IDataAlert {
   subscriptionIds: string[];
   absoluteScan: string;
   conditionResponse: object;
-  alertingTaskError: IDataAlertalertingTaskError[];
+  alertingTaskError: IDataAlertingTaskError[];
   absoluteLastTrigger: string;
   hasHistoryCondition: boolean;
   lastExecutionStatus: "OK" | "FAILED";
@@ -163,7 +163,7 @@ export interface IDataAlertCreate {
   recipients: IDataAlertRecipients;
   throttling?: IDataAlertThrottlingResource;
   conditionId: string;
-  decription?: string;
+  description?: string;
   triggerType: "RELOAD" | "SCHEDULED";
   scheduleOptions?: IDataAlertScheduleOptions;
 }
@@ -177,7 +177,7 @@ export interface IDataAlertCreateWithNewCondition {
   recipients: IDataAlertRecipients;
   throttling?: IDataAlertThrottlingResource;
   condition: IConditionCreate;
-  decription?: string;
+  description?: string;
   triggerType: "RELOAD" | "SCHEDULED";
   scheduleOptions?: IDataAlertScheduleOptions;
 }

@@ -24,8 +24,8 @@ export class ReloadTasks implements IClassReloadTasks {
 
   async getAll() {
     return await this.saasClient
-      .Get(`reload-tasks`)
-      .then((res) => res.data as IReloadTask[])
+      .Get<IReloadTask[]>(`reload-tasks`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new ReloadTask(this.saasClient, t.id, t))
       );
@@ -50,7 +50,7 @@ export class ReloadTasks implements IClassReloadTasks {
     arg["type"] = "scheduled_reload";
 
     return await this.saasClient
-      .Post(`reload-tasks`, arg)
+      .Post<IReloadTask>(`reload-tasks`, arg)
       .then((res) => new ReloadTask(this.saasClient, res.data.id, res.data));
   }
 }
