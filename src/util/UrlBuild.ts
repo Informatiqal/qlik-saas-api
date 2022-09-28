@@ -5,8 +5,9 @@ export class URLBuild {
     this.url = url;
   }
 
-  addParam(name: string, value: any) {
-    if (value) this.params.push(`${name}=${encodeURIComponent(value)}`);
+  addParam(name: string, value: any, encode?: boolean) {
+    if (value)
+      this.params.push(`${name}=${encode ? encodeURIComponent(value) : value}`);
   }
 
   private getParams() {
