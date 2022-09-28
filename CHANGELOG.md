@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.0 - 2022-09-XX
+
+- [#84](https://github.com/Informatiqal/qlik-saas-api/issues/84) implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/new-api---lineage)
+  = new method `lineage`
+
 ## 0.4.0 - 2022-09-18
 
 - [fix] [#78](https://github.com/Informatiqal/qlik-saas-api/issues/78) add `cancel` method for `Reload`
