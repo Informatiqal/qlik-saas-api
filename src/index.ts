@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Apps } from "./modules/Apps";
+import { AutoML } from "./modules/AutoML";
 import { DataAlerts } from "./modules/DataAlerts";
 import { Automations } from "./modules/Automations";
 import { APIKeys } from "./modules/APIKeys";
@@ -34,6 +35,7 @@ export namespace QlikSaaSApi {
   export class client {
     public saasClient: QlikSaaSClient;
     public apps: Apps;
+    public autoML: AutoML;
     public automations: Automations;
     public apiKeys: APIKeys;
     public audits: Audits;
@@ -77,8 +79,8 @@ export namespace QlikSaaSApi {
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);
-
       this.apps = new Apps(this.saasClient);
+      this.autoML = new AutoML(this.saasClient);
       this.automations = new Automations(this.saasClient);
       this.apiKeys = new APIKeys(this.saasClient);
       this.audits = new Audits(this.saasClient);

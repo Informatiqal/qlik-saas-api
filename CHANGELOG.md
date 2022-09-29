@@ -2,10 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## 0.5.0 - 2022-09-XX
+## 0.6.0 - 2022-09-XX
+
+- [#85](https://github.com/Informatiqal/qlik-saas-api/issues/85) implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/new-apis---auto-ml-dataset-predictions-auto-ml-real-time-predictions)
+  - new method `autoML`
+
+## 0.5.0 - 2022-09-28
 
 - [#84](https://github.com/Informatiqal/qlik-saas-api/issues/84) implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/new-api---lineage)
-  = new method `lineage`
+  - new method `lineage`
 
 ## 0.4.0 - 2022-09-18
 
