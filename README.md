@@ -71,3 +71,19 @@ Breaking changes will be introduced in the future v2+ of the package
 > In order to avoid usage issues the package will be released in two versions - v1+ and v2+. All new features, fixes, patches etc will be applied to both versions. v2+ will be the default version and v1+ will be installed with:
 >
 > `npm install qlik-saas-api@v1`
+
+## Rate limit
+
+From 01/11/2022 Qlik is introducing rate limits when using SaaS REST API. If the response is with status 429 then the rate limit is reached and the script have to wait before continue.
+
+(from community.qlik)
+| Tier | Limit | Description |
+| ------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tier 1 | 600+ per minute | Supports majority of requests for data consumption with generous bursting. |
+| Tier 2 | 60+ per minute | Create, update, and delete resource endpoints with occasional bursts of more requests. |
+| Special | Varies | Rate limiting conditions are unique for methods with this tier. Consult the method's documentation to better understand its rate limiting conditions. |
+
+For more information please check these links:
+
+- [qlik.dev blog post](https://community.qlik.com/t5/Support-Updates/Important-Changes-to-Qlik-Cloud-REST-API-starting-November-1st/ba-p/1991505)
+- [qlik community post](https://community.qlik.com/t5/Official-Support-Articles/Qlik-Cloud-API-rate-limits-enforced-starting-on-November-1st/ta-p/1991382)
