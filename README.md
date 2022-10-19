@@ -85,5 +85,6 @@ From 01/11/2022 Qlik is introducing rate limits when using SaaS REST API. If the
 
 For more information please check these links:
 
-- [qlik.dev blog post](https://community.qlik.com/t5/Support-Updates/Important-Changes-to-Qlik-Cloud-REST-API-starting-November-1st/ba-p/1991505)
-- [qlik community post](https://community.qlik.com/t5/Official-Support-Articles/Qlik-Cloud-API-rate-limits-enforced-starting-on-November-1st/ta-p/1991382)
+- [qlik.dev](https://qlik.dev/basics/rate-limiting)
+- [qlik community post 1](https://community.qlik.com/t5/Official-Support-Articles/Qlik-Cloud-API-rate-limits-enforced-starting-on-November-1st/ta-p/1991382)
+- [qlik community post 2](https://community.qlik.com/t5/Support-Updates/Important-Changes-to-Qlik-Cloud-REST-API-starting-November-1st/ba-p/1991505)
