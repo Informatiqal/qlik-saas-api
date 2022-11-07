@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.5.0 - 2022-11-07
+
+- [#96](https://github.com/Informatiqal/qlik-saas-api/issues/96) implemented latest API changes from [qlik.dev post](https://qlik.dev/changelog/new-api---transport)
+- updated generic types for few methods
+
 ## 0.4.0 - 2022-09-18
 
 - [fix] [#78](https://github.com/Informatiqal/qlik-saas-api/issues/78) add `cancel` method for `Reload`

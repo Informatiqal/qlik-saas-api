@@ -48,7 +48,7 @@ export class Evaluations implements IClassEvaluations {
       throw new Error(`evaluations.getAll: "itemid" parameters is required`);
 
     return await this.saasClient
-      .Post(`evaluations`, { appid, itemid })
+      .Post<IEvaluation>(`evaluations`, { appid, itemid })
       .then((res) => new Evaluation(this.saasClient, res.data.id, res.data));
   }
 }

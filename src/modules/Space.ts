@@ -78,10 +78,12 @@ export class Space implements IClassSpace {
     if (arg.description) data["description"] = arg.description;
     if (arg.ownerId) data["ownerId"] = arg.ownerId;
 
-    return await this.saasClient.Put(`spaces/${this.id}`, data).then((res) => {
-      this.details = res.data;
-      return res.status;
-    });
+    return await this.saasClient
+      .Put<ISpace>(`spaces/${this.id}`, data)
+      .then((res) => {
+        this.details = res.data;
+        return res.status;
+      });
   }
 
   async assignments() {

@@ -87,7 +87,7 @@ export class Spaces implements IClassSpaces {
     if (!arg.type) throw new Error(`spaces.type: "type" parameter is required`);
 
     return await this.saasClient
-      .Post(`spaces`, arg)
+      .Post<ISpace>(`spaces`, arg)
       .then((res) => new Space(this.saasClient, res.data.id, res.data));
   }
 }

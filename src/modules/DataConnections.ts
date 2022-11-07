@@ -67,7 +67,7 @@ export class DataConnections implements IClassDataConnections {
       throw new Error(`dataConnections.create: "qType" parameter is required`);
 
     return await this.saasClient
-      .Post(`data-connections`, arg)
+      .Post<IDataConnection>(`data-connections`, arg)
       .then(
         (res) => new DataConnection(this.saasClient, res.data.id, res.data)
       );

@@ -60,7 +60,7 @@ export class APIKeys implements IClassAPIKeys {
       throw new Error(`apiKeys.create: "description" parameter is required`);
 
     return await this.saasClient
-      .Post(`api-keys`, arg)
+      .Post<IAPIKey>(`api-keys`, arg)
       .then((res) => new APIKey(this.saasClient, res.data.id, res.data));
   }
 
