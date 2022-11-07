@@ -50,7 +50,7 @@ export class ReloadTasks implements IClassReloadTasks {
     arg["type"] = "scheduled_reload";
 
     return await this.saasClient
-      .Post(`reload-tasks`, arg)
+      .Post<IReloadTask>(`reload-tasks`, arg)
       .then((res) => new ReloadTask(this.saasClient, res.data.id, res.data));
   }
 }

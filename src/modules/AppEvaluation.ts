@@ -258,7 +258,7 @@ export class AppEvaluation implements IClassAppEvaluation {
 
   async download() {
     return await this.saasClient
-      .Get(`apps/evaluations/${this.id}/actions/download`)
+      .Get<string>(`apps/evaluations/${this.id}/actions/download`)
       .then((res) => res.data);
   }
 

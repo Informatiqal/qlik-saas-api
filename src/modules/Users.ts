@@ -36,7 +36,7 @@ export interface IClassUsers {
   /**
    * Redirects to retrieve the user resource associated with the JWT claims
    */
-  me(): Promise<IClassUser>;
+  me(): Promise<User>;
   /**
    * @deprecated
    *
@@ -63,8 +63,10 @@ export class Users implements IClassUsers {
 
   async get(id: string) {
     return await this.saasClient
-      .Post("users/actions/filter", { filter: `id eq "${id}"` })
-      .then((res) => res.data.data as IUser[])
+      .Post<{ data: IUser[] }>("users/actions/filter", {
+        filter: `id eq "${id}"`,
+      })
+      .then((res) => res.data.data)
       .then((userData) => {
         return userData.length == 1
           ? new User(this.saasClient, userData[0].id, userData[0])
@@ -93,18 +95,20 @@ export class Users implements IClassUsers {
 
   async actionsCount() {
     return await this.saasClient
-      .Get(`users/actions/count`)
+      .Get<{ total: number }>(`users/actions/count`)
       .then((res) => res.data);
   }
 
   async me() {
     return await this.saasClient
-      .Get(`users/me`)
+      .Get<IUser>(`users/me`)
       .then((res) => new User(this.saasClient, res.data.id, res.data));
   }
 
   async metadata() {
-    return await this.saasClient.Get(`users/metadata`).then((res) => res.data);
+    return await this.saasClient
+      .Get<{ valid_roles: string[] }>(`users/metadata`)
+      .then((res) => res.data);
   }
 
   async create(arg: IUserCreate) {
@@ -116,7 +120,7 @@ export class Users implements IClassUsers {
       throw new Error(`users.create: "tenantId" parameter is required`);
 
     return await this.saasClient
-      .Post(`users`, arg)
+      .Post<IUser>(`users`, arg)
       .then((res) => new User(this.saasClient, res.data.id, res.data));
   }
 }

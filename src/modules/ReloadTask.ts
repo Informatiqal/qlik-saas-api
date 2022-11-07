@@ -47,7 +47,7 @@ export class ReloadTask implements IClassReloadTask {
     // if (!arg.state) arg.state = this.details.state;
 
     return await this.saasClient
-      .Put(`reload-tasks/${this.id}`, arg)
+      .Put<IReloadTask>(`reload-tasks/${this.id}`, arg)
       .then((res) => {
         this.details = res.data;
         return res.status;

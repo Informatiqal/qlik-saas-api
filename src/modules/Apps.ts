@@ -15,13 +15,13 @@ import {
 } from "./AppEvaluation";
 
 export interface IClassApps {
-  get(id: string): Promise<IClassApp>;
-  getEvaluation(id: string): Promise<IClassAppEvaluation>;
-  getAll(): Promise<IClassApp[]>;
-  getFilter(filter: string): Promise<IClassApp[]>;
+  get(id: string): Promise<App>;
+  getEvaluation(id: string): Promise<AppEvaluation>;
+  getAll(): Promise<App[]>;
+  getFilter(filter: string): Promise<App[]>;
   removeFilter(filter: string): Promise<IEntityRemove[]>;
-  import(arg: IAppImport): Promise<IClassApp>;
-  create(arg: IAppCreate): Promise<IClassApp>;
+  import(arg: IAppImport): Promise<App>;
+  create(arg: IAppCreate): Promise<App>;
   privileges(): Promise<{ [key: string]: string }>;
 }
 
@@ -123,6 +123,8 @@ export class Apps implements IClassApps {
   }
 
   async privileges() {
-    return await this.saasClient.Get(`apps/privileges`).then((p) => p.data);
+    return await this.saasClient
+      .Get<{ [key: string]: string }>(`apps/privileges`)
+      .then((p) => p.data);
   }
 }

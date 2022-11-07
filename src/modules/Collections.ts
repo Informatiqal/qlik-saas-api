@@ -39,7 +39,7 @@ export class Collections implements IClassCollections {
 
   async favorites() {
     return await this.saasClient
-      .Get(`collections/favorites`)
+      .Get<ICollection>(`collections/favorites`)
       .then((res) => new Collection(this.saasClient, res.data.id, res.data));
   }
 
@@ -50,7 +50,7 @@ export class Collections implements IClassCollections {
       throw new Error(`collections.create: "type" parameter is required`);
 
     return await this.saasClient
-      .Post(`collections`, arg)
+      .Post<ICollection>(`collections`, arg)
       .then((res) => new Collection(this.saasClient, res.data.id, res.data));
   }
 }

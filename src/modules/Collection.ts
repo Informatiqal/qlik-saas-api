@@ -106,7 +106,7 @@ export class Collection implements IClassCollection {
     if (!id) throw new Error(`collection.addItem: "id" parameter is required`);
 
     return await this.saasClient
-      .Post(`collections/${this.id}/items`, { id })
+      .Post<ICollectionItem>(`collections/${this.id}/items`, { id })
       .then(
         (res) =>
           new CollectionItem(this.saasClient, res.data.id, this.id, res.data)

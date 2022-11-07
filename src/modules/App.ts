@@ -2,6 +2,7 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 import {
   IApp,
+  IAppAttributes,
   IAppCopy,
   IAppDataLineage,
   IAppMetaData,
@@ -18,7 +19,7 @@ export interface IClassApp {
   dataLineage(): Promise<IAppDataLineage[]>;
   metaData(): Promise<IAppMetaData>;
   remove(): Promise<number>;
-  copy(arg: IAppCopy): Promise<IClassApp>;
+  copy(arg: IAppCopy): Promise<App>;
   addToSpace(spaceId: string): Promise<number>;
   removeFromSpace(): Promise<number>;
   export(noData?: boolean): Promise<Buffer>;
@@ -93,14 +94,9 @@ export class App implements IClassApp {
     const urlBuild = new URLBuild(`apps/${this.id}/export`);
     urlBuild.addParam("NoData", noData);
 
-    const tempContentLocation = await this.saasClient.Post(
-      urlBuild.getUrl(),
-      {},
-      "application/json",
-      "json",
-      false,
-      true
-    );
+    const tempContentLocation = await this.saasClient.Post<{
+      location: string;
+    }>(urlBuild.getUrl(), {}, "application/json", "json", false, true);
 
     const appContent: Buffer = await this.saasClient
       .Get(
@@ -165,7 +161,7 @@ export class App implements IClassApp {
   // REVIEW: the name?
   async removeFromSpace() {
     return await this.saasClient.Delete(`apps/${this.id}/space`).then((res) => {
-      this.details.attributes = res.data.attributes;
+      this.details.attributes = (res.data as any).attributes;
       return res.status;
     });
   }
@@ -180,7 +176,9 @@ export class App implements IClassApp {
     if (!arg.name) throw new Error(`app.update: "name" parameter is required`);
 
     return this.saasClient
-      .Put(`apps/${this.id}`, { attributes: { ...arg } })
+      .Put<{ attributes: IAppAttributes }>(`apps/${this.id}`, {
+        attributes: { ...arg },
+      })
       .then((res) => {
         this.details.attributes = res.data.attributes;
         return res.status;
@@ -188,7 +186,7 @@ export class App implements IClassApp {
       .then(async (status) => {
         if (arg.ownerId)
           return await this.saasClient
-            .Put(`apps/${this.id}`, {
+            .Put<{ attributes: IAppAttributes }>(`apps/${this.id}`, {
               ownerId: arg.ownerId,
             })
             .then((res) => {
@@ -202,7 +200,7 @@ export class App implements IClassApp {
 
   async thumbnail() {
     return this.saasClient
-      .Get(`apps/${this.id}/media/thumbnail`)
+      .Get<Buffer>(`apps/${this.id}/media/thumbnail`)
       .then((res) => res.data)
       .catch((e) => {
         if (e.message.indexOf("404") > -1)
@@ -213,11 +211,11 @@ export class App implements IClassApp {
   }
 
   async mediaFiles() {
-    return this.saasClient.Get(`apps/${this.id}/media/list`).then((res) => {
-      return res.data.map(
-        (m: IAppMedia) => new Media(this.saasClient, m.id, m)
-      );
-    });
+    return this.saasClient
+      .Get<IAppMedia[]>(`apps/${this.id}/media/list`)
+      .then((res) => {
+        return res.data.map((m) => new Media(this.saasClient, m.id, m));
+      });
   }
 
   async addMedia(content: Buffer, fileName: string) {

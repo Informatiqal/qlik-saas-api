@@ -32,7 +32,7 @@ export class Reloads implements IClassReloads {
     if (!appId) throw new Error(`reloads.start: "appId" parameter is required`);
 
     return await this.saasClient
-      .Post(`reloads`, { appId, partial })
+      .Post<IReload>(`reloads`, { appId, partial })
       .then((res) => new Reload(this.saasClient, res.data.id, res.data));
   }
 }

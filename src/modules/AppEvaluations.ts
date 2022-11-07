@@ -1,13 +1,9 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  AppEvaluation,
-  IClassAppEvaluation,
-  IAppEvaluation,
-} from "./AppEvaluation";
+import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 
 export interface IClassAppEvaluations {
-  getAll(): Promise<IClassAppEvaluation[]>;
-  create(): Promise<IClassAppEvaluation>;
+  getAll(): Promise<AppEvaluation[]>;
+  create(): Promise<AppEvaluation>;
 }
 
 export class AppEvaluations implements IClassAppEvaluations {
@@ -29,7 +25,7 @@ export class AppEvaluations implements IClassAppEvaluations {
 
   async create() {
     return await this.saasClient
-      .Post(`/apps/${this.appId}/evaluations`, {})
+      .Post<IAppEvaluation>(`/apps/${this.appId}/evaluations`, {})
       .then(
         (res) =>
           new AppEvaluation(
