@@ -40,6 +40,7 @@ import {
   IClassWebIntegrations,
 } from "./modules/WebIntegrations";
 import { Notifications, IClassNotifications } from "./modules/Notifications";
+import { IClassTransports, Transports } from "./modules/Transports";
 
 export namespace QlikSaaSApi {
   export class client {
@@ -76,6 +77,7 @@ export namespace QlikSaaSApi {
     public reloads: IClassReloads;
     public reloadTasks: IClassReloadTasks;
     public roles: IClassRoles;
+    public transports: IClassTransports;
     public users: IClassUsers;
     public webHooks: IClassWebHooks;
     public oauthTokens: IClassOAuthTokens;
@@ -109,6 +111,7 @@ export namespace QlikSaaSApi {
       this.reloads = new Reloads(this.saasClient);
       this.reloadTasks = new ReloadTasks(this.saasClient);
       this.roles = new Roles(this.saasClient);
+      this.transports = new Transports(this.saasClient);
       this.users = new Users(this.saasClient);
       this.webHooks = new WebHooks(this.saasClient);
       this.oauthTokens = new OAuthTokens(this.saasClient);

@@ -76,7 +76,7 @@ export class WebHooks implements IClassWebHooks {
       throw new Error(`webHooks.create: "url" parameter is required`);
 
     return await this.saasClient
-      .Post(`webhooks`, arg)
+      .Post<IWebHook>(`webhooks`, arg)
       .then((res) => new WebHook(this.saasClient, res.data.id, res.data));
   }
 }

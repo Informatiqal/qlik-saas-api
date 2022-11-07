@@ -23,7 +23,7 @@ export class Notifications implements IClassNotifications {
     urlBuild.addParam("subscribable", subscribable);
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
+      .Get<{ notifications: INotificationItem[] }>(urlBuild.getUrl())
       .then((res) => res.data.notifications as INotificationItem[])
       .then((data) => data.map((t) => new Notification(this.saasClient, t)));
   }

@@ -86,7 +86,7 @@ export class Conditions implements IClassConditions {
 
   async create(arg: IConditionCreate) {
     return await this.saasClient
-      .Post(`conditions`, arg)
-      .then((res) => new Condition(this.saasClient, res.data.id, res.data));
+      .Post<ICondition>(`conditions`, arg)
+      .then((res) => new Condition(this.saasClient, "res.data.id", res.data));
   }
 }

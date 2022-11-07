@@ -62,7 +62,7 @@ export class Origins implements IClassOrigins {
       throw new Error(`origins.create: "origin" parameter is required`);
 
     return await this.saasClient
-      .Post(`csp-origins`, arg)
+      .Post<IOrigin>(`csp-origins`, arg)
       .then((res) => new Origin(this.saasClient, res.data.id, res.data));
   }
 }

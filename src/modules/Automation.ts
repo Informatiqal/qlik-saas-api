@@ -74,7 +74,7 @@ export class Automation implements IClassAutomation {
 
   async getRuns() {
     return await this.saasClient
-      .Get(`automations/automations/${this.id}/runs`)
+      .Get<IRun[]>(`automations/automations/${this.id}/runs`)
       .then((res) => {
         return res.data.map((t) => new Run(this.saasClient, t.id, this.id, t));
       });
@@ -85,7 +85,7 @@ export class Automation implements IClassAutomation {
       throw new Error(`automation.getRun: "runId" parameter is required`);
 
     return await this.saasClient
-      .Get(`automations/automations/${this.id}/runs`)
+      .Get<IRun[]>(`automations/automations/${this.id}/runs`)
       .then((res) => {
         const runData = res.data.filter((r) => r.id == runId);
 
