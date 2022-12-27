@@ -2,9 +2,10 @@ import path from "path";
 import https from "https";
 
 const dotEnvPath = path.resolve(".env");
-require("dotenv").config({ path: dotEnvPath });
+import dotenv from "dotenv";
+dotenv.config({ path: dotEnvPath });
 
-import { QlikSaaSApi } from "../src";
+import { QlikSaaSApi } from "../dist";
 
 export class Config {
   public saasApi: QlikSaaSApi.client;

@@ -10,6 +10,9 @@ Node.js module to interact with Qlik Sense SaaS API
 
 `npm install qlik-saas-api`
 
+> **Note**
+> Node version >= 16.0.0
+
 ## Authentication
 
 At this moment only JWT authentication is supported

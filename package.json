@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -19,9 +19,13 @@
     "build": "rollup -c",
     "watch": "rollup -cw",
     "docs": "npx typedoc src/index.doc.ts --name \"Qlik SaaS API\" --excludePrivate --hideGenerator",
-    "test": "set TS_NODE_PROJECT=tsconfig.test.json&mocha --require ts-node/register test/**/*.spec.ts",
+    "test": "set TS_NODE_PROJECT=tsconfig.test.json&mocha --require ts-node/register test/**/*.spec.ts --loader=ts-node/esm --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --ignore test/playground.spec.ts",
     "test-badge": "set TS_NODE_PROJECT=tsconfig.test.json&mocha --reporter .\\node_modules\\mocha-badge-generator\\src --reporter-options=badge_format=svg,badge_output=badge.svg --require ts-node/register test/**/*.spec.ts"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "engineStrict": true,
   "keywords": [
     "qlik",
     "sense",
@@ -62,6 +66,7 @@
     "@types/node": "18.11.18",
     "chai": "4.3.7",
     "dotenv": "16.0.3",
+    "esm": "^3.2.25",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
     "rollup": "^3.8.1",
@@ -73,6 +78,6 @@
   },
   "dependencies": {
     "form-data": "^4.0.0",
-    "qlik-rest-api": "^1.6.0"
+    "qlik-rest-api": "^1.6.1"
   }
 }
