@@ -9,10 +9,13 @@ import {
   IAppPublish,
   IAppRePublish,
   IAppUpdate,
+  IScriptMeta,
+  IScriptVersion,
 } from "./Apps.interfaces";
 import { Media, IClassMedia, IAppMedia } from "./AppMedia";
 import { AppEvaluations } from "./AppEvaluations";
 import { AppActions } from "./AppActions";
+import { AppScript } from "./AppScript";
 
 export interface IClassApp {
   details: IApp;
@@ -29,6 +32,27 @@ export interface IClassApp {
   addMedia(content: Buffer, fileName: string): Promise<IClassMedia>;
   publish(arg: IAppPublish): Promise<number>;
   rePublish(arg: IAppRePublish): Promise<number>;
+  /**
+   * List of all script versions
+   *
+   * To reduce the number of API calls the actual script content is initially left empty
+   * Call `getScriptContent()` for each version.
+   *
+   * Rate limit: Tier 1 (600 requests per minute)
+   */
+  scriptVersions(): Promise<AppScript[]>;
+  /**
+   * Get all details (including the script) for a specific script version
+   *
+   * Rate limit: Tier 1 (600 requests per minute)
+   */
+  scriptVersion(versionId: string): Promise<AppScript>;
+  /**
+   * Set the app script and create new script version
+   *
+   * Rate limit: Tier 2 (60 requests per minute)
+   */
+  setScript(arg: IScriptVersion): Promise<number>;
   evaluations: AppEvaluations;
   /**
    * Set of actions that are associated with the apps but are not part of the /apps API endpoints
@@ -238,5 +262,35 @@ export class App implements IClassApp {
             res.data as IAppMedia
           )
       );
+  }
+
+  async scriptVersions() {
+    return await this.saasClient
+      .Get<{ scripts: IScriptMeta[] }>(`apps/${this.id}/scripts`)
+      .then((res) => res.data)
+      .then((data) => {
+        return data.scripts.map(
+          (t) =>
+            new AppScript(this.saasClient, t.scriptId, this.id, {
+              ...t,
+              script: "",
+            })
+        );
+      });
+  }
+
+  async scriptVersion(versionId: string) {
+    const scriptVersion = new AppScript(this.saasClient, versionId, this.id);
+    await scriptVersion.init();
+    await scriptVersion.getScriptContent();
+
+    return scriptVersion;
+  }
+
+  async setScript(arg: IScriptVersion) {
+    // const a = this.details.scriptVersions.map(v => v)
+    return await this.saasClient
+      .Post(`apps/${this.id}/scripts`, arg)
+      .then((res) => res.status);
   }
 }
