@@ -5,7 +5,7 @@ const dotEnvPath = path.resolve(".env");
 import dotenv from "dotenv";
 dotenv.config({ path: dotEnvPath });
 
-import { QlikSaaSApi } from "../dist";
+import { QlikSaaSApi } from "../src";
 
 export class Config {
   public saasApi: QlikSaaSApi.client;

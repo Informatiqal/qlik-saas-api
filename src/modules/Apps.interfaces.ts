@@ -30,6 +30,7 @@ export interface IApp {
   attributes: IAppAttributes;
   privileges?: Privileges[];
   create?: ICreate[];
+  scriptVersions?: IScriptVersion[];
 }
 
 export interface IAppDataLineage {
@@ -183,4 +184,49 @@ export interface IAppRePublish {
   description?: string;
   appName?: string;
   checkOriginAppId?: boolean;
+}
+
+export interface IScriptMeta {
+  /**
+   * Script size
+   */
+  size: number;
+  /**
+   * Script ID
+   */
+  scriptId: string;
+  /**
+   * User last modifying script version.
+   */
+  modifierId: string;
+  /**
+   * Script version last modification time.
+   */
+  modifiedTime: string;
+  /**
+   * Description of this script version
+   */
+  versionMessage: string;
+}
+
+export interface IScriptMetaWithScript extends IScriptMeta {
+  script: string;
+}
+
+export interface IScriptVersion {
+  /**
+   * Script text
+   */
+  script: string;
+  /**
+   * Description of this script version
+   */
+  versionMessage: string;
+}
+
+export interface IScriptLogMeta {
+  endTime: string;
+  success: boolean;
+  duration: number;
+  reloadId: string;
 }
