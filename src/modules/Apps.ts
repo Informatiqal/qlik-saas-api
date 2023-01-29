@@ -111,7 +111,7 @@ export class Apps implements IClassApps {
     if (!arg.name) throw new Error(`apps.create: "name" parameter is required`);
 
     return this.saasClient
-      .Post("apps", arg)
+      .Post("apps", { attributes: arg })
       .then(
         (a) =>
           new App(
