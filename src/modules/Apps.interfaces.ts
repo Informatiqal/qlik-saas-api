@@ -223,3 +223,10 @@ export interface IScriptVersion {
    */
   versionMessage: string;
 }
+
+export interface IScriptLogMeta {
+  endTime: string;
+  success: boolean;
+  duration: number;
+  reloadId: string;
+}

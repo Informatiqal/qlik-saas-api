@@ -77,4 +77,14 @@ describe("Apps", function () {
       ) &&
       expect(removeAppStatus).to.be.equal(200);
   });
+
+  it("Reload logs", async function () {
+    const app = await saasApi.apps.get(`${process.env.RELOAD_LOGS_APP}`);
+    const logs = await app.reloadLogs();
+    const log0 = await app.reloadLogContent(logs[0].reloadId);
+
+    expect(logs.length).to.be.greaterThan(0) &&
+      expect(log0.length).to.be.greaterThan(0) &&
+      expect(log0.indexOf("Execution started")).to.be.greaterThan(-1);
+  });
 });
