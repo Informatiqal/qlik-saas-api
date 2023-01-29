@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.0 - 2023-01-29
+
+- `app/create` correctly passes the attributes [#107](https://github.com/Informatiqal/qlik-saas-api/issues/107)
+- `app/{id}/scripts` endpoints are implemented [#108](https://github.com/Informatiqal/qlik-saas-api/issues/108)
+- `app/{id}/reloads` endpoints are implemented [#109](https://github.com/Informatiqal/qlik-saas-api/issues/109)
+- started `app` tests
+- dependency updates
+
 ## 0.5.1 - 2022-12-27
 
 - dependency updates
