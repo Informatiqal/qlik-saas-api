@@ -6,7 +6,7 @@
 <div id="tsd-toolbar-links"></div></div>
 <ul class="results">
 <li class="state loading">Preparing search index...</li>
-<li class="state failure">The search index is not available</li></ul><a href="" class="title">Qlik SaaS API</a></div>
+<li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Qlik SaaS API</a></div>
 <div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
 <div class="container container-main">
 <div class="col-8 col-content">
@@ -24,7 +24,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/IClassApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IClassApp</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L42">modules/App.ts:42</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L75">modules/App.ts:75</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -52,8 +52,13 @@
 <a href="App.html#metaData" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>meta<wbr/>Data</span></a>
 <a href="App.html#publish" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>publish</span></a>
 <a href="App.html#rePublish" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>re<wbr/>Publish</span></a>
+<a href="App.html#reloadLogContent" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>reload<wbr/>Log<wbr/>Content</span></a>
+<a href="App.html#reloadLogs" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>reload<wbr/>Logs</span></a>
 <a href="App.html#remove" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove</span></a>
 <a href="App.html#removeFromSpace" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>From<wbr/>Space</span></a>
+<a href="App.html#scriptVersion" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>script<wbr/>Version</span></a>
+<a href="App.html#scriptVersions" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>script<wbr/>Versions</span></a>
+<a href="App.html#setScript" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>set<wbr/>Script</span></a>
 <a href="App.html#thumbnail" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>thumbnail</span></a>
 <a href="App.html#update" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>update</span></a>
 </div></section></div></details></section></section>
@@ -75,7 +80,7 @@
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> details: <a href="../interfaces/IApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IApp</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="App.html" class="tsd-signature-type" data-tsd-kind="Class">App</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L48">modules/App.ts:48</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L81">modules/App.ts:81</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="_actions" class="tsd-anchor"></a>
@@ -90,19 +95,19 @@ Such actions are:</p>
 </div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#_actions">_actions</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L46">modules/App.ts:46</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L79">modules/App.ts:79</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="details" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>details</span><a href="#details" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">details<span class="tsd-signature-symbol">:</span> <a href="../interfaces/IApp.html" class="tsd-signature-type" data-tsd-kind="Interface">IApp</a></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#details">details</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L47">modules/App.ts:47</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L80">modules/App.ts:80</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="evaluations" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>evaluations</span><a href="#evaluations" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">evaluations<span class="tsd-signature-symbol">:</span> <a href="AppEvaluations.html" class="tsd-signature-type" data-tsd-kind="Class">AppEvaluations</a></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#evaluations">evaluations</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L45">modules/App.ts:45</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L78">modules/App.ts:78</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addMedia" class="tsd-anchor"></a>
@@ -120,7 +125,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="Media.html" class="tsd-signature-type" data-tsd-kind="Class">Media</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#addMedia">addMedia</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L221">modules/App.ts:221</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L254">modules/App.ts:254</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addToSpace" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>add<wbr/>To<wbr/>Space</span><a href="#addToSpace" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -134,7 +139,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#addToSpace">addToSpace</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L152">modules/App.ts:152</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L185">modules/App.ts:185</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="copy" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>copy</span><a href="#copy" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -148,7 +153,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="App.html" class="tsd-signature-type" data-tsd-kind="Class">App</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#copy">copy</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L66">modules/App.ts:66</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L99">modules/App.ts:99</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="dataLineage" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>data<wbr/>Lineage</span><a href="#dataLineage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -157,7 +162,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IAppDataLineage.html" class="tsd-signature-type" data-tsd-kind="Interface">IAppDataLineage</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#dataLineage">dataLineage</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L81">modules/App.ts:81</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L114">modules/App.ts:114</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="export" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>export</span><a href="#export" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -171,7 +176,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#export">export</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L93">modules/App.ts:93</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L126">modules/App.ts:126</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="init" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>init</span><a href="#init" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -179,7 +184,7 @@ Such actions are:</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L58">modules/App.ts:58</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L91">modules/App.ts:91</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="mediaFiles" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>media<wbr/>Files</span><a href="#mediaFiles" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -188,7 +193,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="Media.html" class="tsd-signature-type" data-tsd-kind="Class">Media</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#mediaFiles">mediaFiles</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L213">modules/App.ts:213</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L246">modules/App.ts:246</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="metaData" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>meta<wbr/>Data</span><a href="#metaData" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -197,7 +202,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IAppMetaData.html" class="tsd-signature-type" data-tsd-kind="Interface">IAppMetaData</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#metaData">metaData</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L87">modules/App.ts:87</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L120">modules/App.ts:120</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="publish" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>publish</span><a href="#publish" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -211,7 +216,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#publish">publish</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L112">modules/App.ts:112</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L145">modules/App.ts:145</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="rePublish" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>re<wbr/>Publish</span><a href="#rePublish" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -225,7 +230,34 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#rePublish">rePublish</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L131">modules/App.ts:131</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L164">modules/App.ts:164</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="reloadLogContent" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>reload<wbr/>Log<wbr/>Content</span><a href="#reloadLogContent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="reloadLogContent.reloadLogContent-1">reload<wbr/>Log<wbr/>Content<span class="tsd-signature-symbol">(</span>reloadId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><a href="#reloadLogContent.reloadLogContent-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the reload log content for the specified reloadId</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>reloadId: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#reloadLogContent">reloadLogContent</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L311">modules/App.ts:311</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="reloadLogs" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>reload<wbr/>Logs</span><a href="#reloadLogs" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="reloadLogs.reloadLogs-1">reload<wbr/>Logs<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IScriptLogMeta.html" class="tsd-signature-type" data-tsd-kind="Interface">IScriptLogMeta</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#reloadLogs.reloadLogs-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>List of reload logs (actual log is not included)</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IScriptLogMeta.html" class="tsd-signature-type" data-tsd-kind="Interface">IScriptLogMeta</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#reloadLogs">reloadLogs</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L305">modules/App.ts:305</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="remove" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove</span><a href="#remove" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -234,7 +266,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#remove">remove</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L169">modules/App.ts:169</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L202">modules/App.ts:202</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="removeFromSpace" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove<wbr/>From<wbr/>Space</span><a href="#removeFromSpace" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -243,7 +275,55 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#removeFromSpace">removeFromSpace</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L162">modules/App.ts:162</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L195">modules/App.ts:195</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="scriptVersion" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>script<wbr/>Version</span><a href="#scriptVersion" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="scriptVersion.scriptVersion-1">script<wbr/>Version<span class="tsd-signature-symbol">(</span>versionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="AppScript.html" class="tsd-signature-type" data-tsd-kind="Class">AppScript</a><span class="tsd-signature-symbol">&gt;</span><a href="#scriptVersion.scriptVersion-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get all details (including the script) for a specific script version</p>
+<p>Rate limit: Tier 1 (600 requests per minute)</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>versionId: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="AppScript.html" class="tsd-signature-type" data-tsd-kind="Class">AppScript</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#scriptVersion">scriptVersion</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L291">modules/App.ts:291</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="scriptVersions" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>script<wbr/>Versions</span><a href="#scriptVersions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="scriptVersions.scriptVersions-1">script<wbr/>Versions<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="AppScript.html" class="tsd-signature-type" data-tsd-kind="Class">AppScript</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#scriptVersions.scriptVersions-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>List of all script versions</p>
+<p>To reduce the number of API calls the actual script content is initially left empty
+Call <code>getScriptContent()</code> for each version.</p>
+<p>Rate limit: Tier 1 (600 requests per minute)</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="AppScript.html" class="tsd-signature-type" data-tsd-kind="Class">AppScript</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#scriptVersions">scriptVersions</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L276">modules/App.ts:276</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setScript" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>set<wbr/>Script</span><a href="#setScript" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="setScript.setScript-1">set<wbr/>Script<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><a href="../interfaces/IScriptVersion.html" class="tsd-signature-type" data-tsd-kind="Interface">IScriptVersion</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><a href="#setScript.setScript-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Set the app script and create new script version</p>
+<p>Rate limit: Tier 2 (60 requests per minute)</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>arg: <a href="../interfaces/IScriptVersion.html" class="tsd-signature-type" data-tsd-kind="Interface">IScriptVersion</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#setScript">setScript</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L299">modules/App.ts:299</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="thumbnail" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>thumbnail</span><a href="#thumbnail" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -252,7 +332,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#thumbnail">thumbnail</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L201">modules/App.ts:201</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L234">modules/App.ts:234</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -266,7 +346,7 @@ Such actions are:</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IClassApp.html">IClassApp</a>.<a href="../interfaces/IClassApp.html#update">update</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/26b1cdb/src/modules/App.ts#L175">modules/App.ts:175</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/Informatiqal/qlik-saas-api/blob/9df1406/src/modules/App.ts#L208">modules/App.ts:208</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -306,8 +386,13 @@ Such actions are:</p>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#metaData" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>meta<wbr/>Data</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#publish" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>publish</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#rePublish" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>re<wbr/>Publish</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#reloadLogContent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>reload<wbr/>Log<wbr/>Content</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#reloadLogs" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>reload<wbr/>Logs</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#remove" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#removeFromSpace" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>From<wbr/>Space</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#scriptVersion" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>script<wbr/>Version</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#scriptVersions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>script<wbr/>Versions</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#setScript" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>set<wbr/>Script</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#thumbnail" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>thumbnail</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="App.html#update" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>update</a></li></ul></li></ul></nav></div></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>
