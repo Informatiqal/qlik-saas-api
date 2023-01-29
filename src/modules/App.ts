@@ -9,6 +9,7 @@ import {
   IAppPublish,
   IAppRePublish,
   IAppUpdate,
+  IScriptLogMeta,
   IScriptMeta,
   IScriptVersion,
 } from "./Apps.interfaces";
@@ -32,6 +33,14 @@ export interface IClassApp {
   addMedia(content: Buffer, fileName: string): Promise<IClassMedia>;
   publish(arg: IAppPublish): Promise<number>;
   rePublish(arg: IAppRePublish): Promise<number>;
+  /**
+   * List of reload logs (actual log is not included)
+   */
+  reloadLogs(): Promise<IScriptLogMeta[]>;
+  /**
+   * Returns the reload log content for the specified reloadId
+   */
+  reloadLogContent(reloadId: string): Promise<string>;
   /**
    * List of all script versions
    *
@@ -288,9 +297,22 @@ export class App implements IClassApp {
   }
 
   async setScript(arg: IScriptVersion) {
-    // const a = this.details.scriptVersions.map(v => v)
     return await this.saasClient
       .Post(`apps/${this.id}/scripts`, arg)
       .then((res) => res.status);
+  }
+
+  async reloadLogs() {
+    return this.saasClient
+      .Get<IScriptLogMeta[]>(`apps/${this.id}/reloads/logs`)
+      .then((res) => res.data);
+  }
+
+  async reloadLogContent(reloadId: string) {
+    if (!reloadId)
+      throw new Error(`app.reloadLogContent: "reloadId" parameter is required`);
+    return this.saasClient
+      .Get<string>(`apps/${this.id}/reloads/logs/${reloadId}`)
+      .then((res) => res.data);
   }
 }
