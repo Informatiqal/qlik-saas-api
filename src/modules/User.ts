@@ -1,5 +1,4 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IRoleCondensed } from "./Roles";
 
 export interface IUser {
   id: string;
@@ -12,7 +11,7 @@ export interface IUser {
   lastUpdatedAt?: string;
   picture: string;
   email: string;
-  assignedRoles: IRoleCondensed[];
+  assignedRoles: IAssignedRole[];
   groups?: string[];
   assignedGroups?: IAssignedGroup[];
   zoneinfo: string;
@@ -29,7 +28,7 @@ export interface IUser {
 export interface IAssignedGroup {
   id: string;
   name: string;
-  assignedRoles?: [];
+  assignedRoles?: IAssignedRole[];
 }
 
 export interface IAssignedRole {
@@ -37,6 +36,7 @@ export interface IAssignedRole {
   name: string;
   type: string;
   level: string;
+  permissions: string[];
 }
 
 export interface IUserUpdate {
@@ -50,7 +50,7 @@ export interface IUserUpdate {
     | "preferredLocale"
     | "status"
     | string;
-  value: string;
+  value: string | { name: string }[];
   op: "replace" | "add" | "renew";
 }
 

@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - [#184](https://github.com/Informatiqal/qlik-saas-api/issues/184)
   - tenants - update tenant method
+  - users - create or patch users with assigned roles by name, instead of by role ID
 
 ## 0.6.2 - 2023-08-03
 
