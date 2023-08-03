@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.6 - 2023-08-03
+
+- user invite endpoint [#156](https://github.com/Informatiqal/qlik-saas-api/issues/156)
+
 ## 0.6.5 - 2023-08-03
 
 - [#184](https://github.com/Informatiqal/qlik-saas-api/issues/184)
