@@ -4,6 +4,7 @@ import { Reloads } from "./Reloads";
 import { ReloadTask } from "./ReloadTask";
 import { IReloadTask, IReloadTaskCreate } from "./ReloadTask.interfaces";
 import { ReloadTasks } from "./ReloadTasks";
+import { AppObject } from "./Apps.interfaces";
 
 export interface IClassAppActions {
   /**
@@ -48,5 +49,20 @@ export class AppActions implements IClassAppActions {
 
   async reload(partial?: boolean) {
     return await this.appReload.start(this.id, partial || false);
+  }
+
+  async changeObjectOwner(arg: { objectId: string; ownerId: string }) {
+    if (!arg.objectId)
+      throw new Error(
+        `app.changeObjectOwner: "objectId" parameter is required`
+      );
+
+    if (!arg.ownerId)
+      throw new Error(`app.changeObjectOwner: "ownerId" parameter is required`);
+
+    return this.saasClient.Post<AppObject>(
+      `apps/${this.id}/objects/${arg.objectId}/actions/change-owner`,
+      { ownerId: arg.ownerId }
+    );
   }
 }

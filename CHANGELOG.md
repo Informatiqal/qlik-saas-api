@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.2 - 2023-08-03
+
+- change app object owner [#157](https://github.com/Informatiqal/qlik-saas-api/issues/157)
+
 ## 0.6.0 - 2023-01-29
 
 - `app/create` correctly passes the attributes [#107](https://github.com/Informatiqal/qlik-saas-api/issues/107)

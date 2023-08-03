@@ -230,3 +230,24 @@ export interface IScriptLogMeta {
   duration: number;
   reloadId: string;
 }
+
+export interface AppObject {
+  attributes: {
+    id: string;
+    name: string;
+    ownerId: string;
+    approved: boolean;
+    objectType: string;
+    description: string;
+    genericType:
+    | "genericObject"
+    | "genericBookmark"
+    | "genericMeasure"
+    | "genericDimension"
+    | "genericVariable";
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+  };
+  privileges: Privileges;
+}
