@@ -81,11 +81,11 @@ export class App implements IClassApp {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IApp) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IApp);
     this.id = id;
     this.saasClient = saasClient;
     this.evaluations = new AppEvaluations(this.saasClient, this.id);
     this._actions = new AppActions(this.saasClient, this.id);
-    if (details) this.details = details;
   }
 
   async init() {

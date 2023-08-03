@@ -1,5 +1,4 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { isGeneratorFunction } from "util/types";
 import { URLBuild } from "../util/UrlBuild";
 import { IGroup, Group } from "./Group";
 
@@ -19,12 +18,24 @@ export interface IGroupSettingsUpdate {
   value: boolean;
 }
 
+export interface IGroupCreate {
+  name: string;
+  status?: "active";
+  assignedRoles: (
+    | {
+        id: string;
+      }
+    | { name: string }
+  )[];
+}
+
 export interface IClassGroups {
   get(id: string): Promise<Group>;
   getFilter(filter: string, sort?: string): Promise<IGroup[]>;
   getAll(): Promise<IGroup[]>;
   getSettings(): Promise<IGroupSettings>;
   updateSettings(arg: IGroupSettingsUpdate[]): Promise<number>;
+  create(arg: IGroupCreate): Promise<Group>;
 }
 
 export class Groups implements IClassGroups {
@@ -86,5 +97,16 @@ export class Groups implements IClassGroups {
         }))
       )
       .then((res) => res.status);
+  }
+
+  async create(arg: IGroupCreate) {
+    if (!arg.name)
+      throw new Error(`group.create: "name" parameter is required`);
+    if (!arg.assignedRoles)
+      throw new Error(`group.create: "assignedRoles" parameter is required`);
+
+    return await this.saasClient
+      .Post<IGroup>(`groups`, arg)
+      .then((res) => new Group(this.saasClient, res.data.id, res.data));
   }
 }

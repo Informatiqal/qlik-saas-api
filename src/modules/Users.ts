@@ -8,7 +8,7 @@ export interface IUserCreate {
   name: string;
   picture?: string;
   email?: string;
-  assignedRoles?: string[];
+  assignedRoles?: { name: string }[];
   status?: string;
 }
 
@@ -16,7 +16,7 @@ export interface IClassUsers {
   /**
    * Info about the tenant accessing the endpoint
    */
-  get(id: string): Promise<IClassUser>;
+  get(id: string): Promise<IClassUser[]>;
   /**
    * Retrieves a list of users matching the filter using an advanced query string
    * @param filter example:
@@ -52,7 +52,7 @@ export interface IClassUsers {
    * Creates an invited user
    * @returns IClassUser
    */
-  create(arg: IUserCreate): Promise<IClassUser>;
+  create(arg: IUserCreate): Promise<User>;
 }
 
 export class Users implements IClassUsers {
@@ -67,11 +67,9 @@ export class Users implements IClassUsers {
         filter: `id eq "${id}"`,
       })
       .then((res) => res.data.data)
-      .then((userData) => {
-        return userData.length == 1
-          ? new User(this.saasClient, userData[0].id, userData[0])
-          : undefined;
-      });
+      .then((usersData) =>
+        usersData.map((user) => new User(this.saasClient, user.id, user))
+      );
   }
 
   async getFilter(filter: string, sort?: string) {

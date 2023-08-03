@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.5 - 2023-08-03
+
+- [#184](https://github.com/Informatiqal/qlik-saas-api/issues/184)
+  - tenants - update tenant method
+  - users - create or patch users with assigned roles by name, instead of by role ID
+  - groups - able to create or patch groups (in general) with assigned roles by name and ID
+
 ## 0.6.2 - 2023-08-03
 
 - change app object owner [#157](https://github.com/Informatiqal/qlik-saas-api/issues/157)
