@@ -67,9 +67,9 @@ export class User implements IClassUser {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IUser) {
     if (!id) throw new Error(`user.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IUser);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

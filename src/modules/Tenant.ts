@@ -12,10 +12,19 @@ export interface ITenant {
   createdByUser: string;
   enableAnalyticCreation: boolean;
   autoAssignCreateSharedSpacesRoleToProfessionals: boolean;
+  autoAssignDataServicesContributorRoleToProfessionals: boolean;
+  autoAssignPrivateAnalyticsContentCreatorRoleToProfessionals: boolean;
+}
+
+export interface ITenantUpdate {
+  path: string;
+  value: string;
+  op: "replace" | "add" | "renew";
 }
 
 export interface IClassTenant {
   details: ITenant;
+  update(arg: ITenantUpdate[]): Promise<number>;
 }
 
 export class Tenant implements IClassTenant {
@@ -25,8 +34,36 @@ export class Tenant implements IClassTenant {
   constructor(saasClient: QlikSaaSClient, id: string, details?: ITenant) {
     if (!id) throw new Error(`tenant.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as ITenant);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
+  }
+
+  async init(arg?: { force: true }) {
+    if (Object.keys(this.details).length == 0 || arg?.force == true) {
+      this.details = await this.saasClient
+        .Get(`tenants/${this.id}`)
+        .then((res) => res.data as ITenant);
+    }
+  }
+
+  async update(arg: ITenantUpdate[]) {
+    if (!arg) throw new Error(`tenant.update: update arguments are missing`);
+
+    const data = arg.map((a) => ({
+      path: `/${a.path}`,
+      value: a.value,
+      op: a.op,
+    }));
+
+    let updateStatus: number = -1;
+
+    return await this.saasClient
+      .Patch(`users/${this.id}`, data)
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 }

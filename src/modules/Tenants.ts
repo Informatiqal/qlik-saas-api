@@ -8,6 +8,7 @@ export interface ITenantCreationRequest {
 }
 
 export interface IClassTenants {
+  get(arg: { id: string }): Promise<IClassTenant>;
   create(arg: ITenantCreationRequest): Promise<IClassTenant>;
 }
 
@@ -15,6 +16,14 @@ export class Tenants implements IClassTenants {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;
+  }
+
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`tenants.get: "id" parameter is required`);
+    const tenant: Tenant = new Tenant(this.saasClient, arg.id);
+    await tenant.init();
+
+    return tenant;
   }
 
   async create(arg: ITenantCreationRequest) {
@@ -26,14 +35,7 @@ export class Tenants implements IClassTenants {
       throw new Error(`tenants.create: "licenseKey" parameter is required`);
 
     return this.saasClient
-      .Post("tenants", arg)
-      .then(
-        (res) =>
-          new Tenant(
-            this.saasClient,
-            (res.data as ITenant).id,
-            res.data as ITenant
-          )
-      );
+      .Post<ITenant>("tenants", arg)
+      .then((res) => new Tenant(this.saasClient, res.data.id, res.data));
   }
 }

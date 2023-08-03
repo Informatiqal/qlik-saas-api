@@ -44,7 +44,8 @@ export class Apps implements IClassApps {
       .Get(`apps/evaluations/${id}`)
       .then((res) => res.data as IAppEvaluation)
       .then(
-        (data) => new AppEvaluation(this.saasClient, data.id || data.ID, data)
+        (data) =>
+          new AppEvaluation(this.saasClient, (data.id || data.ID) ?? "", data)
       );
   }
 

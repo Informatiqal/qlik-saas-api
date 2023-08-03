@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.3 - 2023-08-03
+
+- [#184](https://github.com/Informatiqal/qlik-saas-api/issues/184)
+  - tenants - update tenant method
+
 ## 0.6.2 - 2023-08-03
 
 - change app object owner [#157](https://github.com/Informatiqal/qlik-saas-api/issues/157)
