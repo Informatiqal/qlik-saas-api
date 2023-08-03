@@ -1,6 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 import { IClassUser, IUser, User } from "./User";
+import { UsersActions } from "./UsersActions";
 
 export interface IUserCreate {
   tenantId: string;
@@ -29,11 +30,6 @@ export interface IClassUsers {
    */
   getAll(): Promise<IClassUser[]>;
   /**
-   * Returns the number of users in a given tenant
-   * @returns {object} { total: number }
-   */
-  actionsCount(): Promise<{ total: number }>;
-  /**
    * Redirects to retrieve the user resource associated with the JWT claims
    */
   me(): Promise<User>;
@@ -53,12 +49,15 @@ export interface IClassUsers {
    * @returns IClassUser
    */
   create(arg: IUserCreate): Promise<User>;
+  _actions: UsersActions;
 }
 
 export class Users implements IClassUsers {
   private saasClient: QlikSaaSClient;
+  _actions: UsersActions;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;
+    this._actions = new UsersActions(this.saasClient);
   }
 
   async get(id: string) {
@@ -91,18 +90,15 @@ export class Users implements IClassUsers {
       .then((data) => data.map((t) => new User(this.saasClient, t.id, t)));
   }
 
-  async actionsCount() {
-    return await this.saasClient
-      .Get<{ total: number }>(`users/actions/count`)
-      .then((res) => res.data);
-  }
-
   async me() {
     return await this.saasClient
       .Get<IUser>(`users/me`)
       .then((res) => new User(this.saasClient, res.data.id, res.data));
   }
 
+  /**
+   * @deprecated
+   */
   async metadata() {
     return await this.saasClient
       .Get<{ valid_roles: string[] }>(`users/metadata`)
