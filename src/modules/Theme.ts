@@ -42,9 +42,9 @@ export class Theme implements IClassTheme {
   constructor(saasClient: QlikSaaSClient, id: string, details?: ITheme) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details || ({} as ITheme);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {
