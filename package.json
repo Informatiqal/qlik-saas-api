@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.6.6",
+  "version": "0.7.0",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -60,24 +60,21 @@
   "homepage": "https://informatiqal.com/qlik-saas-api/",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.2",
-    "@types/chai": "4.3.5",
     "@types/form-data": "^2.5.0",
-    "@types/mocha": "10.0.1",
-    "@types/node": "20.4.6",
-    "chai": "4.3.7",
+    "@types/node": "20.4.10",
     "dotenv": "16.3.1",
     "esm": "^3.2.25",
-    "mocha": "10.2.0",
     "nyc": "15.1.0",
-    "rollup": "^3.27.1",
+    "rollup": "^3.28.0",
     "rollup-plugin-delete": "2.0.0",
     "ts-node": "10.9.1",
     "tslib": "^2.6.1",
     "typedoc": "0.24.8",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "vitest": "^0.34.1"
   },
   "dependencies": {
     "form-data": "^4.0.0",
-    "qlik-rest-api": "^1.7.6"
+    "qlik-rest-api": "^1.8.0"
   }
 }

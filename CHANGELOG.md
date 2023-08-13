@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.7.0 - 2023-08-13
+
+- brands endpoints [#155](https://github.com/Informatiqal/qlik-saas-api/issues/155)
+- dependency updates
+
 ## 0.6.6 - 2023-08-03
 
 - user invite endpoint [#156](https://github.com/Informatiqal/qlik-saas-api/issues/156)
