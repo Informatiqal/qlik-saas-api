@@ -14,9 +14,9 @@ export class Automations {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`automations.get: "id" parameter is required`);
-    const a: Automation = new Automation(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`automations.get: "id" parameter is required`);
+    const a: Automation = new Automation(this.saasClient, arg.id);
     await a.init();
 
     return a;
@@ -37,15 +37,15 @@ export class Automations {
       .then((res) => res.data as IAutomation);
   }
 
-  async usage(filter: string, breakdown?: string) {
+  async usage(arg: { filter: string; breakdown?: string }) {
     const urlBuild = new URLBuild(`automations/automations/usage`);
 
-    urlBuild.addParam("filter", filter);
-    urlBuild.addParam("breakdown", breakdown);
+    urlBuild.addParam("filter", arg.filter);
+    urlBuild.addParam("breakdown", arg.breakdown);
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data as IAutomationUsage[]);
+      .Get<IAutomationUsage[]>(urlBuild.getUrl())
+      .then((res) => res.data);
   }
 
   async getSettings() {
@@ -54,14 +54,16 @@ export class Automations {
       .then((res) => res.data as IAutomationsSettings);
   }
 
-  async setSettings(automationsEnabled: boolean) {
-    if (!automationsEnabled)
+  async setSettings(arg: { automationsEnabled: boolean }) {
+    if (!arg.automationsEnabled)
       throw new Error(
         `automations.setSettings: "automationsEnabled" parameter is required`
       );
 
     return await this.saasClient
-      .Put(`automations/automations/settings`, { automationsEnabled })
-      .then((res) => res.data as IAutomationsSettings);
+      .Put<IAutomationsSettings>(`automations/automations/settings`, {
+        automationsEnabled: arg.automationsEnabled,
+      })
+      .then((res) => res.data);
   }
 }

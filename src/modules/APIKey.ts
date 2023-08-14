@@ -39,20 +39,20 @@ export class APIKey {
       .then((res) => res.status);
   }
 
-  async update(description: string) {
-    if (!description)
+  async update(arg: { description: string }) {
+    if (!arg.description)
       throw new Error(`apiKey.update: "description" parameter is required`);
 
     const data = {
       op: "replace",
       path: `/description`,
-      value: description,
+      value: arg.description,
     };
 
     return await this.saasClient
       .Patch(`api-keys/${this.id}`, data)
       .then((res) => {
-        this.details.description = description;
+        this.details.description = arg.description;
         return res.status;
       });
   }

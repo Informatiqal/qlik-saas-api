@@ -46,11 +46,13 @@ export class Assignment {
       .then((res) => res.status);
   }
 
-  async update(roles: string[]) {
+  async update(arg: { roles: string[] }) {
     return await this.saasClient
-      .Put(`spaces/${this.spaceId}/assignments/${this.id}`, { roles: roles })
+      .Put(`spaces/${this.spaceId}/assignments/${this.id}`, {
+        roles: arg.roles,
+      })
       .then((res) => {
-        this.details.roles = roles;
+        this.details.roles = arg.roles;
         return res.status;
       });
   }

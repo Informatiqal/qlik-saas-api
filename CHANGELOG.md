@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.10.0 - 2023-08-XX
+
+- **BREAKING** arguments for all public methods are not an object instead of named parameters [#194](https://github.com/Informatiqal/qlik-saas-api/issues/194)
+
 ## 0.9.0 - 2023-08-14
 
-- internal code re-factoring
+- internal code re-factoring [#195](https://github.com/Informatiqal/qlik-saas-api/issues/195)
 
 ## 0.8.0 - 2023-08-14
 

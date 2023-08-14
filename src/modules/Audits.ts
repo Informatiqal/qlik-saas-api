@@ -74,10 +74,10 @@ export class Audits {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`audits.get: "id" parameter is required`);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`audits.get: "id" parameter is required`);
     return await this.saasClient
-      .Get(`audits/${id}`)
+      .Get(`audits/${arg.id}`)
       .then((res) => res.data as IAudit);
   }
 
@@ -113,11 +113,12 @@ export class Audits {
   }
 
   // TODO: different types are returned in data:{...}
-  async archive(date: string) {
-    if (!date) throw new Error(`audits.archive: "date" parameter is required`);
+  async archive(arg: { date: string }) {
+    if (!arg.date)
+      throw new Error(`audits.archive: "date" parameter is required`);
 
     return await this.saasClient
-      .Get(`audits/archive?date=${date}`)
-      .then((res) => res.data as IAudit[]);
+      .Get<IAudit[]>(`audits/archive?date=${arg.date}`)
+      .then((res) => res.data);
   }
 }

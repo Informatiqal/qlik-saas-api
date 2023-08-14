@@ -79,8 +79,8 @@ export class CollectionItem {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`collections/${this.id}/items/${this.id}`)
-        .then((res) => res.data as ICollectionItem);
+        .Get<ICollectionItem>(`collections/${this.id}/items/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

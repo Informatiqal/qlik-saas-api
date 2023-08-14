@@ -28,11 +28,12 @@ export class Automation {
       .then((res) => res.status);
   }
 
-  async copy(name: string) {
-    if (!name) throw new Error(`automation.copy: "name" parameter is required`);
+  async copy(arg: { name: string }) {
+    if (!arg.name)
+      throw new Error(`automation.copy: "name" parameter is required`);
 
     const copyResponse = await this.saasClient
-      .Post(`automations/${this.id}/actions/copy`, { name })
+      .Post(`automations/${this.id}/actions/copy`, { name: arg.name })
       .then((res) => res.data as IAutomation);
 
     const newAutomation = new Automation(
@@ -70,23 +71,23 @@ export class Automation {
       });
   }
 
-  async getRun(runId: string) {
-    if (!runId)
+  async getRun(arg: { runId: string }) {
+    if (!arg.runId)
       throw new Error(`automation.getRun: "runId" parameter is required`);
 
     return await this.saasClient
       .Get<IRun[]>(`automations/automations/${this.id}/runs`)
       .then((res) => {
-        const runData = res.data.filter((r) => r.id == runId);
+        const runData = res.data.filter((r) => r.id == arg.runId);
 
         if (runData.length == 0)
           throw new Error(
-            `automation.getRun: run with id "${runId}" was not found`
+            `automation.getRun: run with id "${arg.runId}" was not found`
           );
 
         if (runData.length > 1)
           throw new Error(
-            `automation.getRun: found more than one run with id "${runId}"`
+            `automation.getRun: found more than one run with id "${arg.runId}"`
           );
 
         return new Run(this.saasClient, runData[0].id, this.id, runData[0]);
