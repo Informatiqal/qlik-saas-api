@@ -61,12 +61,7 @@ export interface IConditionComposite extends IConditionBase {
 
 export type ICondition = IConditionData | IConditionComposite;
 
-export interface IClassCondition {
-  details: ICondition;
-  remove(): Promise<number>;
-}
-
-export class Condition implements IClassCondition {
+export class Condition {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: ICondition;

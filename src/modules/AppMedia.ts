@@ -7,14 +7,7 @@ export interface IAppMedia {
   name: string;
 }
 
-export interface IClassMedia {
-  details: IAppMedia;
-  content(): Promise<Buffer>;
-  remove(): Promise<number>;
-  update(content: Buffer): Promise<number>;
-}
-
-export class Media implements IClassMedia {
+export class Media {
   private id: string;
   private shortLink: string;
   private saasClient: QlikSaaSClient;

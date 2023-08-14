@@ -1,6 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IEntityRemove } from "../types/types";
-import { App, IClassApp } from "./App";
+import { App } from "./App";
 import {
   IApp,
   IAppAttributes,
@@ -8,24 +7,9 @@ import {
   IAppImport,
 } from "./Apps.interfaces";
 import { URLBuild } from "../util/UrlBuild";
-import {
-  AppEvaluation,
-  IAppEvaluation,
-  IClassAppEvaluation,
-} from "./AppEvaluation";
+import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 
-export interface IClassApps {
-  get(id: string): Promise<App>;
-  getEvaluation(id: string): Promise<AppEvaluation>;
-  getAll(): Promise<App[]>;
-  getFilter(filter: string): Promise<App[]>;
-  removeFilter(filter: string): Promise<IEntityRemove[]>;
-  import(arg: IAppImport): Promise<App>;
-  create(arg: IAppCreate): Promise<App>;
-  privileges(): Promise<{ [key: string]: string }>;
-}
-
-export class Apps implements IClassApps {
+export class Apps {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

@@ -58,11 +58,7 @@ export interface INL {
   };
 }
 
-export interface IClassNL {
-  ask(arg: INLAsk): Promise<INL>;
-}
-
-export class NL implements IClassNL {
+export class NL {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

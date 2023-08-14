@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { APIKey, IAPIKey, IClassAPIKey } from "./APIKey";
+import { APIKey, IAPIKey } from "./APIKey";
 
 export interface IAPIKeyCreate {
   description: string;
@@ -23,18 +23,7 @@ export interface IAPIKeysConfigsUpdate {
   value: boolean | string | number;
 }
 
-export interface IClassAPIKeys {
-  get(id: string): Promise<IClassAPIKey>;
-  getAll(): Promise<IClassAPIKey[]>;
-  create(arg: IAPIKeyCreate): Promise<IClassAPIKey>;
-  configs(tenantId: string): Promise<IAPIKeysConfigs>;
-  configsUpdate(
-    tenantId: string,
-    arg: IAPIKeysConfigsUpdate[]
-  ): Promise<number>;
-}
-
-export class APIKeys implements IClassAPIKeys {
+export class APIKeys {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

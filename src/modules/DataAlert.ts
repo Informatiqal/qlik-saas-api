@@ -7,17 +7,7 @@ import {
   IDataAlertUpdate,
 } from "./DataAlerts.interfaces";
 
-export interface IClassDataAlert {
-  details: IDataAlert;
-  remove(): Promise<number>;
-  getConditions(): Promise<IAlertingConditionResponse>;
-  getRecipientStats(): Promise<IAlertingRecipientStatsResponse>;
-  getExecution(executionId: string): Promise<IAlertingExecutionResponse>;
-  removeExecution(executionId: string): Promise<number>;
-  update(arg?: IDataAlertUpdate[]): Promise<number>;
-}
-
-export class DataAlert implements IClassDataAlert {
+export class DataAlert {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IDataAlert;

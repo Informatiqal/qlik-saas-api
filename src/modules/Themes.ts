@@ -1,17 +1,12 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassTheme, ITheme, Theme } from "./Theme";
+import { ITheme, Theme } from "./Theme";
 
 // export interface IThemeCreate {
 //   id: string;
 //   file: Buffer;
 // }
 
-export interface IClassThemes {
-  get(id: string): Promise<IClassTheme>;
-  getAll(): Promise<IClassTheme[]>;
-}
-
-export class Themes implements IClassThemes {
+export class Themes {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

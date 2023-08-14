@@ -3,13 +3,7 @@ import { QlikSaaSClient } from "qlik-rest-api";
 export interface IIdentityProvider {
   id: string;
 }
-
-export interface IClassIdentityProvider {
-  details: IIdentityProvider;
-  // remove(): Promise<number>;
-}
-
-export class IdentityProvider implements IClassIdentityProvider {
+export class IdentityProvider {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IIdentityProvider;

@@ -19,12 +19,7 @@ type QuotaType =
   | "app_mem_size"
   | string;
 
-export interface IClassQuotas {
-  get(id: string): Promise<IQuotas>;
-  getAll(): Promise<IQuotas[]>;
-}
-
-export class Quotas implements IClassQuotas {
+export class Quotas {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

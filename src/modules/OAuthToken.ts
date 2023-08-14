@@ -9,12 +9,7 @@ export interface IOAuthToken {
   lastUsed: string;
 }
 
-export interface IClassOAuthToken {
-  details: IOAuthToken;
-  remove(): Promise<number>;
-}
-
-export class OAuthToken implements IClassOAuthToken {
+export class OAuthToken {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IOAuthToken;

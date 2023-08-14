@@ -20,13 +20,7 @@ export interface IAssignment {
   };
 }
 
-export interface IClassAssignment {
-  details: IAssignment;
-  remove(): Promise<number>;
-  update(roles: string[]): Promise<number>;
-}
-
-export class Assignment implements IClassAssignment {
+export class Assignment {
   private id: string;
   private spaceId: string;
   private saasClient: QlikSaaSClient;

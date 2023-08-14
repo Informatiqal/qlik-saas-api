@@ -214,24 +214,7 @@ export interface IAppEvaluation {
   sheetTitle: string;
 }
 
-export interface IClassAppEvaluation {
-  details: IAppEvaluation;
-  /**
-   * Download a detailed XML log of a specific evaluation
-   */
-  download(): Promise<string>;
-  /**
-   * Compare the base evaluation against the provided evaluation id
-   *
-   * Returns the comparison result AND downloads the log, in XML format
-   */
-  compare(comparisonId: string): Promise<{
-    result: IAppEvaluationComparison;
-    log: string;
-  }>;
-}
-
-export class AppEvaluation implements IClassAppEvaluation {
+export class AppEvaluation {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IAppEvaluation;
@@ -257,12 +240,20 @@ export class AppEvaluation implements IClassAppEvaluation {
     }
   }
 
+  /**
+   * Download a detailed XML log of a specific evaluation
+   */
   async download() {
     return await this.saasClient
       .Get<string>(`apps/evaluations/${this.id}/actions/download`)
       .then((res) => res.data);
   }
 
+  /**
+   * Compare the base evaluation against the provided evaluation id
+   *
+   * Returns the comparison result AND downloads the log, in XML format
+   */
   async compare(comparisonId: string) {
     if (!comparisonId)
       throw new Error(

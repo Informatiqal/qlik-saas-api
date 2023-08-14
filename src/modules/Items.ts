@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { ResourceType } from "../types/types";
-import { IClassItem, IItem, Item } from "./Item";
+import { IItem, Item } from "./Item";
 
 export interface IItemCreate {
   name: string;
@@ -18,13 +18,8 @@ export interface IItemCreate {
   resourceUpdatedAt?: string;
   resourceCreatedAt?: string;
 }
-export interface IClassItems {
-  get(id: string): Promise<IClassItem>;
-  getAll(): Promise<IClassItem[]>;
-  // create(arg: IItemCreate): Promise<any>;
-}
 
-export class Items implements IClassItems {
+export class Items {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

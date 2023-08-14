@@ -1,9 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  IClassLicenseAssignment,
-  ILicenseAssignment,
-  LicenseAssignment,
-} from "./LicenseAssignment";
+import { ILicenseAssignment, LicenseAssignment } from "./LicenseAssignment";
 
 export interface ILicenseConsumption {
   id: string;
@@ -52,17 +48,7 @@ export interface ILicenseOverview {
   }[];
 }
 
-export interface IClassLicenses {
-  consumption(): Promise<ILicenseConsumption[]>;
-  assignments(): Promise<IClassLicenseAssignment[]>;
-  assignmentsAdd(
-    arg: { subject: string; type: string }[]
-  ): Promise<IClassLicenseAssignment[]>;
-  status(): Promise<ILicenseStatus>;
-  overview(): Promise<ILicenseOverview>;
-}
-
-export class Licenses implements IClassLicenses {
+export class Licenses {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

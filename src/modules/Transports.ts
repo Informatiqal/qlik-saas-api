@@ -78,30 +78,7 @@ export interface IEmailConfigFieldPatch {
   value: string;
 }
 
-export interface IClassTransports {
-  /**
-   * Returns the email configuration for a given tenant id (retrieved from JWT)
-   *
-   * Rate limit: Tier 1 (600 requests per minute)
-   */
-  get(): Promise<IEmailConfigGet>;
-  /**
-   * Deletes email configuration for a given tenant id (retrieved from JWT)
-   *
-   * Rate limit: Tier 2 (60 requests per minute)
-   */
-  delete(): Promise<number>;
-  /**
-   * Patch the email configuration for a given tenant id (retrieved from JWT)
-   *
-   * Rate limit: Tier 2 (60 requests per minute)
-   */
-  patch(arg: IEmailConfigFieldPatch[]): Promise<number>;
-
-  _actions: TransportsActions;
-}
-
-export class Transports implements IClassTransports {
+export class Transports {
   private saasClient: QlikSaaSClient;
   _actions: TransportsActions;
   constructor(saasClient: QlikSaaSClient) {

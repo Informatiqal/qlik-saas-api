@@ -13,13 +13,7 @@ export interface IAPIKey {
   lastUpdated: string;
 }
 
-export interface IClassAPIKey {
-  details: IAPIKey;
-  remove(): Promise<number>;
-  update(description: string): Promise<number>;
-}
-
-export class APIKey implements IClassAPIKey {
+export class APIKey {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IAPIKey;

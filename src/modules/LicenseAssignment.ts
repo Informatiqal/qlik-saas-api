@@ -9,12 +9,7 @@ export interface ILicenseAssignment {
   created: string;
 }
 
-export interface IClassLicenseAssignment {
-  details: ILicenseAssignment;
-  remove(sourceType: string): Promise<number>;
-}
-
-export class LicenseAssignment implements IClassLicenseAssignment {
+export class LicenseAssignment {
   private saasClient: QlikSaaSClient;
   details: ILicenseAssignment;
   constructor(saasClient: QlikSaaSClient, details?: ILicenseAssignment) {

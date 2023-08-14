@@ -13,55 +13,15 @@ import {
   IScriptMeta,
   IScriptVersion,
 } from "./Apps.interfaces";
-import { Media, IClassMedia, IAppMedia } from "./AppMedia";
+import { Media, IAppMedia } from "./AppMedia";
 import { AppEvaluations } from "./AppEvaluations";
 import { AppActions } from "./AppActions";
 import { AppScript } from "./AppScript";
 
-export interface IClassApp {
-  details: IApp;
-  dataLineage(): Promise<IAppDataLineage[]>;
-  metaData(): Promise<IAppMetaData>;
-  remove(): Promise<number>;
-  copy(arg: IAppCopy): Promise<App>;
-  addToSpace(spaceId: string): Promise<number>;
-  removeFromSpace(): Promise<number>;
-  export(noData?: boolean): Promise<Buffer>;
-  update(arg?: IAppUpdate): Promise<number>;
-  thumbnail(): Promise<Buffer>;
-  mediaFiles(): Promise<IClassMedia[]>;
-  addMedia(content: Buffer, fileName: string): Promise<IClassMedia>;
-  publish(arg: IAppPublish): Promise<number>;
-  rePublish(arg: IAppRePublish): Promise<number>;
-  /**
-   * List of reload logs (actual log is not included)
-   */
-  reloadLogs(): Promise<IScriptLogMeta[]>;
-  /**
-   * Returns the reload log content for the specified reloadId
-   */
-  reloadLogContent(reloadId: string): Promise<string>;
-  /**
-   * List of all script versions
-   *
-   * To reduce the number of API calls the actual script content is initially left empty
-   * Call `getScriptContent()` for each version.
-   *
-   * Rate limit: Tier 1 (600 requests per minute)
-   */
-  scriptVersions(): Promise<AppScript[]>;
-  /**
-   * Get all details (including the script) for a specific script version
-   *
-   * Rate limit: Tier 1 (600 requests per minute)
-   */
-  scriptVersion(versionId: string): Promise<AppScript>;
-  /**
-   * Set the app script and create new script version
-   *
-   * Rate limit: Tier 2 (60 requests per minute)
-   */
-  setScript(arg: IScriptVersion): Promise<number>;
+
+export class App {
+  private id: string;
+  private saasClient: QlikSaaSClient;
   evaluations: AppEvaluations;
   /**
    * Set of actions that are associated with the apps but are not part of the /apps API endpoints
@@ -69,13 +29,6 @@ export interface IClassApp {
    * - reload - reloads an app. Originally part of /reloads endpoints
    * - createReloadTask - create scheduled reload task. Originally part of /reload-tasks endpoints
    */
-  _actions: AppActions;
-}
-
-export class App implements IClassApp {
-  private id: string;
-  private saasClient: QlikSaaSClient;
-  evaluations: AppEvaluations;
   _actions: AppActions;
   details: IApp;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IApp) {
@@ -273,6 +226,14 @@ export class App implements IClassApp {
       );
   }
 
+  /**
+   * List of all script versions
+   *
+   * To reduce the number of API calls the actual script content is initially left empty
+   * Call `getScriptContent()` for each version.
+   *
+   * Rate limit: Tier 1 (600 requests per minute)
+   */
   async scriptVersions() {
     return await this.saasClient
       .Get<{ scripts: IScriptMeta[] }>(`apps/${this.id}/scripts`)
@@ -288,6 +249,11 @@ export class App implements IClassApp {
       });
   }
 
+  /**
+   * Get all details (including the script) for a specific script version
+   *
+   * Rate limit: Tier 1 (600 requests per minute)
+   */
   async scriptVersion(versionId: string) {
     const scriptVersion = new AppScript(this.saasClient, versionId, this.id);
     await scriptVersion.init();
@@ -296,18 +262,29 @@ export class App implements IClassApp {
     return scriptVersion;
   }
 
+  /**
+   * Set the app script and create new script version
+   *
+   * Rate limit: Tier 2 (60 requests per minute)
+   */
   async setScript(arg: IScriptVersion) {
     return await this.saasClient
       .Post(`apps/${this.id}/scripts`, arg)
       .then((res) => res.status);
   }
 
+  /**
+   * List of reload logs (actual log is not included)
+   */
   async reloadLogs() {
     return this.saasClient
       .Get<IScriptLogMeta[]>(`apps/${this.id}/reloads/logs`)
       .then((res) => res.data);
   }
 
+  /**
+   * Returns the reload log content for the specified reloadId
+   */
   async reloadLogContent(reloadId: string) {
     if (!reloadId)
       throw new Error(`app.reloadLogContent: "reloadId" parameter is required`);

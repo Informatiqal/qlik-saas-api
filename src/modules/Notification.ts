@@ -18,11 +18,7 @@ export interface INotificationItem {
   };
 }
 
-export interface IClassNotification {
-  details: INotificationItem;
-}
-
-export class Notification implements IClassNotification {
+export class Notification {
   private saasClient: QlikSaaSClient;
   details: INotificationItem;
   constructor(saasClient: QlikSaaSClient, details?: INotificationItem) {

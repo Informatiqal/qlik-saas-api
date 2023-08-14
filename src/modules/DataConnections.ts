@@ -1,9 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  DataConnection,
-  IClassDataConnection,
-  IDataConnection,
-} from "./DataConnection";
+import { DataConnection, IDataConnection } from "./DataConnection";
 
 export interface IDataConnectionsCreate {
   qName: string;
@@ -24,13 +20,7 @@ export interface IDataConnectionsCreate {
   qConnectionSecret?: string;
 }
 
-export interface IClassDataConnections {
-  get(id: string): Promise<IClassDataConnection>;
-  getAll(): Promise<IClassDataConnection[]>;
-  create(arg: IDataConnectionsCreate): Promise<IClassDataConnection>;
-}
-
-export class DataConnections implements IClassDataConnections {
+export class DataConnections {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

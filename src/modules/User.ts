@@ -54,13 +54,7 @@ export interface IUserUpdate {
   op: "replace" | "add" | "renew";
 }
 
-export interface IClassUser {
-  details: IUser;
-  remove(): Promise<number>;
-  update(arg: IUserUpdate[]): Promise<number>;
-}
-
-export class User implements IClassUser {
+export class User {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IUser;

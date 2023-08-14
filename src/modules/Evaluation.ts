@@ -136,12 +136,7 @@ export interface IEvaluation {
   };
 }
 
-export interface IClassEvaluation {
-  details: IEvaluation;
-  download(): Promise<IEvaluation>;
-}
-
-export class Evaluation implements IClassEvaluation {
+export class Evaluation {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IEvaluation;

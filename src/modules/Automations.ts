@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
-import { Automation, IClassAutomation } from "./Automation";
+import { Automation } from "./Automation";
 import {
   IAutomation,
   IAutomationCreate,
@@ -8,15 +8,7 @@ import {
   IAutomationUsage,
 } from "./Automation.interfaces";
 
-export interface IClassAutomations {
-  get(id: string): Promise<IClassAutomation>;
-  getAll(): Promise<IClassAutomation[]>;
-  usage(filter: string, breakdown?: string): Promise<IAutomationUsage[]>;
-  getSettings(): Promise<IAutomationsSettings>;
-  setSettings(automationsEnabled: boolean): Promise<IAutomationsSettings>;
-}
-
-export class Automations implements IClassAutomations {
+export class Automations {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

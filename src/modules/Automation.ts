@@ -1,18 +1,8 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IAutomation } from "./Automation.interfaces";
-import { IClassRun, IRun, Run } from "./Run";
+import { IRun, Run } from "./Run";
 
-export interface IClassAutomation {
-  details: IAutomation;
-  remove(): Promise<number>;
-  copy(name: string): Promise<IClassAutomation>;
-  enable(): Promise<number>;
-  disable(): Promise<number>;
-  move(): Promise<number>;
-  getRuns(): Promise<IClassRun[]>;
-}
-
-export class Automation implements IClassAutomation {
+export class Automation {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IAutomation;

@@ -1,13 +1,8 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IdentityProvider, IIdentityProvider } from "./IdentityProvider";
 
-export interface IClassIdentityProviders {
-  get(id: string): Promise<IdentityProvider>;
-  getAll(): Promise<IdentityProvider[]>;
-}
-
 // TODO: documentation is incomplete!
-export class IdentityProviders implements IClassIdentityProviders {
+export class IdentityProviders {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

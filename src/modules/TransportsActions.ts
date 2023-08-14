@@ -32,32 +32,17 @@ export interface ISmtpCheck {
   isValid: boolean;
 }
 
-export interface IClassTransportsActions {
+export class TransportsActions {
+  private saasClient: QlikSaaSClient;
+  constructor(saasClient: QlikSaaSClient) {
+    this.saasClient = saasClient;
+  }
+
   /**
    * Send a test mail with the supplied email info (subject, body, recipient). Email config from database is used for the connection
    *
    * Rate limit: Tier 2 (60 requests per minute)
    */
-  sendTestEmail(arg: ISmtpRequest): Promise<ISmtpResult>;
-  /**
-   * Returns the isValid value for the email configuration for the tenant. Will return false if no email configuration exists
-   *
-   * Rate limit: Tier 2 (60 requests per minute)
-   */
-  validate(): Promise<ISmtpCheck>;
-  /**
-   * Verifies connection to email server for tenant provided via JWT
-   *
-   * Rate limit: Tier 2 (60 requests per minute)
-   */
-  verifyConnection(): Promise<ISmtpResult>;
-}
-
-export class TransportsActions implements IClassTransportsActions {
-  private saasClient: QlikSaaSClient;
-  constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
-  }
 
   async sendTestEmail(arg: ISmtpRequest): Promise<ISmtpResult> {
     if (!arg)
@@ -82,12 +67,22 @@ export class TransportsActions implements IClassTransportsActions {
       .then((res) => res.data);
   }
 
+  /**
+   * Returns the isValid value for the email configuration for the tenant. Will return false if no email configuration exists
+   *
+   * Rate limit: Tier 2 (60 requests per minute)
+   */
   async validate(): Promise<ISmtpCheck> {
     return await this.saasClient
       .Post<ISmtpCheck>(`transports/email-config/actions/validate`, {})
       .then((res) => res.data);
   }
 
+  /**
+   * Verifies connection to email server for tenant provided via JWT
+   *
+   * Rate limit: Tier 2 (60 requests per minute)
+   */
   async verifyConnection(): Promise<ISmtpResult> {
     return await this.saasClient
       .Post<ISmtpResult>(

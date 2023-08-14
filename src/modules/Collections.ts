@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Collection, IClassCollection, ICollection } from "./Collection";
+import { Collection, ICollection } from "./Collection";
 
 export interface ICollectionCreate {
   name: string;
@@ -7,14 +7,7 @@ export interface ICollectionCreate {
   description?: string;
 }
 
-export interface IClassCollections {
-  get(id: string): Promise<IClassCollection>;
-  getAll(): Promise<IClassCollection[]>;
-  favorites(): Promise<IClassCollection>;
-  create(arg: ICollectionCreate): Promise<IClassCollection>;
-}
-
-export class Collections implements IClassCollections {
+export class Collections {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

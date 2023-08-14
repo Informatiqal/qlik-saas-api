@@ -1,16 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  DataCredential,
-  IClassDataCredential,
-  IDataCredential,
-} from "./DataCredential";
+import { DataCredential, IDataCredential } from "./DataCredential";
 
-export interface IClassDataCredentials {
-  get(id: string): Promise<IClassDataCredential>;
-  getAll(): Promise<IClassDataCredential[]>;
-}
-
-export class DataCredentials implements IClassDataCredentials {
+export class DataCredentials {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

@@ -1,14 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IScriptMeta, IScriptMetaWithScript } from "./Apps.interfaces";
 
-export interface IClassAppScript {
-  details: IScriptMetaWithScript;
-  getScriptContent(): Promise<string>;
-  remove(): Promise<number>;
-  update(name: string): Promise<number>;
-}
-
-export class AppScript implements IClassAppScript {
+export class AppScript {
   private id: string;
   private appId: string;
   private saasClient: QlikSaaSClient;

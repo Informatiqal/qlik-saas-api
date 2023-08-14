@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Condition, IClassCondition, ICondition } from "./Condition";
+import { Condition, ICondition } from "./Condition";
 
 export interface IConditionCreateBase {
   type: "compound" | "data";
@@ -57,13 +57,7 @@ export interface IConditionCreateComposite extends IConditionCreateBase {
 
 export type IConditionCreate = IConditionCreateData | IConditionCreateComposite;
 
-export interface IClassConditions {
-  get(id: string): Promise<IClassCondition>;
-  create(arg: IConditionCreate): Promise<IClassCondition>;
-  // getAll(): Promise<IClassCondition[]>;
-}
-
-export class Conditions implements IClassConditions {
+export class Conditions {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

@@ -99,14 +99,7 @@ export interface IItem {
   };
 }
 
-export interface IClassItem {
-  details: IItem;
-  remove(): Promise<number>;
-  collections(): Promise<IITemCollections[]>;
-  publishedItems(): Promise<IITemCollections[]>;
-}
-
-export class Item implements IClassItem {
+export class Item {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IItem;

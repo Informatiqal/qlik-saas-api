@@ -1,13 +1,8 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Extension, IClassExtension, IExtension } from "./Extension";
+import { Extension, IExtension } from "./Extension";
 
 //TODO: import extension method
-export interface IClassExtensions {
-  get(id: string): Promise<IClassExtension>;
-  getAll(): Promise<IClassExtension[]>;
-}
-
-export class Extensions implements IClassExtensions {
+export class Extensions {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

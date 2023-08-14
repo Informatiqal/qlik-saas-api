@@ -1,13 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IReloadTask, IReloadTaskUpdate } from "./ReloadTask.interfaces";
 
-export interface IClassReloadTask {
-  details: IReloadTask;
-  remove(): Promise<number>;
-  update(arg: IReloadTaskUpdate): Promise<number>;
-}
-
-export class ReloadTask implements IClassReloadTask {
+export class ReloadTask {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IReloadTask;

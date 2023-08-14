@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Evaluation, IClassEvaluation, IEvaluation } from "./Evaluation";
+import { Evaluation, IEvaluation } from "./Evaluation";
 
 export interface IEvaluationGetAll {
   itemid?: string;
@@ -7,13 +7,7 @@ export interface IEvaluationGetAll {
   filemode?: boolean;
 }
 
-export interface IClassEvaluations {
-  get(id: string): Promise<IClassEvaluation>;
-  getAll(arg: IEvaluationGetAll): Promise<IClassEvaluation[]>;
-  create(appid: string, itemid: string): Promise<IClassEvaluation>;
-}
-
-export class Evaluations implements IClassEvaluations {
+export class Evaluations {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;
