@@ -36,9 +36,9 @@ export class Origin implements IClassOrigin {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IOrigin) {
     if (!id) throw new Error(`origins.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IOrigin);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

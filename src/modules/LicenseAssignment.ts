@@ -19,7 +19,7 @@ export class LicenseAssignment implements IClassLicenseAssignment {
   details: ILicenseAssignment;
   constructor(saasClient: QlikSaaSClient, details?: ILicenseAssignment) {
     this.saasClient = saasClient;
-    if (details) this.details = details;
+    this.details = details ?? ({} as ILicenseAssignment);
   }
 
   async remove() {

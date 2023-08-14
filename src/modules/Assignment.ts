@@ -40,10 +40,10 @@ export class Assignment implements IClassAssignment {
     if (!id) throw new Error(`assignment.get: "id" parameter is required`);
     if (!spaceId) throw new Error(`assignment.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IAssignment);
     this.id = id;
     this.spaceId = spaceId;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async remove() {

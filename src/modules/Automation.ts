@@ -19,9 +19,9 @@ export class Automation implements IClassAutomation {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IAutomation) {
     if (!id) throw new Error(`automation.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IAutomation);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

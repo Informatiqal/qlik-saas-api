@@ -244,8 +244,9 @@ export class AppEvaluation implements IClassAppEvaluation {
 
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
-    if (details && details.ID && !details.id) this.details.id = this.details.ID;
+    this.details = details ?? ({} as IAppEvaluation);
+    if (details && details.ID && !details.id)
+      this.details.id = this.details.ID ?? "";
   }
 
   async init() {

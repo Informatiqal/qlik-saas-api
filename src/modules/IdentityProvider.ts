@@ -20,9 +20,9 @@ export class IdentityProvider implements IClassIdentityProvider {
   ) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IIdentityProvider);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

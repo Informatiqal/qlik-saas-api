@@ -32,9 +32,9 @@ export class Reload implements IClassReload {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IReload) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IReload);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

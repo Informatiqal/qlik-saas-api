@@ -48,9 +48,9 @@ export class Extension implements IClassExtension {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IExtension) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IExtension);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

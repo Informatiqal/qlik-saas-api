@@ -27,6 +27,6 @@ export class Notification implements IClassNotification {
   details: INotificationItem;
   constructor(saasClient: QlikSaaSClient, details?: INotificationItem) {
     this.saasClient = saasClient;
-    if (details) this.details = details;
+    this.details = details ?? ({} as INotificationItem);
   }
 }

@@ -21,11 +21,10 @@ export class AppScript implements IClassAppScript {
   ) {
     if (!versionId) throw new Error(`"versionId" parameter is required`);
 
+    this.details = details ?? ({} as IScriptMetaWithScript);
     this.id = versionId;
     this.appId = appId;
     this.saasClient = saasClient;
-
-    if (details) this.details = details;
   }
 
   async init() {

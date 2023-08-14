@@ -73,9 +73,9 @@ export class Condition implements IClassCondition {
   constructor(saasClient: QlikSaaSClient, id: string, details?: ICondition) {
     if (!id) throw new Error(`conditions.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as ICondition);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

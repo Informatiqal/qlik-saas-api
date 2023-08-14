@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 
-export class IAppMedia {
+export interface IAppMedia {
   type: string;
   id: string;
   link: string;
@@ -24,10 +24,8 @@ export class Media implements IClassMedia {
 
     this.id = id;
     this.saasClient = saasClient;
-    if (details) {
-      this.details = details;
-      this.shortLink = this.details.link.replace("/api/v1/", "");
-    }
+    this.details = details ?? ({} as IAppMedia);
+    this.shortLink = this.details.link.replace("/api/v1/", "") ?? "";
   }
 
   async content() {

@@ -24,9 +24,9 @@ export class DataAlert implements IClassDataAlert {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IDataAlert) {
     if (!id) throw new Error(`dataAlert.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IDataAlert);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {
@@ -43,7 +43,7 @@ export class DataAlert implements IClassDataAlert {
       .then((res) => res.status);
   }
 
-  async update(arg?: IDataAlertUpdate[]) {
+  async update(arg: IDataAlertUpdate[]) {
     return await this.saasClient
       .Patch(
         `data-alerts/${this.id}`,

@@ -40,9 +40,9 @@ export class DataCredential implements IClassDataCredential {
   ) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IDataCredential);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

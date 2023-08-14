@@ -19,7 +19,7 @@ export class AppEvaluations implements IClassAppEvaluations {
       .Get(`/apps/${this.appId}/evaluations?all=true`)
       .then((res) => res.data as IAppEvaluation[])
       .then((data) =>
-        data.map((t) => new AppEvaluation(this.saasClient, t.id || t.ID, t))
+        data.map((t) => new AppEvaluation(this.saasClient, t.id ?? t.ID, t))
       );
   }
 
@@ -30,7 +30,7 @@ export class AppEvaluations implements IClassAppEvaluations {
         (res) =>
           new AppEvaluation(
             this.saasClient,
-            res.data.id || res.data.ID,
+            res.data.id ?? res.data.ID,
             res.data
           )
       );

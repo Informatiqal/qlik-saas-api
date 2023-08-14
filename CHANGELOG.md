@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.8.0 - 2023-08-14
+
+- `tsconfig.json` - `strict: true`. If (when) `zod` is used it requires strict to be true
+
 ## 0.7.0 - 2023-08-13
 
 - brands endpoints [#155](https://github.com/Informatiqal/qlik-saas-api/issues/155)

@@ -113,9 +113,9 @@ export class Item implements IClassItem {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IItem) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IItem);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

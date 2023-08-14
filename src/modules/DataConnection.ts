@@ -67,9 +67,9 @@ export class DataConnection implements IClassDataConnection {
   ) {
     if (!id) throw new Error(`dataConnection.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IDataConnection);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

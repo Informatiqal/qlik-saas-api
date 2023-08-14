@@ -31,9 +31,9 @@ export class WebIntegration implements IClassWebIntegration {
   ) {
     if (!id) throw new Error(`webIntegration.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IWebIntegration);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

@@ -75,10 +75,10 @@ export class CollectionItem implements IClassCollectionItem {
   ) {
     if (!id) throw new Error(`collectionItems.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as ICollectionItem);
     this.id = id;
     this.collectionId = collectionId;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

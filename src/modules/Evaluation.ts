@@ -148,9 +148,9 @@ export class Evaluation implements IClassEvaluation {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IEvaluation) {
     if (!id) throw new Error(`evaluations.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IEvaluation);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

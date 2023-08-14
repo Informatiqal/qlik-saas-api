@@ -26,9 +26,9 @@ export class APIKey implements IClassAPIKey {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IAPIKey) {
     if (!id) throw new Error(`apiKeys.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IAPIKey);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

@@ -55,10 +55,10 @@ export class Run implements IClassRun {
   ) {
     if (!id) throw new Error(`run.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IRun);
     this.id = id;
     this.saasClient = saasClient;
     this.automationId = automationId;
-    if (details) this.details = details;
   }
 
   // async init() {

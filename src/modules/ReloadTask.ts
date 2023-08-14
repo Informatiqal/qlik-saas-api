@@ -14,9 +14,9 @@ export class ReloadTask implements IClassReloadTask {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IReloadTask) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IReloadTask);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

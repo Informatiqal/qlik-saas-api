@@ -87,9 +87,9 @@ export class WebHook implements IClassWebHook {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IWebHook) {
     if (!id) throw new Error(`webHooks.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IWebHook);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {
@@ -108,7 +108,7 @@ export class WebHook implements IClassWebHook {
 
   async update(arg: IWebHookUpdate) {
     if (arg.name) this.details.name = arg.name;
-    if (arg.description) this.details.name = arg.name;
+    if (arg.description) this.details.name = arg.name ?? "";
     if (arg.url) this.details.url = arg.url;
     if (arg.enabled) this.details.enabled = arg.enabled;
     if (arg.secret) this.details.secret = arg.secret;

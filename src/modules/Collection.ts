@@ -65,9 +65,9 @@ export class Collection implements IClassCollection {
   constructor(saasClient: QlikSaaSClient, id: string, details?: ICollection) {
     if (!id) throw new Error(`collection.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as ICollection);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async init() {

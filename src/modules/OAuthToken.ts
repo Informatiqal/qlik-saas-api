@@ -21,9 +21,9 @@ export class OAuthToken implements IClassOAuthToken {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IOAuthToken) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    this.details = details ?? ({} as IOAuthToken);
     this.id = id;
     this.saasClient = saasClient;
-    if (details) this.details = details;
   }
 
   async remove() {
