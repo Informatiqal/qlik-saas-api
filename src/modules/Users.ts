@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
-import { IClassUser, IUser, User } from "./User";
+import { IUser, User } from "./User";
 import { UsersActions } from "./UsersActions";
 
 export interface IUserCreate {
@@ -13,46 +13,7 @@ export interface IUserCreate {
   status?: string;
 }
 
-export interface IClassUsers {
-  /**
-   * Info about the tenant accessing the endpoint
-   */
-  get(id: string): Promise<IClassUser[]>;
-  /**
-   * Retrieves a list of users matching the filter using an advanced query string
-   * @param filter example:
-   *     (id eq \"626949b9017b657805080bbd\" or id eq \"626949bf017b657805080bbe\") and (status eq \"active\" or status eq \"deleted\")
-   * @param [sort] OPTIONAL name; +name; -name
-   */
-  getFilter(filter: string, sort?: string): Promise<IUser[]>;
-  /**
-   * Returns a list of users. Each element of the list is an instance of the User class
-   */
-  getAll(): Promise<IClassUser[]>;
-  /**
-   * Redirects to retrieve the user resource associated with the JWT claims
-   */
-  me(): Promise<User>;
-  /**
-   * @deprecated
-   *
-   * Returns the metadata with regard to the user configuration.
-   *
-   * Use GET /v1/roles instead
-   *
-   * It will no longer be available after 01/11/2022.
-   * The role names can now be retrieved from the list roles endpoint.
-   */
-  metadata(): Promise<{ valid_roles: string[] }>;
-  /**
-   * Creates an invited user
-   * @returns IClassUser
-   */
-  create(arg: IUserCreate): Promise<User>;
-  _actions: UsersActions;
-}
-
-export class Users implements IClassUsers {
+export class Users {
   private saasClient: QlikSaaSClient;
   _actions: UsersActions;
   constructor(saasClient: QlikSaaSClient) {
@@ -60,6 +21,9 @@ export class Users implements IClassUsers {
     this._actions = new UsersActions(this.saasClient);
   }
 
+  /**
+   * Info about the tenant accessing the endpoint
+   */
   async get(id: string) {
     return await this.saasClient
       .Post<{ data: IUser[] }>("users/actions/filter", {
@@ -71,6 +35,12 @@ export class Users implements IClassUsers {
       );
   }
 
+  /**
+   * Retrieves a list of users matching the filter using an advanced query string
+   * @param filter example:
+   *     (id eq \"626949b9017b657805080bbd\" or id eq \"626949bf017b657805080bbe\") and (status eq \"active\" or status eq \"deleted\")
+   * @param [sort] OPTIONAL name; +name; -name
+   */
   async getFilter(filter: string, sort?: string) {
     if (!filter)
       throw new Error(`users.getFilter: "filter" parameter is required`);
@@ -83,6 +53,9 @@ export class Users implements IClassUsers {
       .then((res) => res.data as IUser[]);
   }
 
+  /**
+   * Returns a list of users. Each element of the list is an instance of the User class
+   */
   async getAll() {
     return await this.saasClient
       .Get(`users`)
@@ -90,6 +63,9 @@ export class Users implements IClassUsers {
       .then((data) => data.map((t) => new User(this.saasClient, t.id, t)));
   }
 
+  /**
+   * Redirects to retrieve the user resource associated with the JWT claims
+   */
   async me() {
     return await this.saasClient
       .Get<IUser>(`users/me`)
@@ -98,6 +74,13 @@ export class Users implements IClassUsers {
 
   /**
    * @deprecated
+   *
+   * Returns the metadata with regard to the user configuration.
+   *
+   * Use GET /v1/roles instead
+   *
+   * It will no longer be available after 01/11/2022.
+   * The role names can now be retrieved from the list roles endpoint.
    */
   async metadata() {
     return await this.saasClient
@@ -105,6 +88,9 @@ export class Users implements IClassUsers {
       .then((res) => res.data);
   }
 
+  /**
+   * Creates an invited user
+   */
   async create(arg: IUserCreate) {
     if (!arg.name)
       throw new Error(`users.create: "name" parameter is required`);

@@ -29,16 +29,7 @@ export interface IGroupCreate {
   )[];
 }
 
-export interface IClassGroups {
-  get(id: string): Promise<Group>;
-  getFilter(filter: string, sort?: string): Promise<IGroup[]>;
-  getAll(): Promise<IGroup[]>;
-  getSettings(): Promise<IGroupSettings>;
-  updateSettings(arg: IGroupSettingsUpdate[]): Promise<number>;
-  create(arg: IGroupCreate): Promise<Group>;
-}
-
-export class Groups implements IClassGroups {
+export class Groups {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

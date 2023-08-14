@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassWebHook, IWebHook, WebHook } from "./WebHook";
+import { IWebHook, WebHook } from "./WebHook";
 
 export interface IWebHookEvenType {
   title: string;
@@ -35,14 +35,7 @@ export interface IWebHookCreate {
   disabledReasonCode?: string;
 }
 
-export interface IClassWebHooks {
-  get(id: string): Promise<IClassWebHook>;
-  getAll(): Promise<IClassWebHook[]>;
-  eventTypes(): Promise<IWebHookEvenType[]>;
-  create(arg: IWebHookCreate): Promise<IClassWebHook>;
-}
-
-export class WebHooks implements IClassWebHooks {
+export class WebHooks {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

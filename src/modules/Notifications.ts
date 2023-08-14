@@ -1,17 +1,9 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 
-import {
-  IClassNotification,
-  INotificationItem,
-  Notification,
-} from "./Notification";
+import { INotificationItem, Notification } from "./Notification";
 
-export interface IClassNotifications {
-  getAll(): Promise<IClassNotification[]>;
-}
-
-export class Notifications implements IClassNotifications {
+export class Notifications {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

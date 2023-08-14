@@ -34,14 +34,7 @@ export interface IExtension {
   updateAt: string;
 }
 
-export interface IClassExtension {
-  details: IExtension;
-  remove(): Promise<number>;
-  file(fileName: string): Promise<string>;
-  download(): Promise<string>;
-}
-
-export class Extension implements IClassExtension {
+export class Extension {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IExtension;

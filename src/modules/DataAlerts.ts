@@ -1,12 +1,9 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
-// import { Condition } from "./Condition";
-// import { Conditions } from "./Conditions";
-import { DataAlert, IClassDataAlert } from "./DataAlert";
+import { DataAlert } from "./DataAlert";
 import {
   IDataAlert,
   IDataAlertCreate,
-  // IDataAlertCreateWithNewCondition,
   IDataAlertEvaluationGetResponse,
   IDataAlertExecutionStatsAggregatedResponse,
   IDataAlertSettings,
@@ -60,35 +57,7 @@ export interface IGetTaskExecutionsFilter {
   until?: string;
 }
 
-export interface IClassDataAlerts {
-  get(id: string): Promise<IClassDataAlert>;
-  getAll(): Promise<IClassDataAlert[]>;
-  create(arg: IDataAlertCreate): Promise<IDataAlert>;
-  triggerAction(
-    alertingTaskId: string
-  ): Promise<IDataAlertTriggerActionResponse>;
-  getSettings(): Promise<IDataAlertSettings>;
-  updateSettings(enableDataAlerting: boolean): Promise<number>;
-  getTaskIdStats(
-    taskId: string
-  ): Promise<IDataAlertExecutionStatsAggregatedResponse>;
-  getTaskIdExecutions(
-    taskId: string
-  ): Promise<IDataAlertExecutionStatsAggregatedResponse>;
-  getTaskIdExecutionsStats(
-    taskId: string,
-    period: string
-  ): Promise<IDataAlertTaskExecutionStatsResponse>;
-  getTaskIdExecutionIdEvaluation(
-    taskId: string,
-    executionId: string
-  ): Promise<IDataAlertEvaluationGetResponse>;
-  validateActions(
-    arg: IDataAlertCreate
-  ): Promise<IDataAlertValidateActionsResponse>;
-}
-
-export class DataAlerts implements IClassDataAlerts {
+export class DataAlerts {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

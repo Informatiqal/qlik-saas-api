@@ -1,11 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassOAuthToken, IOAuthToken, OAuthToken } from "./OAuthToken";
+import { IOAuthToken, OAuthToken } from "./OAuthToken";
 
-export interface IClassOAuthTokens {
-  getAll(): Promise<IClassOAuthToken[]>;
-}
-
-export class OAuthTokens implements IClassOAuthTokens {
+export class OAuthTokens {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

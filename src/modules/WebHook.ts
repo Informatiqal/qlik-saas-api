@@ -70,17 +70,7 @@ export interface IWebHookPatch {
   value?: string;
 }
 
-export interface IClassWebHook {
-  details: IWebHook;
-  remove(): Promise<number>;
-  update(arg: IWebHookUpdate): Promise<number>;
-  patch(arg: IWebHookPatch[]): Promise<number>;
-  delivery(id: string): Promise<IWebHookDelivery>;
-  deliveryResend(id: string): Promise<IWebHookDelivery>;
-  deliveries(): Promise<IWebHookDelivery[]>;
-}
-
-export class WebHook implements IClassWebHook {
+export class WebHook {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IWebHook;

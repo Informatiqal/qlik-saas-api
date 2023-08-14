@@ -1,13 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassReload, IReload, Reload } from "./Reload";
+import { IReload, Reload } from "./Reload";
 
-export interface IClassReloads {
-  get(id: string): Promise<IClassReload>;
-  getAll(): Promise<IClassReload[]>;
-  start(appId: string, partial?: boolean): Promise<IClassReload>;
-}
-
-export class Reloads implements IClassReloads {
+export class Reloads {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

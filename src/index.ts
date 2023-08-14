@@ -1,72 +1,60 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Apps, IClassApps } from "./modules/Apps";
+import { Apps } from "./modules/Apps";
 import { Brands } from "./modules/Brands";
-import { DataAlerts, IClassDataAlerts } from "./modules/DataAlerts";
-import { Automations, IClassAutomations } from "./modules/Automations";
-import { APIKeys, IClassAPIKeys } from "./modules/APIKeys";
-import { Audits, IClassAudits } from "./modules/Audits";
-import {
-  DataConnections,
-  IClassDataConnections,
-} from "./modules/DataConnections";
-import {
-  DataCredentials,
-  IClassDataCredentials,
-} from "./modules/DataCredentials";
-import { Conditions, IClassConditions } from "./modules/Conditions";
-import { Spaces, IClassSpaces } from "./modules/Spaces";
-import { Items, IClassItems } from "./modules/Items";
-import { NL, IClassNL } from "./modules/NaturalLanguage";
-import { Licenses, IClassLicenses } from "./modules/Licenses";
-import { Origins, IClassOrigins } from "./modules/Origins";
-import { Quotas, IClassQuotas } from "./modules/Quotas";
-import { Themes, IClassThemes } from "./modules/Themes";
-import { Extensions, IClassExtensions } from "./modules/Extensions";
-import { Evaluations, IClassEvaluations } from "./modules/Evaluations";
-import { Reloads, IClassReloads } from "./modules/Reloads";
-import { ReloadTasks, IClassReloadTasks } from "./modules/ReloadTasks";
-import { Roles, IClassRoles } from "./modules/Roles";
-import { Users, IClassUsers } from "./modules/Users";
-import { WebHooks, IClassWebHooks } from "./modules/WebHooks";
-import { OAuthTokens, IClassOAuthTokens } from "./modules/OAuthTokens";
-import { Collections, IClassCollections } from "./modules/Collections";
-import {
-  IdentityProviders,
-  IClassIdentityProviders,
-} from "./modules/IdentityProviders";
-import { Groups, IClassGroups } from "./modules/Groups";
-import { Tenants, IClassTenants } from "./modules/Tenants";
-import {
-  WebIntegrations,
-  IClassWebIntegrations,
-} from "./modules/WebIntegrations";
-import { Notifications, IClassNotifications } from "./modules/Notifications";
-import { IClassTransports, Transports } from "./modules/Transports";
+import { DataAlerts } from "./modules/DataAlerts";
+import { Automations } from "./modules/Automations";
+import { APIKeys } from "./modules/APIKeys";
+import { Audits } from "./modules/Audits";
+import { DataConnections } from "./modules/DataConnections";
+import { DataCredentials } from "./modules/DataCredentials";
+import { Conditions } from "./modules/Conditions";
+import { Spaces } from "./modules/Spaces";
+import { Items } from "./modules/Items";
+import { NL } from "./modules/NaturalLanguage";
+import { Licenses } from "./modules/Licenses";
+import { Origins } from "./modules/Origins";
+import { Quotas } from "./modules/Quotas";
+import { Themes } from "./modules/Themes";
+import { Extensions } from "./modules/Extensions";
+import { Evaluations } from "./modules/Evaluations";
+import { Reloads } from "./modules/Reloads";
+import { ReloadTasks } from "./modules/ReloadTasks";
+import { Roles } from "./modules/Roles";
+import { Users } from "./modules/Users";
+import { WebHooks } from "./modules/WebHooks";
+import { OAuthTokens } from "./modules/OAuthTokens";
+import { Collections } from "./modules/Collections";
+import { IdentityProviders } from "./modules/IdentityProviders";
+import { Groups } from "./modules/Groups";
+import { Tenants } from "./modules/Tenants";
+import { WebIntegrations } from "./modules/WebIntegrations";
+import { Notifications } from "./modules/Notifications";
+import { Transports } from "./modules/Transports";
 
 export namespace QlikSaaSApi {
   export class client {
     public saasClient: QlikSaaSClient;
-    public apps: IClassApps;
-    public automations: IClassAutomations;
-    public apiKeys: IClassAPIKeys;
-    public audits: IClassAudits;
+    public apps: Apps;
+    public automations: Automations;
+    public apiKeys: APIKeys;
+    public audits: Audits;
     public brands: Brands;
     /**
      * BETA
      */
-    public dataAlerts: IClassDataAlerts;
-    public dataConnections: IClassDataConnections;
-    public dataCredentials: IClassDataCredentials;
-    public conditions: IClassConditions;
-    public spaces: IClassSpaces;
-    public groups: IClassGroups;
-    public items: IClassItems;
-    public naturalLanguage: IClassNL;
-    public origins: IClassOrigins;
-    public quotas: IClassQuotas;
-    public licenses: IClassLicenses;
-    public themes: IClassThemes;
-    public extensions: IClassExtensions;
+    public dataAlerts: DataAlerts;
+    public dataConnections: DataConnections;
+    public dataCredentials: DataCredentials;
+    public conditions: Conditions;
+    public spaces: Spaces;
+    public groups: Groups;
+    public items: Items;
+    public naturalLanguage: NL;
+    public origins: Origins;
+    public quotas: Quotas;
+    public licenses: Licenses;
+    public themes: Themes;
+    public extensions: Extensions;
     /**
      * @deprecated
      * The evaluation endpoints are deprecated are moved under /apps endpoints.
@@ -75,19 +63,19 @@ export namespace QlikSaaSApi {
      *
      * See https://qlik.dev/changelog/deprecation-of-the-evaluations-api
      */
-    public evaluations: IClassEvaluations;
-    public reloads: IClassReloads;
-    public reloadTasks: IClassReloadTasks;
-    public roles: IClassRoles;
-    public transports: IClassTransports;
-    public users: IClassUsers;
-    public webHooks: IClassWebHooks;
-    public oauthTokens: IClassOAuthTokens;
-    public collections: IClassCollections;
-    public identityProviders: IClassIdentityProviders;
-    public tenants: IClassTenants;
-    public webIntegrations: IClassWebIntegrations;
-    public notifications: IClassNotifications;
+    public evaluations: Evaluations;
+    public reloads: Reloads;
+    public reloadTasks: ReloadTasks;
+    public roles: Roles;
+    public transports: Transports;
+    public users: Users;
+    public webHooks: WebHooks;
+    public oauthTokens: OAuthTokens;
+    public collections: Collections;
+    public identityProviders: IdentityProviders;
+    public tenants: Tenants;
+    public webIntegrations: WebIntegrations;
+    public notifications: Notifications;
 
     constructor(public saasConfig: any) {
       this.saasClient = new QlikSaaSClient(saasConfig);

@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IEntityRemove } from "../types/types";
-import { Space, IClassSpace, ISpace } from "./Space";
+import { Space, ISpace } from "./Space";
 
 export interface ISpacesExt {
   data: ISpace[];
@@ -31,15 +31,7 @@ export interface ISpaceCreate {
   type: "shared" | "managed" | "data";
 }
 
-export interface IClassSpaces {
-  get(id: string): Promise<IClassSpace>;
-  getAll(): Promise<IClassSpace[]>;
-  getFilter(arg: ISpaceFilter): Promise<IClassSpace[]>;
-  removeFilter(arg: ISpaceFilter): Promise<IEntityRemove[]>;
-  create(arg: ISpaceCreate): Promise<IClassSpace>;
-}
-
-export class Spaces implements IClassSpaces {
+export class Spaces {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

@@ -21,11 +21,7 @@ export interface IReload {
   };
 }
 
-export interface IClassReload {
-  details: IReload;
-}
-
-export class Reload implements IClassReload {
+export class Reload {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IReload;

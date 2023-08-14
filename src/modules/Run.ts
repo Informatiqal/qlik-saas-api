@@ -31,18 +31,11 @@ export interface IRun {
   scheduledStartTime: string;
 }
 
-export interface IClassRun {
-  details: IRun;
-  export(): Promise<IRunExportResponse>;
-  retry(): Promise<number>;
-  stop(): Promise<number>;
-}
-
 export interface IRunExportResponse {
   url: string;
 }
 
-export class Run implements IClassRun {
+export class Run {
   private id: string;
   private automationId: string;
   private saasClient: QlikSaaSClient;

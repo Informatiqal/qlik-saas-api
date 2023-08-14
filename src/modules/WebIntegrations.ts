@@ -1,9 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  IClassWebIntegration,
-  IWebIntegration,
-  WebIntegration,
-} from "./WebIntegration";
+import { IWebIntegration, WebIntegration } from "./WebIntegration";
 
 export interface IWebIntegrationCreate {
   name: string;
@@ -13,13 +9,7 @@ export interface IWebIntegrationCreate {
   validOrigins?: string[];
 }
 
-export interface IClassWebIntegrations {
-  get(id: string): Promise<IClassWebIntegration>;
-  getAll(): Promise<IClassWebIntegration[]>;
-  create(arg: IWebIntegrationCreate): Promise<IWebIntegration>;
-}
-
-export class WebIntegrations implements IClassWebIntegrations {
+export class WebIntegrations {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

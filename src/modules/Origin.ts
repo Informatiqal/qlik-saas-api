@@ -23,13 +23,7 @@ export interface IOrigin {
   modifiedDate: string;
 }
 
-export interface IClassOrigin {
-  details: IOrigin;
-  remove(): Promise<number>;
-  update(arg: IOriginCreate): Promise<number>;
-}
-
-export class Origin implements IClassOrigin {
+export class Origin {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IOrigin;

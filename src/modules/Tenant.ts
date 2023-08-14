@@ -22,12 +22,7 @@ export interface ITenantUpdate {
   op: "replace" | "add" | "renew";
 }
 
-export interface IClassTenant {
-  details: ITenant;
-  update(arg: ITenantUpdate[]): Promise<number>;
-}
-
-export class Tenant implements IClassTenant {
+export class Tenant {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: ITenant;

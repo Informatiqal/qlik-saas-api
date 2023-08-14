@@ -14,13 +14,7 @@ export interface IWebIntegration {
   validOrigins: string[];
 }
 
-export interface IClassWebIntegration {
-  details: IWebIntegration;
-  remove(): Promise<number>;
-  update(arg: IWebIntegrationUpdate[]): Promise<number>;
-}
-
-export class WebIntegration implements IClassWebIntegration {
+export class WebIntegration {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IWebIntegration;

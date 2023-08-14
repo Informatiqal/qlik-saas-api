@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Actions } from "../types/types";
-import { Assignment, IAssignment, IClassAssignment } from "./Assignment";
+import { Assignment, IAssignment } from "./Assignment";
 
 export interface ISpace {
   id: string;
@@ -39,14 +39,7 @@ export interface IAssignmentCreate {
   roles?: string[];
 }
 
-export interface IClassSpace {
-  details: ISpace;
-  remove(): Promise<number>;
-  update(arg: ISpaceUpdate): Promise<number>;
-  assignments(): Promise<IClassAssignment[]>;
-}
-
-export class Space implements IClassSpace {
+export class Space {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: ISpace;

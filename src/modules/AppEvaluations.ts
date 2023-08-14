@@ -1,12 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 
-export interface IClassAppEvaluations {
-  getAll(): Promise<AppEvaluation[]>;
-  create(): Promise<AppEvaluation>;
-}
-
-export class AppEvaluations implements IClassAppEvaluations {
+export class AppEvaluations {
   private saasClient: QlikSaaSClient;
   private appId: string;
   constructor(saasClient: QlikSaaSClient, appId: string) {

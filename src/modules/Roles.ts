@@ -20,12 +20,7 @@ export interface IRole extends IRoleCondensed {
   };
 }
 
-export interface IClassRoles {
-  get(id: string): Promise<IRole>;
-  getAll(): Promise<IRole[]>;
-}
-
-export class Roles implements IClassRoles {
+export class Roles {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

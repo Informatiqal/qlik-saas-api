@@ -23,13 +23,8 @@ export interface IDataCredentialUpdate {
   connectionId: string;
 }
 
-export interface IClassDataCredential {
-  details: IDataCredential;
-  remove(): Promise<number>;
-}
-
 //TODO: whats the difference between the PUT and the PATCH methods
-export class DataCredential implements IClassDataCredential {
+export class DataCredential {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IDataCredential;

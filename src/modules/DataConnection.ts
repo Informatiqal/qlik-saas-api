@@ -49,14 +49,8 @@ export interface IDataConnectionsUpdate {
   qConnectionSecret?: string;
 }
 
-export interface IClassDataConnection {
-  details: IDataConnection;
-  remove(): Promise<number>;
-  update(arg: IDataConnectionsUpdate): Promise<number>;
-}
-
 //TODO: whats the difference between the PUT and the PATCH methods
-export class DataConnection implements IClassDataConnection {
+export class DataConnection {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: IDataConnection;

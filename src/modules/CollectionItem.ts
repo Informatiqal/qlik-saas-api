@@ -57,12 +57,7 @@ export interface ICollectionItem {
   updaterId: string;
 }
 
-export interface IClassCollectionItem {
-  details: ICollectionItem;
-  remove(): Promise<number>;
-}
-
-export class CollectionItem implements IClassCollectionItem {
+export class CollectionItem {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: ICollectionItem;

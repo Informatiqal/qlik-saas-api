@@ -68,16 +68,7 @@ export interface IAuditsSettings {
   ArchiveEnabled: boolean;
 }
 
-export interface IClassAudits {
-  get(id: string): Promise<IAudit>;
-  getAll(arg: IAuditsFilter): Promise<IAudit[]>;
-  settings(): Promise<IAuditsSettings>;
-  sources(): Promise<string[]>;
-  types(): Promise<string[]>;
-  archive(date: string): Promise<IAudit[]>;
-}
-
-export class Audits implements IClassAudits {
+export class Audits {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

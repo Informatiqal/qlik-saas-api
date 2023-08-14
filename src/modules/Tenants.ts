@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IClassTenant, ITenant, Tenant } from "./Tenant";
+import { ITenant, Tenant } from "./Tenant";
 
 export interface ITenantCreationRequest {
   name: string;
@@ -7,12 +7,7 @@ export interface ITenantCreationRequest {
   licenseKey: string;
 }
 
-export interface IClassTenants {
-  get(arg: { id: string }): Promise<IClassTenant>;
-  create(arg: ITenantCreationRequest): Promise<IClassTenant>;
-}
-
-export class Tenants implements IClassTenants {
+export class Tenants {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;

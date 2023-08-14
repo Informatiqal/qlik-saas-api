@@ -1,9 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import {
-  CollectionItem,
-  IClassCollectionItem,
-  ICollectionItem,
-} from "./CollectionItem";
+import { CollectionItem, ICollectionItem } from "./CollectionItem";
 
 export interface ICollectionUpdate {
   name: string;
@@ -50,15 +46,7 @@ export interface ICollection {
   updaterId: string;
 }
 
-export interface IClassCollection {
-  details: ICollection;
-  remove(): Promise<number>;
-  update(arg: ICollectionUpdate): Promise<number>;
-  items(): Promise<IClassCollectionItem[]>;
-  addItem(id: string): Promise<IClassCollectionItem>;
-}
-
-export class Collection implements IClassCollection {
+export class Collection {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: ICollection;

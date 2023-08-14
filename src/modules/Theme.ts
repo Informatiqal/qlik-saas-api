@@ -27,15 +27,7 @@ export interface ITheme {
   updateAt: string;
 }
 
-export interface IClassTheme {
-  details: ITheme;
-  remove(): Promise<number>;
-  file(fileName: string): Promise<string>;
-  download(): Promise<string>;
-  // update(file: Buffer): Promise<any>;
-}
-
-export class Theme implements IClassTheme {
+export class Theme {
   private id: string;
   private saasClient: QlikSaaSClient;
   details: ITheme;

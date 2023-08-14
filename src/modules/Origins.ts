@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { Origin, IClassOrigin, IOrigin } from "./Origin";
+import { Origin, IOrigin } from "./Origin";
 
 export interface IOriginCreate {
   origin: string;
@@ -22,14 +22,7 @@ export interface IOriginCreate {
   modifiedDate?: string;
 }
 
-export interface IClassOrigins {
-  get(id: string): Promise<IClassOrigin>;
-  getAll(): Promise<IClassOrigin[]>;
-  generateHeader(): Promise<{ [k: string]: any }>;
-  create(arg: IOriginCreate): Promise<IClassOrigin>;
-}
-
-export class Origins implements IClassOrigins {
+export class Origins {
   private saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.saasClient = saasClient;
