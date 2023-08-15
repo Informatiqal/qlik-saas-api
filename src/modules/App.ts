@@ -17,7 +17,6 @@ import { Media, IAppMedia } from "./AppMedia";
 import { AppEvaluations } from "./AppEvaluations";
 import { AppActions } from "./AppActions";
 import { AppScript } from "./AppScript";
-import { IAPIKey } from "./APIKey";
 
 export class App {
   private id: string;

@@ -47,6 +47,36 @@ Full list of available methods can be found [here](https://informatiqal.github.i
 
 ## Breaking changes
 
+### After v0.10.0
+
+Prior `v0.10.0` some methods were expecting named parameters and some were expecting the arguments to be an object. From `v0.10.0` onwards all public methods will expect their arguments to be an object.
+
+Old:
+
+```javascript
+async get(id: string) { ... }
+```
+
+New:
+
+```javascript
+async get(arg: { id: string }) { ... }
+```
+
+The new way of calling these methods will be:
+
+```javascript
+await something.get({ id: "some-id here" })
+```
+
+Instead of:
+
+```javascript
+await something.get("some-id here")
+```
+
+### In the future v2.0
+
 Breaking changes will be introduced in the future v2+ of the package
 
 - All methods that require arguments will expect the arguments to be passed as an object

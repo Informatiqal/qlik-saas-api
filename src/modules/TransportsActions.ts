@@ -43,7 +43,6 @@ export class TransportsActions {
    *
    * Rate limit: Tier 2 (60 requests per minute)
    */
-
   async sendTestEmail(arg: ISmtpRequest): Promise<ISmtpResult> {
     if (!arg)
       throw new Error(

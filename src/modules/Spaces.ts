@@ -1,5 +1,4 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IEntityRemove } from "../types/types";
 import { Space, ISpace } from "./Space";
 
 export interface ISpacesExt {

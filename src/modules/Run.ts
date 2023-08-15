@@ -1,5 +1,4 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-// import { IAutomation } from "./Automation.interfaces";
 
 export interface IRun {
   id: string;
