@@ -13,9 +13,9 @@ export class Evaluations {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`evaluations.get: "id" parameter is required`);
-    const evaluation: Evaluation = new Evaluation(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`evaluations.get: "id" parameter is required`);
+    const evaluation: Evaluation = new Evaluation(this.saasClient, arg.id);
     await evaluation.init();
 
     return evaluation;
@@ -35,14 +35,17 @@ export class Evaluations {
       );
   }
 
-  async create(appid: string, itemid: string) {
-    if (!appid)
+  async create(arg: { appid: string; itemid: string }) {
+    if (!arg.appid)
       throw new Error(`evaluations.getAll: "appid" parameter is required`);
-    if (!itemid)
+    if (!arg.itemid)
       throw new Error(`evaluations.getAll: "itemid" parameters is required`);
 
     return await this.saasClient
-      .Post<IEvaluation>(`evaluations`, { appid, itemid })
+      .Post<IEvaluation>(`evaluations`, {
+        appid: arg.appid,
+        itemid: arg.itemid,
+      })
       .then((res) => new Evaluation(this.saasClient, res.data.id, res.data));
   }
 }

@@ -30,8 +30,8 @@ export class LicenseAssignment {
       .then((res) => res.status);
   }
 
-  async update(sourceType: string) {
-    if (!sourceType)
+  async update(arg: { sourceType: string }) {
+    if (!arg.sourceType)
       throw new Error(`assignments.update: "sourceType" parameter is required`);
 
     return await this.saasClient
@@ -40,7 +40,7 @@ export class LicenseAssignment {
           {
             subject: this.details.subject,
             type: this.details.type,
-            sourceType,
+            sourceType: arg.sourceType,
           },
         ],
       })

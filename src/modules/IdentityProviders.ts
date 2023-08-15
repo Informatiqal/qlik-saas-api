@@ -8,12 +8,12 @@ export class IdentityProviders {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id)
+  async get(arg: { id: string }) {
+    if (!arg.id)
       throw new Error(`identityProviders.get: "id" parameter is required`);
     const identityProvider: IdentityProvider = new IdentityProvider(
       this.saasClient,
-      id
+      arg.id
     );
     await identityProvider.init();
 

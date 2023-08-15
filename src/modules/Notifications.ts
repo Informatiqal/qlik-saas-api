@@ -9,10 +9,10 @@ export class Notifications {
     this.saasClient = saasClient;
   }
 
-  async getAll(locale?: string, subscribable?: "true" | "false") {
+  async getAll(arg?: { locale?: string; subscribable?: "true" | "false" }) {
     const urlBuild = new URLBuild(`notifications`);
-    urlBuild.addParam("locale", locale);
-    urlBuild.addParam("subscribable", subscribable);
+    urlBuild.addParam("locale", arg?.locale);
+    urlBuild.addParam("subscribable", arg?.subscribable);
 
     return await this.saasClient
       .Get<{ notifications: INotificationItem[] }>(urlBuild.getUrl())

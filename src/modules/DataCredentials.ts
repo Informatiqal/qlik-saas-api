@@ -7,11 +7,12 @@ export class DataCredentials {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`dataCredentials.get: "id" parameter is required`);
+  async get(arg: { id: string }) {
+    if (!arg.id)
+      throw new Error(`dataCredentials.get: "id" parameter is required`);
     const dataCredential: DataCredential = new DataCredential(
       this.saasClient,
-      id
+      arg.id
     );
     await dataCredential.init();
 

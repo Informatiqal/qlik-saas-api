@@ -25,10 +25,11 @@ export class Quotas {
     this.saasClient = saasClient;
   }
 
-  async get(id: QuotaType) {
-    if (!id) throw new Error(`quotas.get: "id" parameter is required`);
+  async get(arg: { id: QuotaType }) {
+    if (!arg.id) throw new Error(`quotas.get: "id" parameter is required`);
+
     return await this.saasClient
-      .Get(`quotas/${id}`)
+      .Get(`quotas/${arg.id}`)
       .then((res) => res.data as IQuotas);
   }
 

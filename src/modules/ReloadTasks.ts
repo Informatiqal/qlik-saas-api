@@ -8,9 +8,9 @@ export class ReloadTasks {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`reloadTasks.get: "id" parameter is required`);
-    const rt: ReloadTask = new ReloadTask(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`reloadTasks.get: "id" parameter is required`);
+    const rt: ReloadTask = new ReloadTask(this.saasClient, arg.id);
     await rt.init();
 
     return rt;

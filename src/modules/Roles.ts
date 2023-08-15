@@ -26,10 +26,11 @@ export class Roles {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`roles.get: "id" parameter is required`);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`roles.get: "id" parameter is required`);
+
     return await this.saasClient
-      .Get(`roles/${id}`)
+      .Get(`roles/${arg.id}`)
       .then((res) => res.data as IRole);
   }
 

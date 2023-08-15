@@ -37,9 +37,10 @@ export class Spaces {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`spaces.get: "id" parameter is required`);
-    const space: Space = new Space(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`spaces.get: "id" parameter is required`);
+
+    const space: Space = new Space(this.saasClient, arg.id);
     await space.init();
 
     return space;

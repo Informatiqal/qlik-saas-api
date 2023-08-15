@@ -15,9 +15,11 @@ export class WebIntegrations {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`webIntegraions.get: "id" parameter is required`);
-    const wi: WebIntegration = new WebIntegration(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id)
+      throw new Error(`webIntegrations.get: "id" parameter is required`);
+
+    const wi: WebIntegration = new WebIntegration(this.saasClient, arg.id);
     await wi.init();
 
     return wi;

@@ -35,24 +35,24 @@ export class Groups {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`groups.get: "id" parameter is required`);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`groups.get: "id" parameter is required`);
 
-    const group: Group = new Group(this.saasClient, id);
+    const group: Group = new Group(this.saasClient, arg.id);
     await group.init();
 
     return group;
   }
 
-  async getFilter(filter: string, sort?: string) {
+  async getFilter(arg: { filter: string; sort?: string }) {
     const urlBuild = new URLBuild(`groups/actions/filter`);
-    urlBuild.addParam("NoData", sort);
+    urlBuild.addParam("NoData", arg.sort);
 
-    if (!filter)
+    if (!arg.filter)
       throw new Error(`groups.getFilter: "filter" parameter is required`);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), { filter })
+      .Post(urlBuild.getUrl(), { filter: arg.filter })
       .then((res) => res.data as IGroup[]);
   }
 

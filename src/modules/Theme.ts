@@ -53,9 +53,9 @@ export class Theme {
       .then((res) => res.status);
   }
 
-  async file(fileName: string) {
+  async file(arg: { fileName: string }) {
     return await this.saasClient
-      .Get(`themes/${this.id}/file/${fileName}`)
+      .Get(`themes/${this.id}/file/${arg.fileName}`)
       .then((res) => res.data as string);
   }
 

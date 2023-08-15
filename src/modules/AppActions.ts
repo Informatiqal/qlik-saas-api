@@ -45,7 +45,10 @@ export class AppActions {
         `app.reload: argument object is passed but "partial" property is missing`
       );
 
-    return await this.appReload.start(this.id, arg?.partial || false);
+    return await this.appReload.start({
+      appId: this.id,
+      partial: arg?.partial || false,
+    });
   }
 
   async changeObjectOwner(arg: { objectId: string; ownerId: string }) {
