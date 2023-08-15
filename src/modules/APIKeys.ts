@@ -29,9 +29,9 @@ export class APIKeys {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`apiKeys.get: "id" parameter is required`);
-    const apiKey: APIKey = new APIKey(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`apiKeys.get: "id" parameter is required`);
+    const apiKey: APIKey = new APIKey(this.saasClient, arg.id);
     await apiKey.init();
 
     return apiKey;
@@ -53,27 +53,33 @@ export class APIKeys {
       .then((res) => new APIKey(this.saasClient, res.data.id, res.data));
   }
 
-  async configs(tenantId: string) {
-    if (!tenantId)
+  async configs(arg: { tenantId: string }) {
+    if (!arg.tenantId)
       throw new Error(`apiKeys.configs: "tenantId" parameter is required`);
 
     return await this.saasClient
-      .Get(`api-keys/configs/${tenantId}`)
+      .Get(`api-keys/configs/${arg.tenantId}`)
       .then((res) => res.data as IAPIKeysConfigs);
   }
 
-  async configsUpdate(tenantId: string, arg: IAPIKeysConfigsUpdate[]) {
-    if (!tenantId)
+  async configsUpdate(arg: {
+    tenantId: string;
+    config: IAPIKeysConfigsUpdate[];
+  }) {
+    if (!arg.tenantId)
       throw new Error(`apiKeys.configs: "tenantId" parameter is required`);
 
-    const data = arg.map((a) => ({
+    if (!arg.config)
+      throw new Error(`apiKeys.configs: "config" parameter is required`);
+
+    const data = arg.config.map((a) => ({
       op: "replace",
       path: `/${a.path}`,
       value: a.value,
     }));
 
     return await this.saasClient
-      .Patch(`api-keys/configs/${tenantId}`, data)
+      .Patch(`api-keys/configs/${arg.tenantId}`, data)
       .then((res) => res.status);
   }
 }

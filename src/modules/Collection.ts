@@ -90,11 +90,12 @@ export class Collection {
       );
   }
 
-  async addItem(id: string) {
-    if (!id) throw new Error(`collection.addItem: "id" parameter is required`);
+  async addItem(arg: { id: string }) {
+    if (!arg.id)
+      throw new Error(`collection.addItem: "id" parameter is required`);
 
     return await this.saasClient
-      .Post<ICollectionItem>(`collections/${this.id}/items`, { id })
+      .Post<ICollectionItem>(`collections/${this.id}/items`, { id: arg.id })
       .then(
         (res) =>
           new CollectionItem(this.saasClient, res.data.id, this.id, res.data)

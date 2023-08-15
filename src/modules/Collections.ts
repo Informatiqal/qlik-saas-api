@@ -13,9 +13,10 @@ export class Collections {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`collections.get: "id" parameter is required`);
-    const collection: Collection = new Collection(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`collections.get: "id" parameter is required`);
+
+    const collection: Collection = new Collection(this.saasClient, arg.id);
     await collection.init();
 
     return collection;

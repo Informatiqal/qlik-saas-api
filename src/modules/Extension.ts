@@ -60,9 +60,9 @@ export class Extension {
       .then((res) => res.status);
   }
 
-  async file(fileName: string) {
+  async file(arg: { fileName: string }) {
     return await this.saasClient
-      .Get(`extensions/${this.id}/file/${fileName}`)
+      .Get(`extensions/${this.id}/file/${arg.fileName}`)
       .then((res) => res.data as string);
   }
 

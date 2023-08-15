@@ -63,9 +63,10 @@ export class DataAlerts {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`dataAlerts.get: "id" parameter is required`);
-    const da: DataAlert = new DataAlert(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`dataAlerts.get: "id" parameter is required`);
+
+    const da: DataAlert = new DataAlert(this.saasClient, arg.id);
     await da.init();
 
     return da;
@@ -88,14 +89,16 @@ export class DataAlerts {
       .then((res) => res.data as IDataAlert);
   }
 
-  async triggerAction(alertingTaskId: string) {
-    if (!alertingTaskId)
+  async triggerAction(arg: { alertingTaskId: string }) {
+    if (!arg.alertingTaskId)
       throw new Error(
         `dataAlert.triggerAction: "alertingTaskId" parameter is required`
       );
 
     return await this.saasClient
-      .Post("data-alerts/actions/trigger", { alertingTaskID: alertingTaskId })
+      .Post("data-alerts/actions/trigger", {
+        alertingTaskID: arg.alertingTaskId,
+      })
       .then((res) => res.data as IDataAlertTriggerActionResponse);
   }
 
@@ -105,57 +108,60 @@ export class DataAlerts {
       .then((res) => res.data as IDataAlertSettings);
   }
 
-  async updateSettings(enableDataAlerting: boolean) {
-    if (!enableDataAlerting)
+  async updateSettings(arg: { enableDataAlerting: boolean }) {
+    if (!arg.enableDataAlerting)
       throw new Error(
         `dataAlert.updateSettings: "enableDataAlerting" parameter is required`
       );
 
     return await this.saasClient
       .Put("data-alerts/settings", {
-        "enable-data-alerting": enableDataAlerting,
+        "enable-data-alerting": arg.enableDataAlerting,
       })
       .then((res) => res.status);
   }
 
-  async getTaskIdStats(taskId: string) {
-    if (!taskId)
+  async getTaskIdStats(arg: { taskId: string }) {
+    if (!arg.taskId)
       throw new Error(
         `dataAlert.getTaskIdStats: "taskId" parameter is required`
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${taskId}/stats`)
+      .Get(`data-alerts/${arg.taskId}/stats`)
       .then((res) => res.data as IDataAlertExecutionStatsAggregatedResponse);
   }
 
-  async getTaskIdExecutions(taskId: string, filter?: IGetTaskExecutionsFilter) {
-    if (!taskId)
+  async getTaskIdExecutions(arg: {
+    taskId: string;
+    filter?: IGetTaskExecutionsFilter;
+  }) {
+    if (!arg.taskId)
       throw new Error(
         `dataAlert.getTaskIdExecutions: "taskId" parameter is required`
       );
 
-    const urlBuild = new URLBuild(`data-alerts/${taskId}/executions`);
+    const urlBuild = new URLBuild(`data-alerts/${arg.taskId}/executions`);
 
-    if (filter) {
-      urlBuild.addParam("conditionId", filter.conditionId);
-      urlBuild.addParam("conditionStatus", filter.conditionStatus);
-      urlBuild.addParam("daysOfMonth", filter.daysOfMonth);
-      urlBuild.addParam("daysOfWeek", filter.daysOfWeek);
-      urlBuild.addParam("fields", filter.fields);
-      urlBuild.addParam("includeEvaluation", filter.includeEvaluation);
-      urlBuild.addParam("lastEachDay", filter.lastEachDay);
-      urlBuild.addParam("limit", filter.limit);
-      urlBuild.addParam("minimumGapDays", filter.minimumGapDays);
-      urlBuild.addParam("next", filter.next);
-      urlBuild.addParam("offset", filter.offset);
-      urlBuild.addParam("prev", filter.prev);
-      urlBuild.addParam("searchResultsLimit", filter.searchResultsLimit);
-      urlBuild.addParam("since", filter.since);
-      urlBuild.addParam("sort", filter.sort);
-      urlBuild.addParam("timezone", filter.timezone);
-      urlBuild.addParam("triggered", filter.triggered);
-      urlBuild.addParam("until", filter.until);
+    if (arg.filter) {
+      urlBuild.addParam("conditionId", arg.filter.conditionId);
+      urlBuild.addParam("conditionStatus", arg.filter.conditionStatus);
+      urlBuild.addParam("daysOfMonth", arg.filter.daysOfMonth);
+      urlBuild.addParam("daysOfWeek", arg.filter.daysOfWeek);
+      urlBuild.addParam("fields", arg.filter.fields);
+      urlBuild.addParam("includeEvaluation", arg.filter.includeEvaluation);
+      urlBuild.addParam("lastEachDay", arg.filter.lastEachDay);
+      urlBuild.addParam("limit", arg.filter.limit);
+      urlBuild.addParam("minimumGapDays", arg.filter.minimumGapDays);
+      urlBuild.addParam("next", arg.filter.next);
+      urlBuild.addParam("offset", arg.filter.offset);
+      urlBuild.addParam("prev", arg.filter.prev);
+      urlBuild.addParam("searchResultsLimit", arg.filter.searchResultsLimit);
+      urlBuild.addParam("since", arg.filter.since);
+      urlBuild.addParam("sort", arg.filter.sort);
+      urlBuild.addParam("timezone", arg.filter.timezone);
+      urlBuild.addParam("triggered", arg.filter.triggered);
+      urlBuild.addParam("until", arg.filter.until);
     }
 
     return await this.saasClient
@@ -163,35 +169,40 @@ export class DataAlerts {
       .then((res) => res.data as IDataAlertExecutionStatsAggregatedResponse);
   }
 
-  async getTaskIdExecutionsStats(taskId: string, period: string) {
-    if (!taskId)
+  async getTaskIdExecutionsStats(arg: { taskId: string; period: string }) {
+    if (!arg.taskId)
       throw new Error(
         `dataAlert.getTaskIdExecutionsStats: "taskId" parameter is required`
       );
 
-    if (!period)
+    if (!arg.period)
       throw new Error(
         `dataAlert.getTaskIdExecutionsStats: "period" parameter is required`
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${taskId}/executions?period=${period}`)
+      .Get(`data-alerts/${arg.taskId}/executions?period=${arg.period}`)
       .then((res) => res.data as IDataAlertTaskExecutionStatsResponse);
   }
 
-  async getTaskIdExecutionIdEvaluation(taskId: string, executionId: string) {
-    if (!taskId)
+  async getTaskIdExecutionIdEvaluation(arg: {
+    taskId: string;
+    executionId: string;
+  }) {
+    if (!arg.taskId)
       throw new Error(
         `dataAlert.getTaskIdExecutionIdEvaluation: "taskId" parameter is required`
       );
 
-    if (!executionId)
+    if (!arg.executionId)
       throw new Error(
         `dataAlert.getTaskIdExecutionIdEvaluation: "executionId" parameter is required`
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${taskId}/executions/${executionId}/evaluations`)
+      .Get(
+        `data-alerts/${arg.taskId}/executions/${arg.executionId}/evaluations`
+      )
       .then((res) => res.data as IDataAlertEvaluationGetResponse);
   }
 

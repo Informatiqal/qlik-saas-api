@@ -138,20 +138,21 @@ export class WebHook {
       .then((res) => res.data as IWebHookDelivery[]);
   }
 
-  async delivery(id: string) {
-    if (!id) throw new Error(`webHook.delivery: "id" parameter is required`);
+  async delivery(arg: { id: string }) {
+    if (!arg.id)
+      throw new Error(`webHook.delivery: "id" parameter is required`);
 
     return await this.saasClient
-      .Get(`webhooks/${this.id}/deliveries/${id}`)
+      .Get(`webhooks/${this.id}/deliveries/${arg.id}`)
       .then((res) => res.data as IWebHookDelivery);
   }
 
-  async deliveryResend(id: string) {
-    if (!id)
+  async deliveryResend(arg: { id: string }) {
+    if (!arg.id)
       throw new Error(`webHook.deliveryResend: "id" parameter is required`);
 
     return await this.saasClient
-      .Post(`webhooks/${this.id}/deliveries/${id}/actions/resend`, {})
+      .Post(`webhooks/${this.id}/deliveries/${arg.id}/actions/resend`, {})
       .then((res) => res.data as IWebHookDelivery);
   }
 }

@@ -7,9 +7,9 @@ export class Reloads {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`reloads.get: "id" parameter is required`);
-    const reload: Reload = new Reload(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`reloads.get: "id" parameter is required`);
+    const reload: Reload = new Reload(this.saasClient, arg.id);
     await reload.init();
 
     return reload;
@@ -22,11 +22,12 @@ export class Reloads {
       .then((data) => data.map((t) => new Reload(this.saasClient, t.id, t)));
   }
 
-  async start(appId: string, partial?: boolean) {
-    if (!appId) throw new Error(`reloads.start: "appId" parameter is required`);
+  async start(arg: { appId: string; partial?: boolean }) {
+    if (!arg.appId)
+      throw new Error(`reloads.start: "appId" parameter is required`);
 
     return await this.saasClient
-      .Post<IReload>(`reloads`, { appId, partial })
+      .Post<IReload>(`reloads`, { appId: arg.appId, partial: arg.partial })
       .then((res) => new Reload(this.saasClient, res.data.id, res.data));
   }
 }

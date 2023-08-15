@@ -58,25 +58,25 @@ export class DataAlert {
       .then((res) => res.data as IAlertingRecipientStatsResponse);
   }
 
-  async getExecution(executionId: string) {
-    if (!executionId)
+  async getExecution(arg: { executionId: string }) {
+    if (!arg.executionId)
       throw new Error(
         `dataAlert.getExecution: "executionId" parameter is required`
       );
 
     return await this.saasClient
-      .Get(`/data-alerts/${this.id}/executions/${executionId}`)
+      .Get(`/data-alerts/${this.id}/executions/${arg.executionId}`)
       .then((res) => res.data as IAlertingExecutionResponse);
   }
 
-  async removeExecution(executionId: string) {
-    if (!executionId)
+  async removeExecution(arg: { executionId: string }) {
+    if (!arg.executionId)
       throw new Error(
         `dataAlert.removeExecution: "executionId" parameter is required`
       );
 
     return await this.saasClient
-      .Delete(`/data-alerts/${this.id}/executions/${executionId}`)
+      .Delete(`/data-alerts/${this.id}/executions/${arg.executionId}`)
       .then((res) => res.status);
   }
 }

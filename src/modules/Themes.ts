@@ -12,9 +12,10 @@ export class Themes {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`themes.get: "id" parameter is required`);
-    const theme: Theme = new Theme(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`themes.get: "id" parameter is required`);
+
+    const theme: Theme = new Theme(this.saasClient, arg.id);
     await theme.init();
 
     return theme;

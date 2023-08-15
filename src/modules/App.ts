@@ -18,7 +18,6 @@ import { AppEvaluations } from "./AppEvaluations";
 import { AppActions } from "./AppActions";
 import { AppScript } from "./AppScript";
 
-
 export class App {
   private id: string;
   private saasClient: QlikSaaSClient;
@@ -76,9 +75,9 @@ export class App {
       .then((res) => res.data as IAppMetaData);
   }
 
-  async export(noData?: boolean) {
+  async export(arg?: { noData: boolean }) {
     const urlBuild = new URLBuild(`apps/${this.id}/export`);
-    urlBuild.addParam("NoData", noData);
+    urlBuild.addParam("NoData", arg?.noData);
 
     const tempContentLocation = await this.saasClient.Post<{
       location: string;
@@ -135,11 +134,14 @@ export class App {
   }
 
   // REVIEW: the name?
-  async addToSpace(spaceId: string) {
+  async addToSpace(arg: { spaceId: string }) {
+    if (!arg.spaceId)
+      throw new Error(`app.addToSpace: "spaceId" parameter is required`);
+
     return await this.saasClient
-      .Put(`apps/${this.id}/space`, { spaceId })
+      .Put<IApp>(`apps/${this.id}/space`, { spaceId: arg.spaceId })
       .then((res) => {
-        this.details.attributes = (res.data as IApp).attributes;
+        this.details.attributes = res.data.attributes;
         return res.status;
       });
   }
@@ -204,26 +206,19 @@ export class App {
       });
   }
 
-  async addMedia(content: Buffer, fileName: string) {
-    if (!content)
+  async addMedia(arg: { content: Buffer; fileName: string }) {
+    if (!arg.content)
       throw new Error(`app.addMedia: "content" parameter is required`);
-    if (!fileName)
+    if (!arg.fileName)
       throw new Error(`app.addMedia: "fileName" parameter is required`);
 
     return await this.saasClient
-      .Put(
-        `apps/${this.id}/media/files/${fileName}`,
-        content,
+      .Put<IAppMedia>(
+        `apps/${this.id}/media/files/${arg.fileName}`,
+        arg.content,
         "application/octet-stream"
       )
-      .then(
-        (res) =>
-          new Media(
-            this.saasClient,
-            (res.data as IAppMedia).id,
-            res.data as IAppMedia
-          )
-      );
+      .then((res) => new Media(this.saasClient, res.data.id, res.data));
   }
 
   /**
@@ -254,8 +249,12 @@ export class App {
    *
    * Rate limit: Tier 1 (600 requests per minute)
    */
-  async scriptVersion(versionId: string) {
-    const scriptVersion = new AppScript(this.saasClient, versionId, this.id);
+  async scriptVersion(arg: { versionId: string }) {
+    const scriptVersion = new AppScript(
+      this.saasClient,
+      arg.versionId,
+      this.id
+    );
     await scriptVersion.init();
     await scriptVersion.getScriptContent();
 
@@ -285,11 +284,12 @@ export class App {
   /**
    * Returns the reload log content for the specified reloadId
    */
-  async reloadLogContent(reloadId: string) {
-    if (!reloadId)
+  async reloadLogContent(arg: { reloadId: string }) {
+    if (!arg.reloadId)
       throw new Error(`app.reloadLogContent: "reloadId" parameter is required`);
+
     return this.saasClient
-      .Get<string>(`apps/${this.id}/reloads/logs/${reloadId}`)
+      .Get<string>(`apps/${this.id}/reloads/logs/${arg.reloadId}`)
       .then((res) => res.data);
   }
 }

@@ -28,9 +28,9 @@ export class Origins {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`origins.get: "id" parameter is required`);
-    const origin: Origin = new Origin(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`origins.get: "id" parameter is required`);
+    const origin: Origin = new Origin(this.saasClient, arg.id);
     await origin.init();
 
     return origin;

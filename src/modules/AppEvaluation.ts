@@ -254,8 +254,8 @@ export class AppEvaluation {
    *
    * Returns the comparison result AND downloads the log, in XML format
    */
-  async compare(comparisonId: string) {
-    if (!comparisonId)
+  async compare(arg: { comparisonId: string }) {
+    if (!arg.comparisonId)
       throw new Error(
         `evaluation.compare: "comparisonId" parameter is required`
       );
@@ -263,12 +263,12 @@ export class AppEvaluation {
     const [result, log] = await Promise.all([
       this.saasClient
         .Get(
-          `apps/evaluations/${this.id}/actions/compare/${comparisonId}?all=true&format=json`
+          `apps/evaluations/${this.id}/actions/compare/${arg.comparisonId}?all=true&format=json`
         )
         .then((res) => res.data as IAppEvaluationComparison),
       this.saasClient
         .Get(
-          `apps/evaluations/${this.id}/actions/compare/${comparisonId}/actions/download`
+          `apps/evaluations/${this.id}/actions/compare/${arg.comparisonId}/actions/download`
         )
         .then((res) => res.data as string),
     ]);

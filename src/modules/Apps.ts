@@ -15,17 +15,18 @@ export class Apps {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`apps.get: "id" parameter is required`);
-    const app: App = new App(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`apps.get: "id" parameter is required`);
+
+    const app: App = new App(this.saasClient, arg.id);
     await app.init();
 
     return app;
   }
 
-  async getEvaluation(id: string) {
+  async getEvaluation(arg: { id: string }) {
     return await this.saasClient
-      .Get(`apps/evaluations/${id}`)
+      .Get(`apps/evaluations/${arg.id}`)
       .then((res) => res.data as IAppEvaluation)
       .then(
         (data) =>
@@ -44,11 +45,12 @@ export class Apps {
       });
   }
 
-  async getFilter(filter: string) {
-    if (!filter)
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
       throw new Error(`apps.getFilter: "filter" parameter is required`);
+
     return await this.saasClient
-      .Get(`items?resourceType=app,qvapp,qlikview&query=${filter}`)
+      .Get(`items?resourceType=app,qvapp,qlikview&query=${arg.filter}`)
       .then((res) => res.data as IAppAttributes[])
       .then((data) => {
         return data.map(
@@ -57,11 +59,11 @@ export class Apps {
       });
   }
 
-  async removeFilter(filter: string) {
-    if (!filter)
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
       throw new Error(`apps.removeFilter: "filter" parameter is required`);
 
-    const apps = await this.getFilter(filter);
+    const apps = await this.getFilter({ filter: arg.filter });
 
     return Promise.all(
       apps.map((app) =>

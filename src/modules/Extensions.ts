@@ -8,9 +8,9 @@ export class Extensions {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`extensions.get: "id" parameter is required`);
-    const extension: Extension = new Extension(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`extensions.get: "id" parameter is required`);
+    const extension: Extension = new Extension(this.saasClient, arg.id);
     await extension.init();
 
     return extension;

@@ -50,7 +50,7 @@ export class AppScript {
    * The UI allows only the name of the version (`versionMessage` ) to be updated.
    * And because of this, this method only updates the name as well
    */
-  async update(name: string) {
+  async update(arg: { name: string }) {
     const updateStatus = await this.saasClient
       .Patch(`apps/${this.appId}/scripts/${this.id}`, [
         {
@@ -61,7 +61,7 @@ export class AppScript {
       ])
       .then((res) => res.status);
 
-    this.details.versionMessage = name;
+    this.details.versionMessage = arg.name;
 
     return updateStatus;
   }

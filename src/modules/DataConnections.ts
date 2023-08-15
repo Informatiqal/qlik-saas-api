@@ -26,11 +26,12 @@ export class DataConnections {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`dataConnections.get: "id" parameter is required`);
+  async get(arg: { id: string }) {
+    if (!arg.id)
+      throw new Error(`dataConnections.get: "id" parameter is required`);
     const dataConnection: DataConnection = new DataConnection(
       this.saasClient,
-      id
+      arg.id
     );
     await dataConnection.init();
 

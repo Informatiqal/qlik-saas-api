@@ -63,9 +63,10 @@ export class Conditions {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`conditions.get: "id" parameter is required`);
-    const condition: Condition = new Condition(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`conditions.get: "id" parameter is required`);
+
+    const condition: Condition = new Condition(this.saasClient, arg.id);
     await condition.init();
 
     return condition;

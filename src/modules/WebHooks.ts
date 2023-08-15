@@ -41,9 +41,10 @@ export class WebHooks {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`webhooks.get: "id" parameter is required`);
-    const webHook: WebHook = new WebHook(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`webhooks.get: "id" parameter is required`);
+
+    const webHook: WebHook = new WebHook(this.saasClient, arg.id);
     await webHook.init();
 
     return webHook;

@@ -24,10 +24,10 @@ export class Users {
   /**
    * Info about the tenant accessing the endpoint
    */
-  async get(id: string) {
+  async get(arg: { id: string }) {
     return await this.saasClient
       .Post<{ data: IUser[] }>("users/actions/filter", {
-        filter: `id eq "${id}"`,
+        filter: `id eq "${arg.id}"`,
       })
       .then((res) => res.data.data)
       .then((usersData) =>
@@ -41,15 +41,15 @@ export class Users {
    *     (id eq \"626949b9017b657805080bbd\" or id eq \"626949bf017b657805080bbe\") and (status eq \"active\" or status eq \"deleted\")
    * @param [sort] OPTIONAL name; +name; -name
    */
-  async getFilter(filter: string, sort?: string) {
-    if (!filter)
+  async getFilter(arg: { filter: string; sort?: string }) {
+    if (!arg.filter)
       throw new Error(`users.getFilter: "filter" parameter is required`);
 
     const urlBuild = new URLBuild(`users/actions/filter`);
-    urlBuild.addParam("sort", sort);
+    urlBuild.addParam("sort", arg.sort);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), { filter })
+      .Post(urlBuild.getUrl(), { filter: arg.filter })
       .then((res) => res.data as IUser[]);
   }
 

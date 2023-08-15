@@ -33,11 +33,11 @@ export class Media {
       .then((res) => res.status);
   }
 
-  async update(content: Buffer) {
-    if (!content)
+  async update(arg: { content: Buffer }) {
+    if (!arg.content)
       throw new Error(`appMedia.update: "content" parameter is required`);
     return await this.saasClient
-      .Put(this.shortLink, content, "application/octet-stream")
+      .Put(this.shortLink, arg.content, "application/octet-stream")
       .then((res) => res.status);
   }
 }

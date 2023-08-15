@@ -25,9 +25,9 @@ export class Items {
     this.saasClient = saasClient;
   }
 
-  async get(id: string) {
-    if (!id) throw new Error(`items.get: "id" parameter is required`);
-    const item: Item = new Item(this.saasClient, id);
+  async get(arg: { id: string }) {
+    if (!arg.id) throw new Error(`items.get: "id" parameter is required`);
+    const item: Item = new Item(this.saasClient, arg.id);
     await item.init();
 
     return item;
