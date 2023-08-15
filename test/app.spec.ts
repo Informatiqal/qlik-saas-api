@@ -1,12 +1,11 @@
+import { describe, it, expect } from "vitest";
 import path from "path";
 const dotEnvPath = path.resolve(".env");
 import dotenv from "dotenv";
 dotenv.config({ path: dotEnvPath });
 
-import chai from "chai";
 import { Config, Helpers } from "./Config";
 
-const expect = chai.expect;
 const config = new Config();
 const saasApi = config.saasApi;
 const helpers = new Helpers();
@@ -35,17 +34,17 @@ describe("Apps", function () {
 
     const allScriptVersions = await app.scriptVersions();
 
-    const initialScriptValue = await app.scriptVersion(
-      allScriptVersions.filter(
+    const initialScriptValue = await app.scriptVersion({
+      versionId: allScriptVersions.filter(
         (s) => s.details.versionMessage == "Initial version"
-      )[0].details.scriptId
-    );
+      )[0].details.scriptId,
+    });
 
-    const anotherScriptValue = await app.scriptVersion(
-      allScriptVersions.filter(
+    const anotherScriptValue = await app.scriptVersion({
+      versionId: allScriptVersions.filter(
         (s) => s.details.versionMessage == "Updated script"
-      )[0].details.scriptId
-    );
+      )[0].details.scriptId,
+    });
 
     const removeScriptStatus = await allScriptVersions
       .filter((s) => s.details.versionMessage == "Initial version")[0]
@@ -53,7 +52,7 @@ describe("Apps", function () {
 
     const updateScriptNameStatus = await allScriptVersions
       .filter((s) => s.details.versionMessage == "Updated script")[0]
-      .update("Updated name");
+      .update({ name: "Updated name" });
 
     const allScriptVersionsAfterRemove = await app.scriptVersions();
 
@@ -79,9 +78,11 @@ describe("Apps", function () {
   });
 
   it("Reload logs", async function () {
-    const app = await saasApi.apps.get(`${process.env.RELOAD_LOGS_APP}`);
+    const app = await saasApi.apps.get({
+      id: `${process.env.RELOAD_LOGS_APP}`,
+    });
     const logs = await app.reloadLogs();
-    const log0 = await app.reloadLogContent(logs[0].reloadId);
+    const log0 = await app.reloadLogContent({ reloadId: logs[0].reloadId });
 
     expect(logs.length).to.be.greaterThan(0) &&
       expect(log0.length).to.be.greaterThan(0) &&
