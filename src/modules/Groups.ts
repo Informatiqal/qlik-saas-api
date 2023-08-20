@@ -53,17 +53,22 @@ export class Groups {
       throw new Error(`groups.getFilter: "filter" parameter is required`);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), { filter: arg.filter })
-      .then((res) => res.data as IGroup[]);
+      .Post<IGroup[]>(urlBuild.getUrl(), { filter: arg.filter })
+      .then((res) => res.data);
   }
 
   async getFilter(arg: { filter: string }) {
     if (!arg.filter)
       throw new Error(`groups.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Group[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {
@@ -81,15 +86,15 @@ export class Groups {
 
   async getAll() {
     return await this.saasClient
-      .Get(`groups`)
-      .then((res) => res.data as IGroup[])
+      .Get<IGroup[]>(`groups`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Group(this.saasClient, t.id, t)));
   }
 
   async getSettings() {
     return await this.saasClient
-      .Get(`groups/settings`)
-      .then((res) => res.data as IGroupSettings);
+      .Get<IGroupSettings>(`groups/settings`)
+      .then((res) => res.data);
   }
 
   async updateSettings(arg: IGroupSettingsUpdate[]) {

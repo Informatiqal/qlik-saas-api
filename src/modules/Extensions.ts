@@ -19,8 +19,8 @@ export class Extensions {
 
   async getAll() {
     return await this.saasClient
-      .Get(`extensions`)
-      .then((res) => res.data as IExtension[])
+      .Get<IExtension[]>(`extensions`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Extension(this.saasClient, t.id, t)));
   }
 
@@ -28,14 +28,21 @@ export class Extensions {
     if (!arg.filter)
       throw new Error(`extensions.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Extension[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {
     if (!arg.filter)
-      throw new Error(`extensions.removeFilter: "filter" parameter is required`);
+      throw new Error(
+        `extensions.removeFilter: "filter" parameter is required`
+      );
 
     return await this.getFilter(arg).then((entities) =>
       Promise.all(

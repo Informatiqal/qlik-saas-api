@@ -66,7 +66,7 @@ export class NL {
 
   async ask(arg: INLAsk) {
     return await this.saasClient
-      .Post(`questions/actions/ask`, arg)
-      .then((res) => res.data as INL);
+      .Post<INL>(`questions/actions/ask`, arg)
+      .then((res) => res.data);
   }
 }

@@ -57,15 +57,15 @@ export class Licenses {
   // TODO: Cannot read property 'Href' of undefined
   async consumption() {
     return await this.saasClient
-      .Get(`licenses/consumption`)
-      .then((res) => res.data as ILicenseConsumption[]);
+      .Get<ILicenseConsumption[]>(`licenses/consumption`)
+      .then((res) => res.data);
   }
 
   // TODO: Cannot read property 'Href' of undefined
   async assignments() {
     return await this.saasClient
-      .Get(`licenses/assignments`)
-      .then((res) => res.data as ILicenseAssignment[])
+      .Get<ILicenseAssignment[]>(`licenses/assignments`)
+      .then((res) => res.data)
       .then((assignments) =>
         assignments.map((a) => new LicenseAssignment(this.saasClient, a))
       );
@@ -73,8 +73,8 @@ export class Licenses {
 
   async assignmentsAdd(arg: { subject: string; type: string }[]) {
     return await this.saasClient
-      .Post(`licenses/assignments/actions/add`, arg)
-      .then((res) => res.data as ILicenseAssignment[])
+      .Post<ILicenseAssignment[]>(`licenses/assignments/actions/add`, arg)
+      .then((res) => res.data)
       .then((assignments) =>
         assignments.map((a) => new LicenseAssignment(this.saasClient, a))
       );
@@ -82,13 +82,13 @@ export class Licenses {
 
   async status() {
     return await this.saasClient
-      .Get(`licenses/status`)
-      .then((res) => res.data as ILicenseStatus);
+      .Get<ILicenseStatus>(`licenses/status`)
+      .then((res) => res.data);
   }
 
   async overview() {
     return await this.saasClient
-      .Get(`licenses/overview`)
-      .then((res) => res.data as ILicenseOverview);
+      .Get<ILicenseOverview>(`licenses/overview`)
+      .then((res) => res.data);
   }
 }

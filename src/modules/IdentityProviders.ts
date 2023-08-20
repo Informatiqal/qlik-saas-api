@@ -23,8 +23,8 @@ export class IdentityProviders {
 
   async getAll() {
     return await this.saasClient
-      .Get(`identity-providers`)
-      .then((res) => res.data as IIdentityProvider[])
+      .Get<IIdentityProvider[]>(`identity-providers`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new IdentityProvider(this.saasClient, t.id, t))
       );
@@ -36,8 +36,13 @@ export class IdentityProviders {
         `identityProviders.getFilter: "filter" parameter is required`
       );
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as IdentityProvider[];
+    });
   }
 }

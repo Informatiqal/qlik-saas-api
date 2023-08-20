@@ -41,8 +41,8 @@ export class DataConnections {
 
   async getAll() {
     return await this.saasClient
-      .Get(`data-connections`)
-      .then((res) => res.data as IDataConnection[])
+      .Get<IDataConnection[]>(`data-connections`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new DataConnection(this.saasClient, t.id, t))
       );
@@ -54,9 +54,14 @@ export class DataConnections {
         `dataConnections.getFilter: "filter" parameter is required`
       );
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as DataConnection[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {

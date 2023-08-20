@@ -61,8 +61,8 @@ export class Collection {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`collections/${this.id}`)
-        .then((res) => res.data as ICollection);
+        .Get<ICollection>(`collections/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -83,8 +83,8 @@ export class Collection {
 
   async items() {
     return await this.saasClient
-      .Get(`collections/${this.id}/items`)
-      .then((res) => res.data as ICollectionItem[])
+      .Get<ICollectionItem[]>(`collections/${this.id}/items`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new CollectionItem(this.saasClient, t.id, this.id, t))
       );

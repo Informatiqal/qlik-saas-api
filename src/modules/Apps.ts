@@ -27,8 +27,8 @@ export class Apps {
 
   async getEvaluation(arg: { id: string }) {
     return await this.saasClient
-      .Get(`apps/evaluations/${arg.id}`)
-      .then((res) => res.data as IAppEvaluation)
+      .Get<IAppEvaluation>(`apps/evaluations/${arg.id}`)
+      .then((res) => res.data)
       .then(
         (data) =>
           new AppEvaluation(this.saasClient, (data.id || data.ID) ?? "", data)
@@ -37,8 +37,8 @@ export class Apps {
 
   async getAll() {
     return await this.saasClient
-      .Get(`items?resourceType=app,qvapp,qlikview`)
-      .then((res) => res.data as IAppAttributes[])
+      .Get<IAppAttributes[]>(`items?resourceType=app,qvapp,qlikview`)
+      .then((res) => res.data)
       .then((data) => {
         return data.map(
           (t) => new App(this.saasClient, t.id, { attributes: t })
@@ -50,9 +50,14 @@ export class Apps {
     if (!arg.filter)
       throw new Error(`apps.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as App[];
+    });
   }
 
   async getFilterNative(arg: { filter: string }) {
@@ -60,8 +65,10 @@ export class Apps {
       throw new Error(`apps.getFilter: "filter" parameter is required`);
 
     return await this.saasClient
-      .Get(`items?resourceType=app,qvapp,qlikview&query=${arg.filter}`)
-      .then((res) => res.data as IAppAttributes[])
+      .Get<IAppAttributes[]>(
+        `items?resourceType=app,qvapp,qlikview&query=${arg.filter}`
+      )
+      .then((res) => res.data)
       .then((data) => {
         return data.map(
           (t) => new App(this.saasClient, t.id, { attributes: t })
@@ -108,14 +115,9 @@ export class Apps {
     urlBuild.addParam("fallbackName", arg.fallbackName);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), arg.file, "application/octet-stream")
+      .Post<IApp>(urlBuild.getUrl(), arg.file, "application/octet-stream")
       .then(
-        (res) =>
-          new App(
-            this.saasClient,
-            (res.data as IApp).attributes.id,
-            res.data as IApp
-          )
+        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
       );
   }
 
@@ -123,14 +125,9 @@ export class Apps {
     if (!arg.name) throw new Error(`apps.create: "name" parameter is required`);
 
     return this.saasClient
-      .Post("apps", { attributes: arg })
+      .Post<IApp>("apps", { attributes: arg })
       .then(
-        (a) =>
-          new App(
-            this.saasClient,
-            (a.data as IApp).attributes.id,
-            a.data as IApp
-          )
+        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
       );
   }
 

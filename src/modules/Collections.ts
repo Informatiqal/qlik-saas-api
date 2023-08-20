@@ -25,8 +25,8 @@ export class Collections {
 
   async getAll() {
     return await this.saasClient
-      .Get(`collections`)
-      .then((res) => res.data as ICollection[])
+      .Get<ICollection[]>(`collections`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new Collection(this.saasClient, t.id, t))
       );
@@ -36,14 +36,21 @@ export class Collections {
     if (!arg.filter)
       throw new Error(`collections.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Collection[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {
     if (!arg.filter)
-      throw new Error(`collections.removeFilter: "filter" parameter is required`);
+      throw new Error(
+        `collections.removeFilter: "filter" parameter is required`
+      );
 
     return await this.getFilter(arg).then((entities) =>
       Promise.all(

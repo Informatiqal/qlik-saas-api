@@ -22,8 +22,8 @@ export class IdentityProvider {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`identity-providers/${this.id}`)
-        .then((res) => res.data as IIdentityProvider);
+        .Get<IIdentityProvider>(`identity-providers/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

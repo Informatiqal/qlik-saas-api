@@ -14,7 +14,11 @@ export type ParsedCondition = {
  * @param baseObjPath the path of the origin object. This path will be included in the final JS statement
  * @returns string based JS statement
  */
-export function parseFilter(filter: string, baseObjPath: string) {
+export function parseFilter(
+  filter: string,
+  baseObjPath: string,
+  // data: {}
+){
   //   if (!filter) throw new Error("");
 
   // split the conditions on "and" and "or" (ignore cases: AND = and = And etc.)
@@ -37,7 +41,10 @@ export function parseFilter(filter: string, baseObjPath: string) {
   });
 
   // the final JS filter statement
+  // const jsFilter = constructFilter(parsedConditions, r1, baseObjPath);
   return constructFilter(parsedConditions, r1, baseObjPath);
+
+  // return Function(`return arguments[0].filter(a => ${jsFilter})`)(data);
 }
 
 // convert the parsed filter condition to a JS statement

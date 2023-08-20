@@ -24,8 +24,8 @@ export class Themes {
 
   async getAll() {
     return await this.saasClient
-      .Get(`themes`)
-      .then((res) => res.data as ITheme[])
+      .Get<ITheme[]>(`themes`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Theme(this.saasClient, t.id, t)));
   }
 
@@ -33,9 +33,14 @@ export class Themes {
     if (!arg.filter)
       throw new Error(`themes.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Theme[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {

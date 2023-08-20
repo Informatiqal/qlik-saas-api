@@ -28,8 +28,8 @@ export class WebIntegrations {
 
   async getAll() {
     return await this.saasClient
-      .Get(`web-integrations`)
-      .then((res) => res.data as IWebIntegration[])
+      .Get<IWebIntegration[]>(`web-integrations`)
+      .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new WebIntegration(this.saasClient, t.id, t));
       });
@@ -41,9 +41,14 @@ export class WebIntegrations {
         `webIntegrations.getFilter: "filter" parameter is required`
       );
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as WebIntegration[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {
@@ -66,7 +71,7 @@ export class WebIntegrations {
       throw new Error(`webIntegrations.create: "name" parameter is required`);
 
     return await this.saasClient
-      .Post("web-integrations", { ...arg })
-      .then((res) => res.data as IWebIntegration);
+      .Post<IWebIntegration>("web-integrations", { ...arg })
+      .then((res) => res.data);
   }
 }

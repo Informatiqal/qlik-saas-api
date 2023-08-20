@@ -38,8 +38,8 @@ export class Origin {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`csp-origins/${this.id}`)
-        .then((res) => res.data as IOrigin);
+        .Get<IOrigin>(`csp-origins/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

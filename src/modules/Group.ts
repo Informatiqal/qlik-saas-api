@@ -41,8 +41,8 @@ export class Group {
   async init(arg?: { force: true }) {
     if (Object.keys(this.details).length == 0 || arg?.force == true) {
       this.details = await this.saasClient
-        .Get(`groups/${this.id}`)
-        .then((res) => res.data as IGroup);
+        .Get<IGroup>(`groups/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

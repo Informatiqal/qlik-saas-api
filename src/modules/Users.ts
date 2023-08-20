@@ -50,17 +50,22 @@ export class Users {
     urlBuild.addParam("sort", arg.sort);
 
     return await this.saasClient
-      .Post(urlBuild.getUrl(), { filter: arg.filter })
-      .then((res) => res.data as IUser[]);
+      .Post<IUser[]>(urlBuild.getUrl(), { filter: arg.filter })
+      .then((res) => res.data);
   }
 
   async getFilter(arg: { filter: string }) {
     if (!arg.filter)
       throw new Error(`users.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as User[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {
@@ -81,8 +86,8 @@ export class Users {
    */
   async getAll() {
     return await this.saasClient
-      .Get(`users`)
-      .then((res) => res.data as IUser[])
+      .Get<IUser[]>(`users`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new User(this.saasClient, t.id, t)));
   }
 

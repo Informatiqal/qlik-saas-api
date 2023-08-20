@@ -46,7 +46,7 @@ export interface IAutomationScheduleResponseObject
 }
 
 export interface IAutomation {
-  guid: string;
+  id: string;
   state: "available" | "unavailable" | "disabled";
   title: string;
   lastRun: IAutomationRunDetailResponseObject;

@@ -69,8 +69,8 @@ export class DataConnection {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`data-connections/${this.id}`)
-        .then((res) => res.data as IDataConnection);
+        .Get<IDataConnection>(`data-connections/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

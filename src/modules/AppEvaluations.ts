@@ -12,8 +12,8 @@ export class AppEvaluations {
 
   async getAll() {
     return await this.saasClient
-      .Get(`/apps/${this.appId}/evaluations?all=true`)
-      .then((res) => res.data as IAppEvaluation[])
+      .Get<IAppEvaluation[]>(`/apps/${this.appId}/evaluations?all=true`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new AppEvaluation(this.saasClient, t.id ?? t.ID, t))
       );
@@ -23,9 +23,14 @@ export class AppEvaluations {
     if (!arg.filter)
       throw new Error(`evaluations.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as AppEvaluation[];
+    });
   }
 
   async create() {

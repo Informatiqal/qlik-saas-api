@@ -40,8 +40,8 @@ export class Origins {
   // TODO: 400 when called?
   async getAll() {
     return await this.saasClient
-      .Get(`csp-origins`)
-      .then((res) => res.data as IOrigin[])
+      .Get<IOrigin[]>(`csp-origins`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Origin(this.saasClient, t.id, t)));
   }
 
@@ -49,9 +49,14 @@ export class Origins {
     if (!arg.filter)
       throw new Error(`origins.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
-    );
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Origin[];
+    });
   }
 
   async removeFilter(arg: { filter: string }) {
@@ -69,8 +74,8 @@ export class Origins {
 
   async generateHeader() {
     return await this.saasClient
-      .Get(`csp-origins/actions/generate-header`)
-      .then((res) => res.data as { [k: string]: any });
+      .Get<{ [k: string]: any }>(`csp-origins/actions/generate-header`)
+      .then((res) => res.data);
   }
 
   async create(arg: IOriginCreate) {
