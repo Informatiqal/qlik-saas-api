@@ -65,7 +65,20 @@ export class WebHooks {
     return await this.getAll().then((entities) =>
       entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
     );
-  }  
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`webHooks.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
 
   async eventTypes() {
     return await this.saasClient

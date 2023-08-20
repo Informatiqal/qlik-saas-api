@@ -54,6 +54,19 @@ export class Origins {
     );
   }
 
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`origins.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
   async generateHeader() {
     return await this.saasClient
       .Get(`csp-origins/actions/generate-header`)

@@ -69,7 +69,7 @@ export class Apps {
       });
   }
 
-  async removeFilter(arg: { filter: string }) {
+  async removeFilterNative(arg: { filter: string }) {
     if (!arg.filter)
       throw new Error(`apps.removeFilter: "filter" parameter is required`);
 
@@ -78,6 +78,21 @@ export class Apps {
     return Promise.all(
       apps.map((app) =>
         app.remove().then((s) => ({ id: app.details.attributes.id, status: s }))
+      )
+    );
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`apps.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity
+            .remove()
+            .then((s) => ({ id: entity.details.attributes.id, status: s }))
+        )
       )
     );
   }

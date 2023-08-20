@@ -35,6 +35,19 @@ export class ReloadTasks {
     );
   }
 
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`reloadTasks.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
   async create(arg: IReloadTaskCreate) {
     if (!arg.appId)
       throw new Error(`reloadTasks.create: "appId" parameter is required`);

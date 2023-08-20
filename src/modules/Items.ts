@@ -52,6 +52,19 @@ export class Items {
     );
   }
 
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`items.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
   // async create(arg: IItemCreate) {
   //   if (!arg.name)
   //     throw new Error(`items.create: "name" parameter is required`);

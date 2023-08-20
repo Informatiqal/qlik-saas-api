@@ -54,6 +54,19 @@ export class APIKeys {
     );
   }
 
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`apiKeys.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
   async create(arg: IAPIKeyCreate) {
     if (!arg.description)
       throw new Error(`apiKeys.create: "description" parameter is required`);

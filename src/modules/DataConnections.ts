@@ -59,6 +59,21 @@ export class DataConnections {
     );
   }
 
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `dataConnection.removeFilter: "filter" parameter is required`
+      );
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
   async create(arg: IDataConnectionsCreate) {
     if (!arg.qName)
       throw new Error(`dataConnections.create: "qName" parameter is required`);

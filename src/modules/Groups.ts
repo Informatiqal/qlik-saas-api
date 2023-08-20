@@ -59,19 +59,31 @@ export class Groups {
 
   async getFilter(arg: { filter: string }) {
     if (!arg.filter)
-      throw new Error(
-        `groups.getFilter: "filter" parameter is required`
-      );
+      throw new Error(`groups.getFilter: "filter" parameter is required`);
 
     return await this.getAll().then((entities) =>
       entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
     );
   }
 
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`groups.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
   async getAll() {
     return await this.saasClient
       .Get(`groups`)
-      .then((res) => res.data as IGroup[]);
+      .then((res) => res.data as IGroup[])
+      .then((data) => data.map((t) => new Group(this.saasClient, t.id, t)));
   }
 
   async getSettings() {
