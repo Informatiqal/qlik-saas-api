@@ -235,8 +235,8 @@ export class AppEvaluation {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`/app/evaluations/${this.id}`)
-        .then((res) => res.data as IAppEvaluation);
+        .Get<IAppEvaluation>(`/app/evaluations/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -262,15 +262,15 @@ export class AppEvaluation {
 
     const [result, log] = await Promise.all([
       this.saasClient
-        .Get(
+        .Get<IAppEvaluationComparison>(
           `apps/evaluations/${this.id}/actions/compare/${arg.comparisonId}?all=true&format=json`
         )
-        .then((res) => res.data as IAppEvaluationComparison),
+        .then((res) => res.data),
       this.saasClient
-        .Get(
+        .Get<string>(
           `apps/evaluations/${this.id}/actions/compare/${arg.comparisonId}/actions/download`
         )
-        .then((res) => res.data as string),
+        .then((res) => res.data),
     ]);
 
     return { result, log };

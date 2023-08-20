@@ -16,8 +16,8 @@ export class ReloadTask {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`reload-tasks/${this.id}`)
-        .then((res) => res.data as IReloadTask);
+        .Get<IReloadTask>(`reload-tasks/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

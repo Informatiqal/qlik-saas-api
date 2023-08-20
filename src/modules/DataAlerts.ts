@@ -11,6 +11,7 @@ import {
   IDataAlertTriggerActionResponse,
   IDataAlertValidateActionsResponse,
 } from "./DataAlerts.interfaces";
+import { parseFilter } from "../util/filter";
 
 export type TDaysOfWeek =
   | "MONDAY"
@@ -76,17 +77,46 @@ export class DataAlerts {
   // https://community.qlik.com/t5/Integration-Extension-APIs/Inconsistencies-in-SaaS-REST-API/m-p/1958356#M17079
   async getAll() {
     return await this.saasClient
-      .Get(`data-alerts`)
-      .then((res) => res.data as IDataAlert[])
-      .then((data: any) => {
+      .Get<{ tasks: IDataAlert[] }>(`data-alerts`)
+      .then((res) => res.data)
+      .then((data) => {
         return data.tasks.map((t) => new DataAlert(this.saasClient, t.id, t));
       });
   }
 
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`dataAlerts.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as DataAlert[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `dataAlerts.removeFilter: "filter" parameter is required`
+      );
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
   async create(arg: IDataAlertCreate) {
     return await this.saasClient
-      .Post("data-alerts", { ...arg })
-      .then((res) => res.data as IDataAlert);
+      .Post<IDataAlert>("data-alerts", { ...arg })
+      .then((res) => res.data);
   }
 
   async triggerAction(arg: { alertingTaskId: string }) {
@@ -96,16 +126,16 @@ export class DataAlerts {
       );
 
     return await this.saasClient
-      .Post("data-alerts/actions/trigger", {
+      .Post<IDataAlertTriggerActionResponse>("data-alerts/actions/trigger", {
         alertingTaskID: arg.alertingTaskId,
       })
-      .then((res) => res.data as IDataAlertTriggerActionResponse);
+      .then((res) => res.data);
   }
 
   async getSettings() {
     return await this.saasClient
-      .Get("data-alerts/settings")
-      .then((res) => res.data as IDataAlertSettings);
+      .Get<IDataAlertSettings>("data-alerts/settings")
+      .then((res) => res.data);
   }
 
   async updateSettings(arg: { enableDataAlerting: boolean }) {
@@ -128,8 +158,10 @@ export class DataAlerts {
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${arg.taskId}/stats`)
-      .then((res) => res.data as IDataAlertExecutionStatsAggregatedResponse);
+      .Get<IDataAlertExecutionStatsAggregatedResponse>(
+        `data-alerts/${arg.taskId}/stats`
+      )
+      .then((res) => res.data);
   }
 
   async getTaskIdExecutions(arg: {
@@ -165,8 +197,8 @@ export class DataAlerts {
     }
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data as IDataAlertExecutionStatsAggregatedResponse);
+      .Get<IDataAlertExecutionStatsAggregatedResponse>(urlBuild.getUrl())
+      .then((res) => res.data);
   }
 
   async getTaskIdExecutionsStats(arg: { taskId: string; period: string }) {
@@ -181,8 +213,10 @@ export class DataAlerts {
       );
 
     return await this.saasClient
-      .Get(`data-alerts/${arg.taskId}/executions?period=${arg.period}`)
-      .then((res) => res.data as IDataAlertTaskExecutionStatsResponse);
+      .Get<IDataAlertTaskExecutionStatsResponse>(
+        `data-alerts/${arg.taskId}/executions?period=${arg.period}`
+      )
+      .then((res) => res.data);
   }
 
   async getTaskIdExecutionIdEvaluation(arg: {
@@ -200,15 +234,17 @@ export class DataAlerts {
       );
 
     return await this.saasClient
-      .Get(
+      .Get<IDataAlertEvaluationGetResponse>(
         `data-alerts/${arg.taskId}/executions/${arg.executionId}/evaluations`
       )
-      .then((res) => res.data as IDataAlertEvaluationGetResponse);
+      .then((res) => res.data);
   }
 
   async validateActions(arg: IDataAlertCreate) {
     return await this.saasClient
-      .Post(`data-alerts/actions/validate`, { ...arg })
-      .then((res) => res.data as IDataAlertValidateActionsResponse);
+      .Post<IDataAlertValidateActionsResponse>(`data-alerts/actions/validate`, {
+        ...arg,
+      })
+      .then((res) => res.data);
   }
 }

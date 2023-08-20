@@ -37,8 +37,8 @@ export class Tenant {
   async init(arg?: { force: true }) {
     if (Object.keys(this.details).length == 0 || arg?.force == true) {
       this.details = await this.saasClient
-        .Get(`tenants/${this.id}`)
-        .then((res) => res.data as ITenant);
+        .Get<ITenant>(`tenants/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

@@ -28,8 +28,8 @@ export class APIKey {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`api-keys/${this.id}`)
-        .then((res) => res.data as IAPIKey);
+        .Get<IAPIKey>(`api-keys/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

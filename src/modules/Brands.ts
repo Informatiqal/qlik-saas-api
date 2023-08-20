@@ -1,6 +1,7 @@
 import { QlikFormData, QlikSaaSClient } from "qlik-rest-api";
 import { Brand, IBrand } from "./Brand";
 import { contentTypeMime } from "./BrandFile";
+import { parseFilter } from "../util/filter";
 
 export interface IBrandCreate {
   /**
@@ -55,8 +56,35 @@ export class Brands {
   async getAll() {
     return await this.saasClient
       .Get<{ data: IBrand[] }>(`brands`)
-      .then((res) => res.data.data)
+      .then((res) => res.data.data ?? res.data ?? [])
       .then((data) => data.map((t) => new Brand(this.saasClient, t.id, t)));
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`brands.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Brand[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`brands.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
   }
 
   /**

@@ -88,8 +88,8 @@ export class Transports {
 
   async get() {
     return await this.saasClient
-      .Get(`transports/email-config`)
-      .then((res) => res.data as IEmailConfigGet);
+      .Get<IEmailConfigGet>(`transports/email-config`)
+      .then((res) => res.data);
   }
 
   async patch(arg: IEmailConfigFieldPatch[]) {

@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## 0.10.0 - 2023-08-XX
+## 0.11.0 - 2023-08-XX
+
+- **BREAKING** [#199](https://github.com/Informatiqal/qlik-saas-api/issues/199) introduction to common `getFilter` methods for majority of methods. For methods that already had `getFilter` this method is renamed to `getFilterNative`. The new `getFilter` methods is behaving similarly to the QSEoW Repository API filter endpoints where filters criteria can be passed as "readable" text eg. `name eq "something" and published ne true`. Methods that dont have the new `getFilter` will be evaluated in the next release
+- internal change around using generics when using `qlik-rest-api` methods [#81](https://github.com/Informatiqal/qlik-saas-api/issues/81)
+
+## 0.10.0 - 2023-08-15
 
 - **BREAKING** arguments for all public methods are not an object instead of named parameters [#194](https://github.com/Informatiqal/qlik-saas-api/issues/194)
 

@@ -17,8 +17,8 @@ export class Automation {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`automations/${this.id}`)
-        .then((res) => res.data as IAutomation);
+        .Get<IAutomation>(`automations/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -33,8 +33,8 @@ export class Automation {
       throw new Error(`automation.copy: "name" parameter is required`);
 
     const copyResponse = await this.saasClient
-      .Post(`automations/${this.id}/actions/copy`, { name: arg.name })
-      .then((res) => res.data as IAutomation);
+      .Post<IAutomation>(`automations/${this.id}/actions/copy`, { name: arg.name })
+      .then((res) => res.data);
 
     const newAutomation = new Automation(
       this.saasClient,

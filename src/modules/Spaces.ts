@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Space, ISpace } from "./Space";
+import { parseFilter } from "../util/filter";
 
 export interface ISpacesExt {
   data: ISpace[];
@@ -47,24 +48,56 @@ export class Spaces {
 
   async getAll() {
     return await this.saasClient
-      .Get(`spaces`)
-      .then((res) => res.data as ISpace[])
+      .Get<ISpace[]>(`spaces`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
-  async getFilter(arg: ISpaceFilter) {
+  async getFilterNative(arg: ISpaceFilter) {
+    if (!arg.ids && !arg.names)
+      throw new Error(
+        `spaces.getFilterNative: "ids" or "names" parameter is required`
+      );
+
     const filter = {
       ids: arg.ids || [],
       names: arg.names || [],
     };
     return await this.saasClient
-      .Post(`spaces/filter`, filter)
-      .then((res) => res.data as ISpace[])
+      .Post<ISpace[]>(`spaces/filter`, filter)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
-  async removeFilter(arg: ISpaceFilter) {
-    const spaces = await this.getFilter(arg);
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`spaces.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Space[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`spaces.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
+  }
+
+  async removeFilterNative(arg: ISpaceFilter) {
+    const spaces = await this.getFilterNative(arg);
 
     return Promise.all(
       spaces.map((space) =>

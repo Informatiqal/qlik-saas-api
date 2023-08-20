@@ -42,8 +42,8 @@ export class Theme {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`themes/${this.id}`)
-        .then((res) => res.data as ITheme);
+        .Get<ITheme>(`themes/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -55,18 +55,18 @@ export class Theme {
 
   async file(arg: { fileName: string }) {
     return await this.saasClient
-      .Get(`themes/${this.id}/file/${arg.fileName}`)
-      .then((res) => res.data as string);
+      .Get<string>(`themes/${this.id}/file/${arg.fileName}`)
+      .then((res) => res.data);
   }
 
   async download() {
     return await this.saasClient
-      .Get(
+      .Get<string>(
         `themes/${this.id}/file`,
         "application/x-zip-compressed",
         "arraybuffer"
       )
-      .then((res) => res.data as string);
+      .then((res) => res.data);
   }
 
   // async update(file: Buffer) {

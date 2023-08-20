@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IReload, Reload } from "./Reload";
+import { parseFilter } from "../util/filter";
 
 export class Reloads {
   private saasClient: QlikSaaSClient;
@@ -17,9 +18,23 @@ export class Reloads {
 
   async getAll() {
     return await this.saasClient
-      .Get(`reloads`)
-      .then((res) => res.data as IReload[])
+      .Get<IReload[]>(`reloads`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Reload(this.saasClient, t.id, t)));
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`reloads.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Reload[];
+    });
   }
 
   async start(arg: { appId: string; partial?: boolean }) {

@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
+import { parseFilter } from "../util/filter";
 
 export interface IQuotas {
   type: string;
@@ -29,8 +30,8 @@ export class Quotas {
     if (!arg.id) throw new Error(`quotas.get: "id" parameter is required`);
 
     return await this.saasClient
-      .Get(`quotas/${arg.id}`)
-      .then((res) => res.data as IQuotas);
+      .Get<IQuotas>(`quotas/${arg.id}`)
+      .then((res) => res.data);
   }
 
   async getAll() {
@@ -38,7 +39,21 @@ export class Quotas {
     urlBuild.addParam("reportUsage", "true");
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data as IQuotas[]);
+      .Get<IQuotas[]>(urlBuild.getUrl())
+      .then((res) => res.data);
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`quotas.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as IQuotas[];
+    });
   }
 }

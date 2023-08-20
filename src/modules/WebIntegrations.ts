@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IWebIntegration, WebIntegration } from "./WebIntegration";
+import { parseFilter } from "../util/filter";
 
 export interface IWebIntegrationCreate {
   name: string;
@@ -27,11 +28,42 @@ export class WebIntegrations {
 
   async getAll() {
     return await this.saasClient
-      .Get(`web-integrations`)
-      .then((res) => res.data as IWebIntegration[])
+      .Get<IWebIntegration[]>(`web-integrations`)
+      .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new WebIntegration(this.saasClient, t.id, t));
       });
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `webIntegrations.getFilter: "filter" parameter is required`
+      );
+
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as WebIntegration[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `webIntegrations.removeFilter: "filter" parameter is required`
+      );
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
   }
 
   async create(arg: IWebIntegrationCreate) {
@@ -39,7 +71,7 @@ export class WebIntegrations {
       throw new Error(`webIntegrations.create: "name" parameter is required`);
 
     return await this.saasClient
-      .Post("web-integrations", { ...arg })
-      .then((res) => res.data as IWebIntegration);
+      .Post<IWebIntegration>("web-integrations", { ...arg })
+      .then((res) => res.data);
   }
 }

@@ -74,8 +74,8 @@ export class Conditions {
 
   // async getAll() {
   //   return await this.saasClient
-  //     .Get(`conditions`)
-  //     .then((res) => res.data as ICondition[])
+  //     .Get<ICondition[]>(`conditions`)
+  //     .then((res) => res.data)
   //     .then((data) => data.map((t) => new Condition(this.saasClient, t.id, t)));
   // }
 

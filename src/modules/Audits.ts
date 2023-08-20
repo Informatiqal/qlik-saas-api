@@ -77,8 +77,8 @@ export class Audits {
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`audits.get: "id" parameter is required`);
     return await this.saasClient
-      .Get(`audits/${arg.id}`)
-      .then((res) => res.data as IAudit);
+      .Get<IAudit>(`audits/${arg.id}`)
+      .then((res) => res.data);
   }
 
   async getAll(arg: IAuditsFilter) {
@@ -90,26 +90,26 @@ export class Audits {
     urlBuild.addParam("userId", arg.userId);
 
     return await this.saasClient
-      .Get(urlBuild.getUrl())
-      .then((res) => res.data as IAudit[]);
+      .Get<IAudit[]>(urlBuild.getUrl())
+      .then((res) => res.data);
   }
 
   async settings() {
     return await this.saasClient
-      .Get(`audits/settings`)
-      .then((res) => res.data as IAuditsSettings);
+      .Get<IAuditsSettings>(`audits/settings`)
+      .then((res) => res.data);
   }
 
   async sources() {
     return await this.saasClient
-      .Get(`audits/sources`)
-      .then((res) => res.data as string[]);
+      .Get<string[]>(`audits/sources`)
+      .then((res) => res.data);
   }
 
   async types() {
     return await this.saasClient
-      .Get(`audits/types`)
-      .then((res) => res.data as string[]);
+      .Get<string[]>(`audits/types`)
+      .then((res) => res.data);
   }
 
   // TODO: different types are returned in data:{...}

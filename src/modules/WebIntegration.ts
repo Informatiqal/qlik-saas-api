@@ -33,8 +33,8 @@ export class WebIntegration {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`web-integrations/${this.id}`)
-        .then((res) => res.data as IWebIntegration);
+        .Get<IWebIntegration>(`web-integrations/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

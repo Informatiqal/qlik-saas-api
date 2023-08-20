@@ -43,8 +43,8 @@ export class DataCredential {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`data-credentials/${this.id}`)
-        .then((res) => res.data as IDataCredential);
+        .Get<IDataCredential>(`data-credentials/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

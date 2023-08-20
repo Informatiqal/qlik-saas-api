@@ -20,8 +20,8 @@
 
 //   async getAll() {
 //     return await this.saasClient
-//       .Get(`automations`)
-//       .then((res) => res.data as IAutomation[])
+//       .Get<IAutomation[]>(`automations`)
+//       .then((res) => res.data)
 //       .then((data: any) => {
 //         return data.map((t) => new Automation(this.saasClient, t.id, t));
 //       });
@@ -29,7 +29,7 @@
 
 //   async create(arg: IAutomationCreate) {
 //     return await this.saasClient
-//       .Post("automations", { ...arg })
-//       .then((res) => res.data as IAutomation);
+//       .Post<IAutomation>("automations", { ...arg })
+//       .then((res) => res.data);
 //   }
 // }

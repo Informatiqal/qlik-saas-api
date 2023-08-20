@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { DataConnection, IDataConnection } from "./DataConnection";
+import { parseFilter } from "../util/filter";
 
 export interface IDataConnectionsCreate {
   qName: string;
@@ -40,11 +41,42 @@ export class DataConnections {
 
   async getAll() {
     return await this.saasClient
-      .Get(`data-connections`)
-      .then((res) => res.data as IDataConnection[])
+      .Get<IDataConnection[]>(`data-connections`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new DataConnection(this.saasClient, t.id, t))
       );
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `dataConnections.getFilter: "filter" parameter is required`
+      );
+
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as DataConnection[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `dataConnection.removeFilter: "filter" parameter is required`
+      );
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
+    );
   }
 
   async create(arg: IDataConnectionsCreate) {

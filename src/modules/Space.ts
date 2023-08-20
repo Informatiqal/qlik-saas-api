@@ -54,8 +54,8 @@ export class Space {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`spaces/${this.id}`)
-        .then((res) => res.data as ISpace);
+        .Get<ISpace>(`spaces/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -81,8 +81,8 @@ export class Space {
 
   async assignments() {
     return await this.saasClient
-      .Get(`spaces/${this.id}/assignments`)
-      .then((res) => res.data as IAssignment[])
+      .Get<IAssignment[]>(`spaces/${this.id}/assignments`)
+      .then((res) => res.data)
       .then((assignments) =>
         assignments.map(
           (assignment) =>
@@ -98,8 +98,8 @@ export class Space {
     if (arg.roles) data["roles"] = arg.roles;
 
     return await this.saasClient
-      .Post(`spaces/${this.id}/assignments`, data)
-      .then((res) => res.data as IAssignment)
+      .Post<IAssignment>(`spaces/${this.id}/assignments`, data)
+      .then((res) => res.data)
       .then(
         (assignment) =>
           new Assignment(this.saasClient, assignment.id, this.id, assignment)
