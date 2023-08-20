@@ -43,8 +43,8 @@ export class App {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`apps/${this.id}`)
-        .then((res) => res.data as IApp);
+        .Get<IApp>(`apps/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -52,27 +52,22 @@ export class App {
     if (!arg.name) throw new Error(`app.copy: "name" parameter is required`);
 
     return await this.saasClient
-      .Post(`apps/${this.id}/copy`, arg)
+      .Post<IApp>(`apps/${this.id}/copy`, arg)
       .then(
-        (res) =>
-          new App(
-            this.saasClient,
-            (res.data as IApp).attributes.id,
-            res.data as IApp
-          )
+        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
       );
   }
 
   async dataLineage() {
     return await this.saasClient
-      .Get(`apps/${this.id}/data/lineage`)
-      .then((res) => res.data as IAppDataLineage[]);
+      .Get<IAppDataLineage[]>(`apps/${this.id}/data/lineage`)
+      .then((res) => res.data);
   }
 
   async metaData() {
     return await this.saasClient
-      .Get(`apps/${this.id}/data/metadata`)
-      .then((res) => res.data as IAppMetaData);
+      .Get<IAppMetaData>(`apps/${this.id}/data/metadata`)
+      .then((res) => res.data);
   }
 
   async export(arg?: { noData: boolean }) {
@@ -106,9 +101,9 @@ export class App {
     if (arg.description) data.attributes["description"] = arg.description;
 
     return await this.saasClient
-      .Post(`apps/${this.id}/publish`, { data })
+      .Post<IApp>(`apps/${this.id}/publish`, { data })
       .then((res) => {
-        this.details.attributes = (res.data as IApp).attributes;
+        this.details.attributes = res.data.attributes;
         return res.status;
       });
   }
@@ -126,9 +121,9 @@ export class App {
     if (arg.checkOriginAppId) data["checkOriginAppId"] = arg.checkOriginAppId;
 
     return await this.saasClient
-      .Put(`apps/${this.id}/publish`, { data })
+      .Put<IApp>(`apps/${this.id}/publish`, { data })
       .then((res) => {
-        this.details.attributes = (res.data as IApp).attributes;
+        this.details.attributes = res.data.attributes;
         return res.status;
       });
   }
@@ -149,7 +144,7 @@ export class App {
   // REVIEW: the name?
   async removeFromSpace() {
     return await this.saasClient.Delete(`apps/${this.id}/space`).then((res) => {
-      this.details.attributes = (res.data as any).attributes;
+      this.details.attributes = (res.data as unknown as IApp).attributes;
       return res.status;
     });
   }

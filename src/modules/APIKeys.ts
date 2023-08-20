@@ -40,8 +40,8 @@ export class APIKeys {
 
   async getAll() {
     return await this.saasClient
-      .Get(`api-keys`)
-      .then((res) => res.data as IAPIKey[])
+      .Get<IAPIKey[]>(`api-keys`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new APIKey(this.saasClient, t.id, t)));
   }
 
@@ -49,8 +49,26 @@ export class APIKeys {
     if (!arg.filter)
       throw new Error(`apiKeys.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as APIKey[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`apiKeys.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
     );
   }
 
@@ -68,8 +86,8 @@ export class APIKeys {
       throw new Error(`apiKeys.configs: "tenantId" parameter is required`);
 
     return await this.saasClient
-      .Get(`api-keys/configs/${arg.tenantId}`)
-      .then((res) => res.data as IAPIKeysConfigs);
+      .Get<IAPIKeysConfigs>(`api-keys/configs/${arg.tenantId}`)
+      .then((res) => res.data);
   }
 
   async configsUpdate(arg: {

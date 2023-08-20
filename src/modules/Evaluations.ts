@@ -28,8 +28,8 @@ export class Evaluations {
       );
 
     return await this.saasClient
-      .Get(`evaluations`)
-      .then((res) => res.data as IEvaluation[])
+      .Get<IEvaluation[]>(`evaluations`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new Evaluation(this.saasClient, t.id, t))
       );

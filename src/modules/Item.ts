@@ -114,8 +114,8 @@ export class Item {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`items/${this.id}`)
-        .then((res) => res.data as IItem);
+        .Get<IItem>(`items/${this.id}`)
+        .then((res) => res.data);
     }
   }
 
@@ -127,13 +127,13 @@ export class Item {
 
   async collections() {
     return await this.saasClient
-      .Get(`items/${this.id}/collections`)
-      .then((res) => res.data as IITemCollections[]);
+      .Get<IITemCollections[]>(`items/${this.id}/collections`)
+      .then((res) => res.data);
   }
 
   async publishedItems() {
     return await this.saasClient
-      .Get(`items/${this.id}/publisheditems`)
-      .then((res) => res.data as IITemCollections[]);
+      .Get<IITemCollections[]>(`items/${this.id}/publisheditems`)
+      .then((res) => res.data);
   }
 }

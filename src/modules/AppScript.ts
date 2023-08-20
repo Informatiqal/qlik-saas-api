@@ -26,7 +26,7 @@ export class AppScript {
         .Get<IScriptMetaWithScript>(
           `apps/${this.appId}/scripts?filter=ScriptId eq "${this.id}"`
         )
-        .then((res) => ({ ...(res.data as IScriptMeta), script: "" }));
+        .then((res) => ({ ...res.data, script: "" }));
     }
   }
 

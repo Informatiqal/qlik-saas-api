@@ -48,8 +48,8 @@ export class Spaces {
 
   async getAll() {
     return await this.saasClient
-      .Get(`spaces`)
-      .then((res) => res.data as ISpace[])
+      .Get<ISpace[]>(`spaces`)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
@@ -64,8 +64,8 @@ export class Spaces {
       names: arg.names || [],
     };
     return await this.saasClient
-      .Post(`spaces/filter`, filter)
-      .then((res) => res.data as ISpace[])
+      .Post<ISpace[]>(`spaces/filter`, filter)
+      .then((res) => res.data)
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
@@ -73,12 +73,30 @@ export class Spaces {
     if (!arg.filter)
       throw new Error(`spaces.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as Space[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`spaces.removeFilter: "filter" parameter is required`);
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
     );
   }
 
-  async removeFilter(arg: ISpaceFilter) {
+  async removeFilterNative(arg: ISpaceFilter) {
     const spaces = await this.getFilterNative(arg);
 
     return Promise.all(

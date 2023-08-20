@@ -56,18 +56,18 @@ export class Run {
   // async init() {
   //   if (!this.details) {
   //     this.details = await this.saasClient
-  //       .Get(`automations/${this.id}`)
-  //       .then((res) => res.data as IRun);
+  //       .Get<IRun>(`automations/${this.id}`)
+  //       .then((res) => res.data);
   //   }
   // }
 
   async export() {
     return await this.saasClient
-      .Post(
+      .Post<IRunExportResponse>(
         `automations/automations/${this.automationId}/runs/${this.id}/actions/export`,
         {}
       )
-      .then((res) => res.data as IRunExportResponse);
+      .then((res) => res.data);
   }
 
   async retry() {

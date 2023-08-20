@@ -69,8 +69,8 @@ export class User {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get(`users/${this.id}`)
-        .then((res) => res.data as IUser);
+        .Get<IUser>(`users/${this.id}`)
+        .then((res) => res.data);
     }
   }
 

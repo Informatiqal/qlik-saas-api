@@ -14,7 +14,11 @@ export type ParsedCondition = {
  * @param baseObjPath the path of the origin object. This path will be included in the final JS statement
  * @returns string based JS statement
  */
-export function parseFilter(filter: string, baseObjPath: string) {
+export function parseFilter(
+  filter: string,
+  baseObjPath: string,
+  // data: {}
+){
   //   if (!filter) throw new Error("");
 
   // split the conditions on "and" and "or" (ignore cases: AND = and = And etc.)
@@ -37,11 +41,10 @@ export function parseFilter(filter: string, baseObjPath: string) {
   });
 
   // the final JS filter statement
-  try {
-    return constructFilter(parsedConditions, r1, baseObjPath);
-  } catch (e) {
-    return "";
-  }
+  // const jsFilter = constructFilter(parsedConditions, r1, baseObjPath);
+  return constructFilter(parsedConditions, r1, baseObjPath);
+
+  // return Function(`return arguments[0].filter(a => ${jsFilter})`)(data);
 }
 
 // convert the parsed filter condition to a JS statement
@@ -86,6 +89,14 @@ function constructFilter(
     .map((c1, i) => {
       if (!c[c1.operation])
         throw new Error(`"${c1.operation}" is not a valid filter operation.`);
+
+      if (
+        isNaN(Number(c1.value)) &&
+        (!c1.value.startsWith(`"`) || !c1.value.endsWith(`"`))
+      )
+        throw new Error(
+          `Error while parsing filter value. The value is an instance of a string but its not surrounded by double-quotes. Provided value was: ${c1.value}`
+        );
 
       return `${baseObjPath}.${c[c1.operation](c1.property, c1.value)} ${
         op[operations[i]] ?? ""

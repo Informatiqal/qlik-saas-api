@@ -19,8 +19,8 @@ export class ReloadTasks {
 
   async getAll() {
     return await this.saasClient
-      .Get(`reload-tasks`)
-      .then((res) => res.data as IReloadTask[])
+      .Get<IReloadTask[]>(`reload-tasks`)
+      .then((res) => res.data)
       .then((data) =>
         data.map((t) => new ReloadTask(this.saasClient, t.id, t))
       );
@@ -30,8 +30,28 @@ export class ReloadTasks {
     if (!arg.filter)
       throw new Error(`reloadTasks.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) =>
-      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    return await this.getAll().then((entities) => {
+      const anonFunction = Function(
+        "entities",
+        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
+      );
+
+      return anonFunction(entities) as ReloadTask[];
+    });
+  }
+
+  async removeFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `reloadTasks.removeFilter: "filter" parameter is required`
+      );
+
+    return await this.getFilter(arg).then((entities) =>
+      Promise.all(
+        entities.map((entity) =>
+          entity.remove().then((s) => ({ id: entity.details.id, status: s }))
+        )
+      )
     );
   }
 
