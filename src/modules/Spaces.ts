@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Space, ISpace } from "./Space";
+import { parseFilter } from "../util/filter";
 
 export interface ISpacesExt {
   data: ISpace[];
@@ -52,7 +53,12 @@ export class Spaces {
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
-  async getFilter(arg: ISpaceFilter) {
+  async getFilterNative(arg: ISpaceFilter) {
+    if (!arg.ids && !arg.names)
+      throw new Error(
+        `spaces.getFilterNative: "ids" or "names" parameter is required`
+      );
+
     const filter = {
       ids: arg.ids || [],
       names: arg.names || [],
@@ -63,8 +69,14 @@ export class Spaces {
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }
 
+  async getFilter(arg: { filter: string }) {
+    return await this.getAll().then((spaces) =>
+      spaces.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
+  }
+
   async removeFilter(arg: ISpaceFilter) {
-    const spaces = await this.getFilter(arg);
+    const spaces = await this.getFilterNative(arg);
 
     return Promise.all(
       spaces.map((space) =>
