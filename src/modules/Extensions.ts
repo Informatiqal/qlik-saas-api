@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Extension, IExtension } from "./Extension";
+import { parseFilter } from "../util/filter";
 
 //TODO: import extension method
 export class Extensions {
@@ -22,4 +23,15 @@ export class Extensions {
       .then((res) => res.data as IExtension[])
       .then((data) => data.map((t) => new Extension(this.saasClient, t.id, t)));
   }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `extensions.getFilter: "filter" parameter is required`
+      );
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
+  }  
 }

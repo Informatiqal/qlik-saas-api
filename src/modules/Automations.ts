@@ -7,6 +7,7 @@ import {
   IAutomationsSettings,
   IAutomationUsage,
 } from "./Automation.interfaces";
+import { parseFilter } from "../util/filter";
 
 export class Automations {
   private saasClient: QlikSaaSClient;
@@ -29,6 +30,15 @@ export class Automations {
       .then((data: any) => {
         return data.map((t) => new Automation(this.saasClient, t.id, t));
       });
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`automations.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async create(arg: IAutomationCreate) {

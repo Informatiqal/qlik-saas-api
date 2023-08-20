@@ -8,6 +8,7 @@ import {
 } from "./Apps.interfaces";
 import { URLBuild } from "../util/UrlBuild";
 import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
+import { parseFilter } from "../util/filter";
 
 export class Apps {
   private saasClient: QlikSaaSClient;
@@ -46,6 +47,15 @@ export class Apps {
   }
 
   async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`apps.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
+  }
+
+  async getFilterNative(arg: { filter: string }) {
     if (!arg.filter)
       throw new Error(`apps.getFilter: "filter" parameter is required`);
 

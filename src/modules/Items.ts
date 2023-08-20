@@ -1,6 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { ResourceType } from "../types/types";
 import { IItem, Item } from "./Item";
+import { parseFilter } from "../util/filter";
 
 export interface IItemCreate {
   name: string;
@@ -40,6 +41,15 @@ export class Items {
       .then((data) => {
         return data.map((t) => new Item(this.saasClient, t.id, t));
       });
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`items.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   // async create(arg: IItemCreate) {

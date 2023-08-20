@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { DataCredential, IDataCredential } from "./DataCredential";
+import { parseFilter } from "../util/filter";
 
 export class DataCredentials {
   private saasClient: QlikSaaSClient;
@@ -26,5 +27,16 @@ export class DataCredentials {
       .then((data) =>
         data.map((t) => new DataCredential(this.saasClient, t.qID, t))
       );
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `dataCredentials.getFilter: "filter" parameter is required`
+      );
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 }

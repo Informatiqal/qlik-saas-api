@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IdentityProvider, IIdentityProvider } from "./IdentityProvider";
+import { parseFilter } from "../util/filter";
 
 // TODO: documentation is incomplete!
 export class IdentityProviders {
@@ -27,5 +28,16 @@ export class IdentityProviders {
       .then((data) =>
         data.map((t) => new IdentityProvider(this.saasClient, t.id, t))
       );
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `identityProviders.getFilter: "filter" parameter is required`
+      );
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 }

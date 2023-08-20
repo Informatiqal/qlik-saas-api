@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Origin, IOrigin } from "./Origin";
+import { parseFilter } from "../util/filter";
 
 export interface IOriginCreate {
   origin: string;
@@ -42,6 +43,15 @@ export class Origins {
       .Get(`csp-origins`)
       .then((res) => res.data as IOrigin[])
       .then((data) => data.map((t) => new Origin(this.saasClient, t.id, t)));
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`origins.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async generateHeader() {

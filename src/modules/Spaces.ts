@@ -70,8 +70,11 @@ export class Spaces {
   }
 
   async getFilter(arg: { filter: string }) {
-    return await this.getAll().then((spaces) =>
-      spaces.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    if (!arg.filter)
+      throw new Error(`spaces.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
     );
   }
 

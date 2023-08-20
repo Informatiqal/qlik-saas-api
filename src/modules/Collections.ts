@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Collection, ICollection } from "./Collection";
+import { parseFilter } from "../util/filter";
 
 export interface ICollectionCreate {
   name: string;
@@ -29,6 +30,15 @@ export class Collections {
       .then((data) =>
         data.map((t) => new Collection(this.saasClient, t.id, t))
       );
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`collections.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async favorites() {

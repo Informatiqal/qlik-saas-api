@@ -2,6 +2,7 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 import { IUser, User } from "./User";
 import { UsersActions } from "./UsersActions";
+import { parseFilter } from "../util/filter";
 
 export interface IUserCreate {
   tenantId: string;
@@ -41,7 +42,7 @@ export class Users {
    *     (id eq \"626949b9017b657805080bbd\" or id eq \"626949bf017b657805080bbe\") and (status eq \"active\" or status eq \"deleted\")
    * @param [sort] OPTIONAL name; +name; -name
    */
-  async getFilter(arg: { filter: string; sort?: string }) {
+  async getFilterNative(arg: { filter: string; sort?: string }) {
     if (!arg.filter)
       throw new Error(`users.getFilter: "filter" parameter is required`);
 
@@ -51,6 +52,15 @@ export class Users {
     return await this.saasClient
       .Post(urlBuild.getUrl(), { filter: arg.filter })
       .then((res) => res.data as IUser[]);
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`users.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   /**

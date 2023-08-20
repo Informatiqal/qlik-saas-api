@@ -1,4 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
+import { parseFilter } from "../util/filter";
 
 export interface IRoleCondensed {
   id: string;
@@ -39,4 +40,14 @@ export class Roles {
       .Get(`roles`)
       .then((res) => res.data as IRole[]);
   }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`roles.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
+  }
+
 }

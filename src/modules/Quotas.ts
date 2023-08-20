@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
+import { parseFilter } from "../util/filter";
 
 export interface IQuotas {
   type: string;
@@ -41,4 +42,13 @@ export class Quotas {
       .Get(urlBuild.getUrl())
       .then((res) => res.data as IQuotas[]);
   }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`quotas.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
+  }  
 }

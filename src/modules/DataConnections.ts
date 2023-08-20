@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { DataConnection, IDataConnection } from "./DataConnection";
+import { parseFilter } from "../util/filter";
 
 export interface IDataConnectionsCreate {
   qName: string;
@@ -45,6 +46,17 @@ export class DataConnections {
       .then((data) =>
         data.map((t) => new DataConnection(this.saasClient, t.id, t))
       );
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `dataConnections.getFilter: "filter" parameter is required`
+      );
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async create(arg: IDataConnectionsCreate) {

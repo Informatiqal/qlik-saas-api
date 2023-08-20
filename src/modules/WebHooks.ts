@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IWebHook, WebHook } from "./WebHook";
+import { parseFilter } from "../util/filter";
 
 export interface IWebHookEvenType {
   title: string;
@@ -56,6 +57,15 @@ export class WebHooks {
       .then((res) => res.data as IWebHook[])
       .then((data) => data.map((t) => new WebHook(this.saasClient, t.id, t)));
   }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`webHooks.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
+  }  
 
   async eventTypes() {
     return await this.saasClient

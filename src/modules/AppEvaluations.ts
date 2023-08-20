@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
+import { parseFilter } from "../util/filter";
 
 export class AppEvaluations {
   private saasClient: QlikSaaSClient;
@@ -16,6 +17,15 @@ export class AppEvaluations {
       .then((data) =>
         data.map((t) => new AppEvaluation(this.saasClient, t.id ?? t.ID, t))
       );
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`evaluations.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async create() {

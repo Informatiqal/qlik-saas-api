@@ -11,6 +11,7 @@ import {
   IDataAlertTriggerActionResponse,
   IDataAlertValidateActionsResponse,
 } from "./DataAlerts.interfaces";
+import { parseFilter } from "../util/filter";
 
 export type TDaysOfWeek =
   | "MONDAY"
@@ -81,6 +82,15 @@ export class DataAlerts {
       .then((data: any) => {
         return data.tasks.map((t) => new DataAlert(this.saasClient, t.id, t));
       });
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`dataAlerts.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async create(arg: IDataAlertCreate) {

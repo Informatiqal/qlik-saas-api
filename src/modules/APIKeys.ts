@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { APIKey, IAPIKey } from "./APIKey";
+import { parseFilter } from "../util/filter";
 
 export interface IAPIKeyCreate {
   description: string;
@@ -42,6 +43,15 @@ export class APIKeys {
       .Get(`api-keys`)
       .then((res) => res.data as IAPIKey[])
       .then((data) => data.map((t) => new APIKey(this.saasClient, t.id, t)));
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(`apiKeys.getFilter: "filter" parameter is required`);
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async create(arg: IAPIKeyCreate) {

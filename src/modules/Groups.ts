@@ -1,6 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 import { IGroup, Group } from "./Group";
+import { parseFilter } from "../util/filter";
 
 export interface IGroupSettings {
   link: {
@@ -44,7 +45,7 @@ export class Groups {
     return group;
   }
 
-  async getFilter(arg: { filter: string; sort?: string }) {
+  async getFilterNative(arg: { filter: string; sort?: string }) {
     const urlBuild = new URLBuild(`groups/actions/filter`);
     urlBuild.addParam("NoData", arg.sort);
 
@@ -54,6 +55,17 @@ export class Groups {
     return await this.saasClient
       .Post(urlBuild.getUrl(), { filter: arg.filter })
       .then((res) => res.data as IGroup[]);
+  }
+
+  async getFilter(arg: { filter: string }) {
+    if (!arg.filter)
+      throw new Error(
+        `groups.getFilter: "filter" parameter is required`
+      );
+
+    return await this.getAll().then((entities) =>
+      entities.filter((f) => eval(parseFilter(arg.filter, "f.details")))
+    );
   }
 
   async getAll() {
