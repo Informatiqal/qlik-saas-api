@@ -16,9 +16,9 @@ export type ParsedCondition = {
  */
 export function parseFilter(
   filter: string,
-  baseObjPath: string,
+  baseObjPath: string
   // data: {}
-){
+) {
   //   if (!filter) throw new Error("");
 
   // split the conditions on "and" and "or" (ignore cases: AND = and = And etc.)
@@ -92,10 +92,11 @@ function constructFilter(
 
       if (
         isNaN(Number(c1.value)) &&
-        (!c1.value.startsWith(`"`) || !c1.value.endsWith(`"`))
+        (!c1.value.startsWith(`"`) || !c1.value.endsWith(`"`)) &&
+        (!c1.value.startsWith(`'`) || !c1.value.endsWith(`'`))
       )
         throw new Error(
-          `Error while parsing filter value. The value is an instance of a string but its not surrounded by double-quotes. Provided value was: ${c1.value}`
+          `Error while parsing filter value. The value is an instance of a string but its not surrounded by double/single-quotes. Provided value was: ${c1.value}`
         );
 
       return `${baseObjPath}.${c[c1.operation](c1.property, c1.value)} ${

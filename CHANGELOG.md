@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.11.1 - 2023-08-21
+
+- additional condition to the filter parsing process - check not only of double but for single quotes as well
+
 ## 0.11.0 - 2023-08-20
 
 - **BREAKING** [#199](https://github.com/Informatiqal/qlik-saas-api/issues/199) introduction to common `getFilter` methods for majority of methods. For methods that already had `getFilter` this method is renamed to `getFilterNative`. The new `getFilter` methods is behaving similarly to the QSEoW Repository API filter endpoints where filters criteria can be passed as "readable" text eg. `name eq "something" and published ne true`. Methods that dont have the new `getFilter` will be evaluated in the next release
