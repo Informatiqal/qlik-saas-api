@@ -1,7 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 import {
-  IApp,
+  IItem,
   IAppAttributes,
   IAppCopy,
   IAppDataLineage,
@@ -29,11 +29,11 @@ export class App {
    * - createReloadTask - create scheduled reload task. Originally part of /reload-tasks endpoints
    */
   _actions: AppActions;
-  details: IApp;
-  constructor(saasClient: QlikSaaSClient, id: string, details?: IApp) {
+  details: IItem;
+  constructor(saasClient: QlikSaaSClient, id: string, details?: IItem) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
-    this.details = details ?? ({} as IApp);
+    this.details = details ?? ({} as IItem);
     this.id = id;
     this.saasClient = saasClient;
     this.evaluations = new AppEvaluations(this.saasClient, this.id);
@@ -43,7 +43,7 @@ export class App {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get<IApp>(`apps/${this.id}`)
+        .Get<IItem>(`items?resourceType=app&resourceId=${this.id}`)
         .then((res) => res.data);
     }
   }
@@ -52,10 +52,8 @@ export class App {
     if (!arg.name) throw new Error(`app.copy: "name" parameter is required`);
 
     return await this.saasClient
-      .Post<IApp>(`apps/${this.id}/copy`, arg)
-      .then(
-        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
-      );
+      .Post<IItem>(`apps/${this.id}/copy`, arg)
+      .then((res) => new App(this.saasClient, res.data.resourceId, res.data));
   }
 
   async dataLineage() {
@@ -89,65 +87,65 @@ export class App {
     return appContent;
   }
 
-  async publish(arg: IAppPublish) {
-    let data: { [k: string]: any } = {};
-    data = {
-      spaceId: arg.spaceId,
-      attributes: {
-        name: arg.appName,
-      },
-    };
-    if (arg.data) data["data"] = arg.data;
-    if (arg.description) data.attributes["description"] = arg.description;
+  // async publish(arg: IAppPublish) {
+  //   let data: { [k: string]: any } = {};
+  //   data = {
+  //     spaceId: arg.spaceId,
+  //     attributes: {
+  //       name: arg.appName,
+  //     },
+  //   };
+  //   if (arg.data) data["data"] = arg.data;
+  //   if (arg.description) data.attributes["description"] = arg.description;
 
-    return await this.saasClient
-      .Post<IApp>(`apps/${this.id}/publish`, { data })
-      .then((res) => {
-        this.details.attributes = res.data.attributes;
-        return res.status;
-      });
-  }
+  //   return await this.saasClient
+  //     .Post<IApp>(`apps/${this.id}/publish`, { data })
+  //     .then((res) => {
+  //       this.details.attributes = res.data.attributes;
+  //       return res.status;
+  //     });
+  // }
 
-  async rePublish(arg: IAppRePublish) {
-    let data: { [k: string]: any } = {};
-    data = {
-      targetId: arg.targetId,
-      attributes: {
-        name: arg.appName,
-      },
-    };
-    if (arg.data) data["data"] = arg.data;
-    if (arg.description) data.attributes["description"] = arg.description;
-    if (arg.checkOriginAppId) data["checkOriginAppId"] = arg.checkOriginAppId;
+  // async rePublish(arg: IAppRePublish) {
+  //   let data: { [k: string]: any } = {};
+  //   data = {
+  //     targetId: arg.targetId,
+  //     attributes: {
+  //       name: arg.appName,
+  //     },
+  //   };
+  //   if (arg.data) data["data"] = arg.data;
+  //   if (arg.description) data.attributes["description"] = arg.description;
+  //   if (arg.checkOriginAppId) data["checkOriginAppId"] = arg.checkOriginAppId;
 
-    return await this.saasClient
-      .Put<IApp>(`apps/${this.id}/publish`, { data })
-      .then((res) => {
-        this.details.attributes = res.data.attributes;
-        return res.status;
-      });
-  }
+  //   return await this.saasClient
+  //     .Put<IApp>(`apps/${this.id}/publish`, { data })
+  //     .then((res) => {
+  //       this.details.attributes = res.data.attributes;
+  //       return res.status;
+  //     });
+  // }
 
-  // REVIEW: the name?
-  async addToSpace(arg: { spaceId: string }) {
-    if (!arg.spaceId)
-      throw new Error(`app.addToSpace: "spaceId" parameter is required`);
+  // // REVIEW: the name?
+  // async addToSpace(arg: { spaceId: string }) {
+  //   if (!arg.spaceId)
+  //     throw new Error(`app.addToSpace: "spaceId" parameter is required`);
 
-    return await this.saasClient
-      .Put<IApp>(`apps/${this.id}/space`, { spaceId: arg.spaceId })
-      .then((res) => {
-        this.details.attributes = res.data.attributes;
-        return res.status;
-      });
-  }
+  //   return await this.saasClient
+  //     .Put<IApp>(`apps/${this.id}/space`, { spaceId: arg.spaceId })
+  //     .then((res) => {
+  //       this.details.attributes = res.data.attributes;
+  //       return res.status;
+  //     });
+  // }
 
-  // REVIEW: the name?
-  async removeFromSpace() {
-    return await this.saasClient.Delete(`apps/${this.id}/space`).then((res) => {
-      this.details.attributes = (res.data as unknown as IApp).attributes;
-      return res.status;
-    });
-  }
+  // // REVIEW: the name?
+  // async removeFromSpace() {
+  //   return await this.saasClient.Delete(`apps/${this.id}/space`).then((res) => {
+  //     this.details.attributes = (res.data as unknown as IApp).attributes;
+  //     return res.status;
+  //   });
+  // }
 
   async remove() {
     return await this.saasClient
@@ -160,24 +158,16 @@ export class App {
 
     return this.saasClient
       .Put<{ attributes: IAppAttributes }>(`apps/${this.id}`, {
-        attributes: { ...arg },
+        attributes: arg,
       })
+      .then(() =>
+        this.saasClient.Get<IItem>(
+          `items?resourceType=app&resourceId=${this.id}`
+        )
+      )
       .then((res) => {
-        this.details.attributes = res.data.attributes;
-        return res.status;
-      })
-      .then(async (status) => {
-        if (arg.ownerId)
-          return await this.saasClient
-            .Put<{ attributes: IAppAttributes }>(`apps/${this.id}`, {
-              ownerId: arg.ownerId,
-            })
-            .then((res) => {
-              this.details.attributes = res.data.attributes;
-              return res.status;
-            });
-
-        return status;
+        this.details = res.data;
+        return this.details;
       });
   }
 
@@ -201,29 +191,29 @@ export class App {
       });
   }
 
-  async addMedia(arg: { content: Buffer; fileName: string }) {
-    if (!arg.content)
-      throw new Error(`app.addMedia: "content" parameter is required`);
-    if (!arg.fileName)
-      throw new Error(`app.addMedia: "fileName" parameter is required`);
+  // async addMedia(arg: { content: Buffer; fileName: string }) {
+  //   if (!arg.content)
+  //     throw new Error(`app.addMedia: "content" parameter is required`);
+  //   if (!arg.fileName)
+  //     throw new Error(`app.addMedia: "fileName" parameter is required`);
 
-    return await this.saasClient
-      .Put<IAppMedia>(
-        `apps/${this.id}/media/files/${arg.fileName}`,
-        arg.content,
-        "application/octet-stream"
-      )
-      .then((res) => new Media(this.saasClient, res.data.id, res.data));
-  }
+  //   return await this.saasClient
+  //     .Put<IAppMedia>(
+  //       `apps/${this.id}/media/files/${arg.fileName}`,
+  //       arg.content,
+  //       "application/octet-stream"
+  //     )
+  //     .then((res) => new Media(this.saasClient, res.data.id, res.data));
+  // }
 
   /**
-   * List of all script versions
-   *
-   * To reduce the number of API calls the actual script content is initially left empty
-   * Call `getScriptContent()` for each version.
-   *
-   * Rate limit: Tier 1 (600 requests per minute)
-   */
+  //  * List of all script versions
+  //  *
+  //  * To reduce the number of API calls the actual script content is initially left empty
+  //  * Call `getScriptContent()` for each version.
+  //  *
+  //  * Rate limit: Tier 1 (600 requests per minute)
+  //  */
   async scriptVersions() {
     return await this.saasClient
       .Get<{ scripts: IScriptMeta[] }>(`apps/${this.id}/scripts`)
@@ -245,6 +235,9 @@ export class App {
    * Rate limit: Tier 1 (600 requests per minute)
    */
   async scriptVersion(arg: { versionId: string }) {
+    if (!arg.versionId)
+      throw new Error(`app.scriptVersions: "versionId" parameter is required`);
+
     const scriptVersion = new AppScript(
       this.saasClient,
       arg.versionId,
@@ -268,8 +261,8 @@ export class App {
   }
 
   /**
-   * List of reload logs (actual log is not included)
-   */
+  //  * List of reload logs (actual log is not included)
+  //  */
   async reloadLogs() {
     return this.saasClient
       .Get<IScriptLogMeta[]>(`apps/${this.id}/reloads/logs`)

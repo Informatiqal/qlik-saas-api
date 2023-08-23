@@ -65,7 +65,7 @@
     "dotenv": "16.3.1",
     "esm": "^3.2.25",
     "nyc": "15.1.0",
-    "rollup": "^3.28.0",
+    "rollup": "^3.28.1",
     "rollup-plugin-delete": "2.0.0",
     "ts-node": "10.9.1",
     "tslib": "^2.6.2",
@@ -75,6 +75,6 @@
   },
   "dependencies": {
     "form-data": "^4.0.0",
-    "qlik-rest-api": "^1.8.0"
+    "qlik-rest-api": "^1.8.1"
   }
 }

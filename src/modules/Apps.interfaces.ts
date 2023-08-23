@@ -33,6 +33,75 @@ export interface IApp {
   scriptVersions?: IScriptVersion[];
 }
 
+export interface IResourceAttributes {
+  _resourcetype: string;
+  createdDate: string;
+  description: string;
+  dynamicColor: string;
+  hasSectionAccess: boolean;
+  id: string;
+  lastReloadTime: string;
+  modifiedDate: string;
+  name: string;
+  originAppId: string;
+  owner: string;
+  ownerId: string;
+  publishTime: string;
+  published: boolean;
+  spaceId: string;
+  thumbnail: string;
+}
+
+export interface ILinks {
+  self: {
+    href: string;
+  };
+  thumbnail: {
+    href: string;
+  };
+  collections: {
+    href: string;
+  };
+  open: {
+    href: string;
+  };
+}
+
+export interface IItem {
+  name: string;
+  description: string;
+  resourceAttributes: IResourceAttributes;
+  resourceCustomAttributes: string[];
+  resourceUpdatedAt: string;
+  resourceType: string;
+  resourceId: string;
+  resourceCreatedAt: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  creatorId: string;
+  updaterId: string;
+  tenantId: string;
+  isFavorited: boolean;
+  links: ILinks;
+  actions: string[];
+  collectionIds: string[];
+  meta: {
+    isFavorited: boolean;
+    actions: string[];
+    tags: string[];
+    collections: string[];
+  };
+  ownerId: string;
+  resourceReloadEndTime: string;
+  resourceReloadStatus: string;
+  resourceSize: {
+    appFile: number;
+    appMemory: number;
+  };
+  itemViews: {};
+}
+
 export interface IAppDataLineage {
   discriminator: string;
   statement: string;
@@ -240,11 +309,11 @@ export interface AppObject {
     objectType: string;
     description: string;
     genericType:
-    | "genericObject"
-    | "genericBookmark"
-    | "genericMeasure"
-    | "genericDimension"
-    | "genericVariable";
+      | "genericObject"
+      | "genericBookmark"
+      | "genericMeasure"
+      | "genericDimension"
+      | "genericVariable";
     createdAt: string;
     updatedAt: string;
     publishedAt: string;
