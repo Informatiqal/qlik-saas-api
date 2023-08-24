@@ -1,9 +1,10 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { App } from "./App";
-import { IItem, IAppCreate, IAppImport, IApp } from "./Apps.interfaces";
+import { IAppCreate, IAppImport, IApp } from "./Apps.interfaces";
 import { URLBuild } from "../util/UrlBuild";
 import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 import { parseFilter } from "../util/filter";
+import { IItem } from "./Item";
 
 export class Apps {
   private saasClient: QlikSaaSClient;

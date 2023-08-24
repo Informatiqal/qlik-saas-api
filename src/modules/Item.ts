@@ -1,6 +1,7 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Privileges, ResourceType } from "../types/types";
 import { IApp } from "./Apps.interfaces";
+import { ILinks } from "../types/Common";
 
 export interface IResourceAttributeNote {
   thumbnail: string;
@@ -68,20 +69,7 @@ export interface IItem {
   updaterId: string;
   tenantId: string;
   isFavorited: boolean;
-  links: {
-    self: {
-      href: string;
-    };
-    thumbnail: {
-      href: string;
-    };
-    collections: {
-      href: string;
-    };
-    open: {
-      href: string;
-    };
-  };
+  links: ILinks;
   actions: Privileges[];
   collectionIds: string[];
   meta: {
@@ -97,6 +85,7 @@ export interface IItem {
     appFile: number;
     appMemory: number;
   };
+  itemViews: {};
 }
 
 export class Item {
