@@ -35,7 +35,7 @@ export class Quotas {
   }
 
   async getAll() {
-    const urlBuild = new URLBuild("quotas");
+    const urlBuild = new URLBuild("quotas?limit=50");
     urlBuild.addParam("reportUsage", "true");
 
     return await this.saasClient

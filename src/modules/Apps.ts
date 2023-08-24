@@ -1,14 +1,10 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { App } from "./App";
-import {
-  IApp,
-  IAppAttributes,
-  IAppCreate,
-  IAppImport,
-} from "./Apps.interfaces";
+import { IAppCreate, IAppImport, IApp } from "./Apps.interfaces";
 import { URLBuild } from "../util/UrlBuild";
 import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 import { parseFilter } from "../util/filter";
+import { IItem } from "./Item";
 
 export class Apps {
   private saasClient: QlikSaaSClient;
@@ -37,12 +33,10 @@ export class Apps {
 
   async getAll() {
     return await this.saasClient
-      .Get<IAppAttributes[]>(`items?resourceType=app,qvapp,qlikview`)
+      .Get<IItem[]>(`items?resourceType=app&limit=50`)
       .then((res) => res.data)
       .then((data) => {
-        return data.map(
-          (t) => new App(this.saasClient, t.id, { attributes: t })
-        );
+        return data.map((t) => new App(this.saasClient, t.resourceId, t));
       });
   }
 
@@ -65,14 +59,10 @@ export class Apps {
       throw new Error(`apps.getFilter: "filter" parameter is required`);
 
     return await this.saasClient
-      .Get<IAppAttributes[]>(
-        `items?resourceType=app,qvapp,qlikview&query=${arg.filter}`
-      )
+      .Get<IItem[]>(`items?resourceType=app,qvapp,qlikview&query=${arg.filter}`)
       .then((res) => res.data)
       .then((data) => {
-        return data.map(
-          (t) => new App(this.saasClient, t.id, { attributes: t })
-        );
+        return data.map((t) => new App(this.saasClient, t.id, t));
       });
   }
 
@@ -84,7 +74,7 @@ export class Apps {
 
     return Promise.all(
       apps.map((app) =>
-        app.remove().then((s) => ({ id: app.details.attributes.id, status: s }))
+        app.remove().then((s) => ({ id: app.details.id, status: s }))
       )
     );
   }
@@ -98,7 +88,7 @@ export class Apps {
         entities.map((entity) =>
           entity
             .remove()
-            .then((s) => ({ id: entity.details.attributes.id, status: s }))
+            .then((s) => ({ id: entity.details.resourceId, status: s }))
         )
       )
     );
@@ -116,8 +106,13 @@ export class Apps {
 
     return await this.saasClient
       .Post<IApp>(urlBuild.getUrl(), arg.file, "application/octet-stream")
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `/items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
       .then(
-        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
+        (res) => new App(this.saasClient, res.data[0].resourceId, res.data[0])
       );
   }
 
@@ -126,8 +121,13 @@ export class Apps {
 
     return this.saasClient
       .Post<IApp>("apps", { attributes: arg })
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `/items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
       .then(
-        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
+        (res) => new App(this.saasClient, res.data[0].resourceId, res.data[0])
       );
   }
 

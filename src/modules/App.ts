@@ -1,7 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 import {
-  IApp,
   IAppAttributes,
   IAppCopy,
   IAppDataLineage,
@@ -12,11 +11,13 @@ import {
   IScriptLogMeta,
   IScriptMeta,
   IScriptVersion,
+  IApp,
 } from "./Apps.interfaces";
 import { Media, IAppMedia } from "./AppMedia";
 import { AppEvaluations } from "./AppEvaluations";
 import { AppActions } from "./AppActions";
 import { AppScript } from "./AppScript";
+import { IItem } from "./Item";
 
 export class App {
   private id: string;
@@ -29,11 +30,11 @@ export class App {
    * - createReloadTask - create scheduled reload task. Originally part of /reload-tasks endpoints
    */
   _actions: AppActions;
-  details: IApp;
-  constructor(saasClient: QlikSaaSClient, id: string, details?: IApp) {
+  details: IItem;
+  constructor(saasClient: QlikSaaSClient, id: string, details?: IItem) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
-    this.details = details ?? ({} as IApp);
+    this.details = details ?? ({} as IItem);
     this.id = id;
     this.saasClient = saasClient;
     this.evaluations = new AppEvaluations(this.saasClient, this.id);
@@ -43,7 +44,7 @@ export class App {
   async init() {
     if (!this.details) {
       this.details = await this.saasClient
-        .Get<IApp>(`apps/${this.id}`)
+        .Get<IItem>(`items?resourceType=app&resourceId=${this.id}`)
         .then((res) => res.data);
     }
   }
@@ -52,10 +53,8 @@ export class App {
     if (!arg.name) throw new Error(`app.copy: "name" parameter is required`);
 
     return await this.saasClient
-      .Post<IApp>(`apps/${this.id}/copy`, arg)
-      .then(
-        (res) => new App(this.saasClient, res.data.attributes.id, res.data)
-      );
+      .Post<IItem>(`apps/${this.id}/copy`, arg)
+      .then((res) => new App(this.saasClient, res.data.resourceId, res.data));
   }
 
   async dataLineage() {
@@ -89,43 +88,74 @@ export class App {
     return appContent;
   }
 
+  /**
+   * IMPORTANT! This method to is to publish apps to **MANAGED** spaces only.
+   * For shared spaces please use `addToSpace` method
+   */
   async publish(arg: IAppPublish) {
     let data: { [k: string]: any } = {};
     data = {
       spaceId: arg.spaceId,
       attributes: {
-        name: arg.appName,
+        name: arg.appName ?? this.details.name,
+        description: arg.description ?? "",
       },
+      moveApp: false,
+      data: "source",
     };
+
     if (arg.data) data["data"] = arg.data;
     if (arg.description) data.attributes["description"] = arg.description;
+    if (arg.moveApp) data.moveApp = arg.moveApp;
+    if (arg.originAppId) data.originalAppId = arg.originAppId;
+    if (arg.originAppId && !arg.moveApp)
+      throw new Error(
+        `apps.publish: If app is moved, originAppId needs to be provided.`
+      );
 
     return await this.saasClient
-      .Post<IApp>(`apps/${this.id}/publish`, { data })
-      .then((res) => {
-        this.details.attributes = res.data.attributes;
-        return res.status;
-      });
+      .Post<IApp>(`apps/${this.id}/publish`, data)
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
+      .then(
+        (items) =>
+          new App(this.saasClient, items.data[0].resourceId, items.data[0])
+      );
   }
 
+  /**
+   * IMPORTANT! This method to is to re-publish apps to **MANAGED** spaces only.
+   * For shared spaces please use `addToSpace` method
+   */
   async rePublish(arg: IAppRePublish) {
     let data: { [k: string]: any } = {};
     data = {
       targetId: arg.targetId,
+      data: "source",
       attributes: {
         name: arg.appName,
+        description: arg.description ?? "",
       },
+      checkOriginAppId: true,
     };
     if (arg.data) data["data"] = arg.data;
     if (arg.description) data.attributes["description"] = arg.description;
     if (arg.checkOriginAppId) data["checkOriginAppId"] = arg.checkOriginAppId;
 
     return await this.saasClient
-      .Put<IApp>(`apps/${this.id}/publish`, { data })
-      .then((res) => {
-        this.details.attributes = res.data.attributes;
-        return res.status;
-      });
+      .Put<IApp>(`apps/${this.id}/publish`, data)
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
+      .then(
+        (items) =>
+          new App(this.saasClient, items.data[0].resourceId, items.data[0])
+      );
   }
 
   // REVIEW: the name?
@@ -135,18 +165,30 @@ export class App {
 
     return await this.saasClient
       .Put<IApp>(`apps/${this.id}/space`, { spaceId: arg.spaceId })
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
       .then((res) => {
-        this.details.attributes = res.data.attributes;
+        this.details = res.data[0];
         return res.status;
       });
   }
 
   // REVIEW: the name?
   async removeFromSpace() {
-    return await this.saasClient.Delete(`apps/${this.id}/space`).then((res) => {
-      this.details.attributes = (res.data as unknown as IApp).attributes;
-      return res.status;
-    });
+    return await this.saasClient
+      .Delete(`apps/${this.id}/space`)
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${this.id}`
+        )
+      )
+      .then((res) => {
+        this.details = res.data[0];
+        return res.status;
+      });
   }
 
   async remove() {
@@ -160,24 +202,16 @@ export class App {
 
     return this.saasClient
       .Put<{ attributes: IAppAttributes }>(`apps/${this.id}`, {
-        attributes: { ...arg },
+        attributes: arg,
       })
+      .then(() =>
+        this.saasClient.Get<IItem>(
+          `items?resourceType=app&resourceId=${this.id}`
+        )
+      )
       .then((res) => {
-        this.details.attributes = res.data.attributes;
-        return res.status;
-      })
-      .then(async (status) => {
-        if (arg.ownerId)
-          return await this.saasClient
-            .Put<{ attributes: IAppAttributes }>(`apps/${this.id}`, {
-              ownerId: arg.ownerId,
-            })
-            .then((res) => {
-              this.details.attributes = res.data.attributes;
-              return res.status;
-            });
-
-        return status;
+        this.details = res.data;
+        return this.details;
       });
   }
 
@@ -217,13 +251,13 @@ export class App {
   }
 
   /**
-   * List of all script versions
-   *
-   * To reduce the number of API calls the actual script content is initially left empty
-   * Call `getScriptContent()` for each version.
-   *
-   * Rate limit: Tier 1 (600 requests per minute)
-   */
+  //  * List of all script versions
+  //  *
+  //  * To reduce the number of API calls the actual script content is initially left empty
+  //  * Call `getScriptContent()` for each version.
+  //  *
+  //  * Rate limit: Tier 1 (600 requests per minute)
+  //  */
   async scriptVersions() {
     return await this.saasClient
       .Get<{ scripts: IScriptMeta[] }>(`apps/${this.id}/scripts`)
@@ -245,6 +279,9 @@ export class App {
    * Rate limit: Tier 1 (600 requests per minute)
    */
   async scriptVersion(arg: { versionId: string }) {
+    if (!arg.versionId)
+      throw new Error(`app.scriptVersions: "versionId" parameter is required`);
+
     const scriptVersion = new AppScript(
       this.saasClient,
       arg.versionId,
@@ -268,8 +305,8 @@ export class App {
   }
 
   /**
-   * List of reload logs (actual log is not included)
-   */
+  //  * List of reload logs (actual log is not included)
+  //  */
   async reloadLogs() {
     return this.saasClient
       .Get<IScriptLogMeta[]>(`apps/${this.id}/reloads/logs`)

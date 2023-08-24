@@ -53,7 +53,7 @@ export class WebHooks {
 
   async getAll() {
     return await this.saasClient
-      .Get<IWebHook[]>(`webhooks`)
+      .Get<IWebHook[]>(`webhooks?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new WebHook(this.saasClient, t.id, t)));
   }

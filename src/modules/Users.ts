@@ -86,7 +86,7 @@ export class Users {
    */
   async getAll() {
     return await this.saasClient
-      .Get<IUser[]>(`users`)
+      .Get<IUser[]>(`users?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new User(this.saasClient, t.id, t)));
   }

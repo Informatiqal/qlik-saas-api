@@ -36,7 +36,7 @@ export class Roles {
   }
 
   async getAll() {
-    return await this.saasClient.Get<IRole[]>(`roles`).then((res) => res.data);
+    return await this.saasClient.Get<IRole[]>(`roles?limit=50`).then((res) => res.data);
   }
 
   async getFilter(arg: { filter: string }) {

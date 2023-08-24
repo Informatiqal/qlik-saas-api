@@ -25,7 +25,7 @@ export class Collections {
 
   async getAll() {
     return await this.saasClient
-      .Get<ICollection[]>(`collections`)
+      .Get<ICollection[]>(`collections?limit=50`)
       .then((res) => res.data)
       .then((data) =>
         data.map((t) => new Collection(this.saasClient, t.id, t))

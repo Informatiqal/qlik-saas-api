@@ -55,7 +55,7 @@ export class Brands {
    */
   async getAll() {
     return await this.saasClient
-      .Get<{ data: IBrand[] }>(`brands`)
+      .Get<{ data: IBrand[] }>(`brands?limit=50`)
       .then((res) => res.data.data ?? res.data ?? [])
       .then((data) => data.map((t) => new Brand(this.saasClient, t.id, t)));
   }

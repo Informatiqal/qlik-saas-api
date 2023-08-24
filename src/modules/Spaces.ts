@@ -48,7 +48,7 @@ export class Spaces {
 
   async getAll() {
     return await this.saasClient
-      .Get<ISpace[]>(`spaces`)
+      .Get<ISpace[]>(`spaces?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
   }

@@ -18,7 +18,7 @@ export class Reloads {
 
   async getAll() {
     return await this.saasClient
-      .Get<IReload[]>(`reloads`)
+      .Get<IReload[]>(`reloads?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new Reload(this.saasClient, t.id, t)));
   }

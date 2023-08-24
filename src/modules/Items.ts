@@ -36,7 +36,7 @@ export class Items {
 
   async getAll() {
     return await this.saasClient
-      .Get<IItem[]>(`items`)
+      .Get<IItem[]>(`items?limit=50`)
       .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new Item(this.saasClient, t.id, t));

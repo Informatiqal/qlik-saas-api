@@ -19,7 +19,7 @@ export class Extensions {
 
   async getAll() {
     return await this.saasClient
-      .Get<IExtension[]>(`extensions`)
+      .Get<IExtension[]>(`extensions?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new Extension(this.saasClient, t.id, t)));
   }
