@@ -28,7 +28,7 @@ export class WebIntegrations {
 
   async getAll() {
     return await this.saasClient
-      .Get<IWebIntegration[]>(`web-integrations`)
+      .Get<IWebIntegration[]>(`web-integrations?limit=50`)
       .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new WebIntegration(this.saasClient, t.id, t));

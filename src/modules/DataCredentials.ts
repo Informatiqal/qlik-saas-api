@@ -22,7 +22,7 @@ export class DataCredentials {
 
   async getAll() {
     return await this.saasClient
-      .Get<IDataCredential[]>(`data-credentials`)
+      .Get<IDataCredential[]>(`data-credentials?limit=50`)
       .then((res) => res.data)
       .then((data) =>
         data.map((t) => new DataCredential(this.saasClient, t.qID, t))

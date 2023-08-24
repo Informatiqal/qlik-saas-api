@@ -40,7 +40,7 @@ export class APIKeys {
 
   async getAll() {
     return await this.saasClient
-      .Get<IAPIKey[]>(`api-keys`)
+      .Get<IAPIKey[]>(`api-keys?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new APIKey(this.saasClient, t.id, t)));
   }

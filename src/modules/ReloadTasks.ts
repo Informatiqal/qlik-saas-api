@@ -19,7 +19,7 @@ export class ReloadTasks {
 
   async getAll() {
     return await this.saasClient
-      .Get<IReloadTask[]>(`reload-tasks`)
+      .Get<IReloadTask[]>(`reload-tasks?limit=50`)
       .then((res) => res.data)
       .then((data) =>
         data.map((t) => new ReloadTask(this.saasClient, t.id, t))

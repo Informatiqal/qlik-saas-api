@@ -33,7 +33,7 @@ export class Apps {
 
   async getAll() {
     return await this.saasClient
-      .Get<IItem[]>(`items?resourceType=app`)
+      .Get<IItem[]>(`items?resourceType=app&limit=50`)
       .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new App(this.saasClient, t.resourceId, t));

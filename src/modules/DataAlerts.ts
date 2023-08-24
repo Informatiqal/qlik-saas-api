@@ -77,7 +77,7 @@ export class DataAlerts {
   // https://community.qlik.com/t5/Integration-Extension-APIs/Inconsistencies-in-SaaS-REST-API/m-p/1958356#M17079
   async getAll() {
     return await this.saasClient
-      .Get<{ tasks: IDataAlert[] }>(`data-alerts`)
+      .Get<{ tasks: IDataAlert[] }>(`data-alerts?limit=50`)
       .then((res) => res.data)
       .then((data) => {
         return data.tasks.map((t) => new DataAlert(this.saasClient, t.id, t));

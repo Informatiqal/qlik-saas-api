@@ -25,7 +25,7 @@ export class Automations {
 
   async getAll() {
     return await this.saasClient
-      .Get<IAutomation[]>(`automations`)
+      .Get<IAutomation[]>(`automations?limit=50`)
       .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new Automation(this.saasClient, t.id, t));

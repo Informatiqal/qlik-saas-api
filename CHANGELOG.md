@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.12.0 - 2023-08-24
+
+- [#204](https://github.com/Informatiqal/qlik-saas-api/issues/204) as the issue stated there is no way (for now) to get the list of all apps. The only way is through the `items` endpoints and the data format is different (compared with `/apps/{appId}`). Because of this all methods that return instance of an `App` will now be compatible with `IItem` type. This will be the situation until Qlik make `/apps` publicly available
+- [#206](https://github.com/Informatiqal/qlik-saas-api/issues/206) internally all `getAll()` methods will call SaaS API with `limit=50`. This will reduce the time to extract all data for larger datasets and will reduce the requests in overall (reduced chance for hitting the rate limit)
+
 ## 0.11.1 - 2023-08-21
 
 - additional condition to the filter parsing process - check not only of double but for single quotes as well

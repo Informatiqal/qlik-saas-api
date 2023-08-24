@@ -74,7 +74,7 @@ export class Conditions {
 
   // async getAll() {
   //   return await this.saasClient
-  //     .Get<ICondition[]>(`conditions`)
+  //     .Get<ICondition[]>(`conditions?limit=50`)
   //     .then((res) => res.data)
   //     .then((data) => data.map((t) => new Condition(this.saasClient, t.id, t)));
   // }

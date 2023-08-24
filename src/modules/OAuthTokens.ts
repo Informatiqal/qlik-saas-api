@@ -11,7 +11,7 @@ export class OAuthTokens {
   // TODO: 400 when called?
   async getAll() {
     return await this.saasClient
-      .Get<IOAuthToken[]>(`oauth-tokens`)
+      .Get<IOAuthToken[]>(`oauth-tokens?limit=50`)
       .then((res) => res.data)
       .then((data) =>
         data.map((t) => new OAuthToken(this.saasClient, t.id, t))
