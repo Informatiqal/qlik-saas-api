@@ -1,7 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { URLBuild } from "../util/UrlBuild";
 import {
-  IItem,
   IAppAttributes,
   IAppCopy,
   IAppDataLineage,
@@ -18,6 +17,7 @@ import { Media, IAppMedia } from "./AppMedia";
 import { AppEvaluations } from "./AppEvaluations";
 import { AppActions } from "./AppActions";
 import { AppScript } from "./AppScript";
+import { IItem } from "./Item";
 
 export class App {
   private id: string;

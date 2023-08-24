@@ -40,7 +40,7 @@ export class Origins {
   // TODO: 400 when called?
   async getAll() {
     return await this.saasClient
-      .Get<IOrigin[]>(`csp-origins`)
+      .Get<IOrigin[]>(`csp-origins?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new Origin(this.saasClient, t.id, t)));
   }

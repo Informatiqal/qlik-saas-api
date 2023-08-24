@@ -1,9 +1,10 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { App } from "./App";
-import { IItem, IAppCreate, IAppImport, IApp } from "./Apps.interfaces";
+import { IAppCreate, IAppImport, IApp } from "./Apps.interfaces";
 import { URLBuild } from "../util/UrlBuild";
 import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 import { parseFilter } from "../util/filter";
+import { IItem } from "./Item";
 
 export class Apps {
   private saasClient: QlikSaaSClient;
@@ -32,7 +33,7 @@ export class Apps {
 
   async getAll() {
     return await this.saasClient
-      .Get<IItem[]>(`items?resourceType=app`)
+      .Get<IItem[]>(`items?resourceType=app&limit=50`)
       .then((res) => res.data)
       .then((data) => {
         return data.map((t) => new App(this.saasClient, t.resourceId, t));

@@ -11,6 +11,12 @@ export interface ILinks {
   self: {
     href: string;
   };
+  open: {
+    href: string;
+  };
+  thumbnail: {
+    href: string;
+  };
 }
 
 export interface ILinksShort {

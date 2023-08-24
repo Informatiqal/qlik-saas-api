@@ -86,7 +86,7 @@ export class Groups {
 
   async getAll() {
     return await this.saasClient
-      .Get<IGroup[]>(`groups`)
+      .Get<IGroup[]>(`groups?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new Group(this.saasClient, t.id, t)));
   }

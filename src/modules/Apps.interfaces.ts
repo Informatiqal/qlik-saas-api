@@ -1,3 +1,4 @@
+import { ILinks } from "../types/Common";
 import { Custom, Privileges } from "../types/types";
 
 export interface ICreate {
@@ -50,56 +51,6 @@ export interface IResourceAttributes {
   published: boolean;
   spaceId: string;
   thumbnail: string;
-}
-
-export interface ILinks {
-  self: {
-    href: string;
-  };
-  thumbnail: {
-    href: string;
-  };
-  collections: {
-    href: string;
-  };
-  open: {
-    href: string;
-  };
-}
-
-export interface IItem {
-  name: string;
-  description: string;
-  resourceAttributes: IResourceAttributes;
-  resourceCustomAttributes: string[];
-  resourceUpdatedAt: string;
-  resourceType: string;
-  resourceId: string;
-  resourceCreatedAt: string;
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  creatorId: string;
-  updaterId: string;
-  tenantId: string;
-  isFavorited: boolean;
-  links: ILinks;
-  actions: string[];
-  collectionIds: string[];
-  meta: {
-    isFavorited: boolean;
-    actions: string[];
-    tags: string[];
-    collections: string[];
-  };
-  ownerId: string;
-  resourceReloadEndTime: string;
-  resourceReloadStatus: string;
-  resourceSize: {
-    appFile: number;
-    appMemory: number;
-  };
-  itemViews: {};
 }
 
 export interface IAppDataLineage {

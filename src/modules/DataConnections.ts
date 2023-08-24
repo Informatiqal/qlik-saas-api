@@ -41,7 +41,7 @@ export class DataConnections {
 
   async getAll() {
     return await this.saasClient
-      .Get<IDataConnection[]>(`data-connections`)
+      .Get<IDataConnection[]>(`data-connections?limit=50`)
       .then((res) => res.data)
       .then((data) =>
         data.map((t) => new DataConnection(this.saasClient, t.id, t))

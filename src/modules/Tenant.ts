@@ -22,6 +22,12 @@ export interface ITenantUpdate {
   op: "replace" | "add" | "renew";
 }
 
+export type DeactivateStatus = {
+  id: string;
+  status: string;
+  estimatedPurgeDate: string;
+};
+
 export class Tenant {
   private id: string;
   private saasClient: QlikSaaSClient;
@@ -54,11 +60,47 @@ export class Tenant {
     let updateStatus: number = -1;
 
     return await this.saasClient
-      .Patch(`users/${this.id}`, data)
+      .Patch(`tenants/${this.id}`, data)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });
       })
       .then(() => updateStatus);
+  }
+
+  async reactivate() {
+    let status = 200;
+
+    return await this.saasClient
+      .Post(`tenants/${this.id}/actions/reactivate`, {})
+      .then((res) => {
+        status = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => status);
+  }
+
+  async deactivate(arg?: { purgeAfterDays: number }) {
+    if (arg && !arg.purgeAfterDays)
+      throw new Error(
+        `tenant.deactivate: "purgeAfterDays" parameter is missing`
+      );
+
+    let deactivateData: DeactivateStatus = {
+      id: "",
+      status: "",
+      estimatedPurgeDate: "",
+    };
+
+    return await this.saasClient
+      .Post<DeactivateStatus>(
+        `tenants/${this.id}/actions/deactivate`,
+        arg?.purgeAfterDays ? { purgeAfterDays: arg.purgeAfterDays } : {}
+      )
+      .then((res) => {
+        deactivateData = res.data;
+        return this.init({ force: true });
+      })
+      .then(() => deactivateData);
   }
 }

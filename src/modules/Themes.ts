@@ -24,7 +24,7 @@ export class Themes {
 
   async getAll() {
     return await this.saasClient
-      .Get<ITheme[]>(`themes`)
+      .Get<ITheme[]>(`themes?limit=50`)
       .then((res) => res.data)
       .then((data) => data.map((t) => new Theme(this.saasClient, t.id, t)));
   }

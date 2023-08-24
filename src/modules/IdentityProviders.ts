@@ -23,7 +23,7 @@ export class IdentityProviders {
 
   async getAll() {
     return await this.saasClient
-      .Get<IIdentityProvider[]>(`identity-providers`)
+      .Get<IIdentityProvider[]>(`identity-providers?limit=50`)
       .then((res) => res.data)
       .then((data) =>
         data.map((t) => new IdentityProvider(this.saasClient, t.id, t))

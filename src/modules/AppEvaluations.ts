@@ -12,7 +12,7 @@ export class AppEvaluations {
 
   async getAll() {
     return await this.saasClient
-      .Get<IAppEvaluation[]>(`/apps/${this.appId}/evaluations?all=true`)
+      .Get<IAppEvaluation[]>(`/apps/${this.appId}/evaluations?all=true&limit=50`)
       .then((res) => res.data)
       .then((data) =>
         data.map((t) => new AppEvaluation(this.saasClient, t.id ?? t.ID, t))
