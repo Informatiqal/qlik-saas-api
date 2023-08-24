@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.13.0 - 2023-08-24
+
+- [#207](https://github.com/Informatiqal/qlik-saas-api/issues/207) reactivate and deactivate tenants methods implemented
+
 ## 0.12.0 - 2023-08-24
 
 - [#204](https://github.com/Informatiqal/qlik-saas-api/issues/204) as the issue stated there is no way (for now) to get the list of all apps. The only way is through the `items` endpoints and the data format is different (compared with `/apps/{appId}`). Because of this all methods that return instance of an `App` will now be compatible with `IItem` type. This will be the situation until Qlik make `/apps` publicly available
