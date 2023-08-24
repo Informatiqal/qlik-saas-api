@@ -12,6 +12,7 @@ import {
   IScriptLogMeta,
   IScriptMeta,
   IScriptVersion,
+  IApp,
 } from "./Apps.interfaces";
 import { Media, IAppMedia } from "./AppMedia";
 import { AppEvaluations } from "./AppEvaluations";
@@ -87,65 +88,108 @@ export class App {
     return appContent;
   }
 
-  // async publish(arg: IAppPublish) {
-  //   let data: { [k: string]: any } = {};
-  //   data = {
-  //     spaceId: arg.spaceId,
-  //     attributes: {
-  //       name: arg.appName,
-  //     },
-  //   };
-  //   if (arg.data) data["data"] = arg.data;
-  //   if (arg.description) data.attributes["description"] = arg.description;
+  /**
+   * IMPORTANT! This method to is to publish apps to **MANAGED** spaces only.
+   * For shared spaces please use `addToSpace` method
+   */
+  async publish(arg: IAppPublish) {
+    let data: { [k: string]: any } = {};
+    data = {
+      spaceId: arg.spaceId,
+      attributes: {
+        name: arg.appName ?? this.details.name,
+        description: arg.description ?? "",
+      },
+      moveApp: false,
+      data: "source",
+    };
 
-  //   return await this.saasClient
-  //     .Post<IApp>(`apps/${this.id}/publish`, { data })
-  //     .then((res) => {
-  //       this.details.attributes = res.data.attributes;
-  //       return res.status;
-  //     });
-  // }
+    if (arg.data) data["data"] = arg.data;
+    if (arg.description) data.attributes["description"] = arg.description;
+    if (arg.moveApp) data.moveApp = arg.moveApp;
+    if (arg.originAppId) data.originalAppId = arg.originAppId;
+    if (arg.originAppId && !arg.moveApp)
+      throw new Error(
+        `apps.publish: If app is moved, originAppId needs to be provided.`
+      );
 
-  // async rePublish(arg: IAppRePublish) {
-  //   let data: { [k: string]: any } = {};
-  //   data = {
-  //     targetId: arg.targetId,
-  //     attributes: {
-  //       name: arg.appName,
-  //     },
-  //   };
-  //   if (arg.data) data["data"] = arg.data;
-  //   if (arg.description) data.attributes["description"] = arg.description;
-  //   if (arg.checkOriginAppId) data["checkOriginAppId"] = arg.checkOriginAppId;
+    return await this.saasClient
+      .Post<IApp>(`apps/${this.id}/publish`, data)
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
+      .then(
+        (items) =>
+          new App(this.saasClient, items.data[0].resourceId, items.data[0])
+      );
+  }
 
-  //   return await this.saasClient
-  //     .Put<IApp>(`apps/${this.id}/publish`, { data })
-  //     .then((res) => {
-  //       this.details.attributes = res.data.attributes;
-  //       return res.status;
-  //     });
-  // }
+  /**
+   * IMPORTANT! This method to is to re-publish apps to **MANAGED** spaces only.
+   * For shared spaces please use `addToSpace` method
+   */
+  async rePublish(arg: IAppRePublish) {
+    let data: { [k: string]: any } = {};
+    data = {
+      targetId: arg.targetId,
+      data: "source",
+      attributes: {
+        name: arg.appName,
+        description: arg.description ?? "",
+      },
+      checkOriginAppId: true,
+    };
+    if (arg.data) data["data"] = arg.data;
+    if (arg.description) data.attributes["description"] = arg.description;
+    if (arg.checkOriginAppId) data["checkOriginAppId"] = arg.checkOriginAppId;
 
-  // // REVIEW: the name?
-  // async addToSpace(arg: { spaceId: string }) {
-  //   if (!arg.spaceId)
-  //     throw new Error(`app.addToSpace: "spaceId" parameter is required`);
+    return await this.saasClient
+      .Put<IApp>(`apps/${this.id}/publish`, data)
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
+      .then(
+        (items) =>
+          new App(this.saasClient, items.data[0].resourceId, items.data[0])
+      );
+  }
 
-  //   return await this.saasClient
-  //     .Put<IApp>(`apps/${this.id}/space`, { spaceId: arg.spaceId })
-  //     .then((res) => {
-  //       this.details.attributes = res.data.attributes;
-  //       return res.status;
-  //     });
-  // }
+  // REVIEW: the name?
+  async addToSpace(arg: { spaceId: string }) {
+    if (!arg.spaceId)
+      throw new Error(`app.addToSpace: "spaceId" parameter is required`);
 
-  // // REVIEW: the name?
-  // async removeFromSpace() {
-  //   return await this.saasClient.Delete(`apps/${this.id}/space`).then((res) => {
-  //     this.details.attributes = (res.data as unknown as IApp).attributes;
-  //     return res.status;
-  //   });
-  // }
+    return await this.saasClient
+      .Put<IApp>(`apps/${this.id}/space`, { spaceId: arg.spaceId })
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${res.data.attributes.id}`
+        )
+      )
+      .then((res) => {
+        this.details = res.data[0];
+        return res.status;
+      });
+  }
+
+  // REVIEW: the name?
+  async removeFromSpace() {
+    return await this.saasClient
+      .Delete(`apps/${this.id}/space`)
+      .then((res) =>
+        this.saasClient.Get<IItem[]>(
+          `items?resourceType=app&resourceId=${this.id}`
+        )
+      )
+      .then((res) => {
+        this.details = res.data[0];
+        return res.status;
+      });
+  }
 
   async remove() {
     return await this.saasClient
@@ -191,20 +235,20 @@ export class App {
       });
   }
 
-  // async addMedia(arg: { content: Buffer; fileName: string }) {
-  //   if (!arg.content)
-  //     throw new Error(`app.addMedia: "content" parameter is required`);
-  //   if (!arg.fileName)
-  //     throw new Error(`app.addMedia: "fileName" parameter is required`);
+  async addMedia(arg: { content: Buffer; fileName: string }) {
+    if (!arg.content)
+      throw new Error(`app.addMedia: "content" parameter is required`);
+    if (!arg.fileName)
+      throw new Error(`app.addMedia: "fileName" parameter is required`);
 
-  //   return await this.saasClient
-  //     .Put<IAppMedia>(
-  //       `apps/${this.id}/media/files/${arg.fileName}`,
-  //       arg.content,
-  //       "application/octet-stream"
-  //     )
-  //     .then((res) => new Media(this.saasClient, res.data.id, res.data));
-  // }
+    return await this.saasClient
+      .Put<IAppMedia>(
+        `apps/${this.id}/media/files/${arg.fileName}`,
+        arg.content,
+        "application/octet-stream"
+      )
+      .then((res) => new Media(this.saasClient, res.data.id, res.data));
+  }
 
   /**
   //  * List of all script versions

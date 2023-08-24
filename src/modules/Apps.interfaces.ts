@@ -241,17 +241,59 @@ export interface IAppUpdate {
 }
 
 export interface IAppPublish {
+  /**
+   * The managed space ID where the app will be published.
+   */
   spaceId: string;
   description?: string;
+  /**
+   * The published app will have data from source or target app. The default is source.
+   *
+   * * source: Publish with source data
+   * * target: Publish with target data
+   */
   data?: "source" | "target";
+  /**
+   * The name (title) of the application.
+   *
+   * @default false
+   */
   appName?: string;
+  /**
+   * The original is moved instead of copied. The current published state of all objects is kept.
+   */
+  moveApp?: boolean;
+  /**
+   * If app is moved, originAppId needs to be provided.
+   */
+  originAppId?: string;
 }
 
 export interface IAppRePublish {
+  /**
+   * The target ID to be republished.
+   */
   targetId: string;
+  /**
+   * The republished app will have data from source or target app. The default is source.
+   *
+   * * source: Publish with source data
+   * * target: Publish with target data
+   */
   data?: "source" | "target";
+  /**
+   * The description of the application.
+   */
   description?: string;
+  /**
+   * The name (title) of the application.
+   */
   appName?: string;
+  /**
+   * Validate that source app is same as originally published.
+   *
+   * @default true
+   */
   checkOriginAppId?: boolean;
 }
 
