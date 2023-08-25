@@ -22,6 +22,7 @@ import { IItem } from "./Item";
 export class App {
   private id: string;
   private saasClient: QlikSaaSClient;
+  private swapResourceIdAndId = false;
   evaluations: AppEvaluations;
   /**
    * Set of actions that are associated with the apps but are not part of the /apps API endpoints
@@ -34,18 +35,43 @@ export class App {
   constructor(saasClient: QlikSaaSClient, id: string, details?: IItem) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
+    if (saasClient.configFull.options?.saas?.apps?.swapResourceIdAndId == true)
+      this.swapResourceIdAndId = true;
+
     this.details = details ?? ({} as IItem);
     this.id = id;
     this.saasClient = saasClient;
     this.evaluations = new AppEvaluations(this.saasClient, this.id);
     this._actions = new AppActions(this.saasClient, this.id);
+
+    // if we have to swap id and resourceId properties
+    if (
+      this.swapResourceIdAndId == true &&
+      Object.keys(this.details).length > 0
+    )
+      [this.details["id"], this.details["resourceId"]] = [
+        this.details["resourceId"],
+        this.details["id"],
+      ];
   }
 
   async init() {
-    if (!this.details) {
+    if (Object.keys(this.details).length == 0) {
       this.details = await this.saasClient
-        .Get<IItem>(`items?resourceType=app&resourceId=${this.id}`)
-        .then((res) => res.data);
+        .Get<IItem[]>(`items?resourceType=app&resourceId=${this.id}`)
+        .then((res) => {
+          if (res.data.length == 0)
+            throw new Error(`apps.get: app with id ${this.id} was not found`);
+
+          // if we have to swap id and resourceId properties
+          if (this.swapResourceIdAndId == true)
+            [res.data[0]["id"], res.data[0]["resourceId"]] = [
+              res.data[0]["resourceId"],
+              res.data[0]["id"],
+            ];
+
+          return res.data[0];
+        });
     }
   }
 
