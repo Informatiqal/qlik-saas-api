@@ -56,7 +56,7 @@ export class App {
   }
 
   async init() {
-    if (Object.keys(this.details).length == 0) {
+    if (!this.details || Object.keys(this.details).length == 0) {
       this.details = await this.saasClient
         .Get<IItem[]>(`items?resourceType=app&resourceId=${this.id}`)
         .then((res) => {
