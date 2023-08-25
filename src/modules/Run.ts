@@ -54,7 +54,7 @@ export class Run {
   }
 
   // async init() {
-  //   if (!this.details) {
+  //   if (!this.details || Object.keys(this.details).length == 0) {
   //     this.details = await this.saasClient
   //       .Get<IRun>(`automations/${this.id}`)
   //       .then((res) => res.data);
