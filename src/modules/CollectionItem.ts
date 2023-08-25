@@ -77,7 +77,7 @@ export class CollectionItem {
   }
 
   async init() {
-    if (!this.details) {
+    if (!this.details || Object.keys(this.details).length == 0) {
       this.details = await this.saasClient
         .Get<ICollectionItem>(`collections/${this.id}/items/${this.id}`)
         .then((res) => res.data);

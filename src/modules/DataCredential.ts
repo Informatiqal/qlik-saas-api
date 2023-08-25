@@ -41,7 +41,7 @@ export class DataCredential {
   }
 
   async init() {
-    if (!this.details) {
+    if (!this.details || Object.keys(this.details).length == 0) {
       this.details = await this.saasClient
         .Get<IDataCredential>(`data-credentials/${this.id}`)
         .then((res) => res.data);

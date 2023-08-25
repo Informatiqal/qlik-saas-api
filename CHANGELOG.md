@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.13.1 - 2023-08-25
+
+- [#209](https://github.com/Informatiqal/qlik-saas-api/issues/209) internal code change to check if details exists when initializing entity. Until now the only check was if the details exists but its possible that the details exists and are empty object. And because of this we have to check if there are actually properties in the details object as well.
+
 ## 0.13.0 - 2023-08-24
 
 - [#207](https://github.com/Informatiqal/qlik-saas-api/issues/207) reactivate and deactivate tenants methods implemented
