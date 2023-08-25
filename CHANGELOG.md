@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.13.3 - 2023-08-25
+
+- [#211](https://github.com/Informatiqal/qlik-saas-api/issues/211) issue with `app.update` method return data - was returning array instead of the first (and only) element of the array
+
 ## 0.13.2 - 2023-08-25
 
 - [#209](https://github.com/Informatiqal/qlik-saas-api/issues/209) internal code change to check if details exists when initializing entity. Until now the only check was if the details exists but its possible that the details exists and are empty object. And because of this we have to check if there are actually properties in the details object as well.

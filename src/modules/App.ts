@@ -231,12 +231,12 @@ export class App {
         attributes: arg,
       })
       .then(() =>
-        this.saasClient.Get<IItem>(
+        this.saasClient.Get<IItem[]>(
           `items?resourceType=app&resourceId=${this.id}`
         )
       )
       .then((res) => {
-        this.details = res.data;
+        this.details = res.data[0];
         return this.details;
       });
   }

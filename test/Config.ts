@@ -20,6 +20,13 @@ export class Config {
       authentication: {
         token: process.env.SAAS_TOKEN,
       },
+      options: {
+        saas: {
+          apps: {
+            swapResourceIdAndId: true,
+          },
+        },
+      },
     });
 
     this.saasApi = saasApi;
