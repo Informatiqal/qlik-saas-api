@@ -155,23 +155,7 @@ export class WebHook {
   }
 
   async update(arg: IWebHookUpdate) {
-    if (arg.url) this.details.url = arg.url;
-    if (arg.name) this.details.name = arg.name;
-    if (arg.level) this.details.level = arg.level;
-    if (arg.filter) this.details.filter = arg.filter;
-    if (arg.secret) this.details.secret = arg.secret;
-    if (arg.enabled) this.details.enabled = arg.enabled;
-    if (arg.headers) this.details.headers = arg.headers;
-    if (arg.ownerId) this.details.ownerId = arg.ownerId;
-    if (arg.createdAt) this.details.createdAt = arg.createdAt;
-    if (arg.updatedAt) this.details.updatedAt = arg.updatedAt;
-    if (arg.eventTypes) this.details.eventTypes = arg.eventTypes;
-    if (arg.description) this.details.description = arg.description;
-    if (arg.disabledReason) this.details.disabledReason = arg.disabledReason;
-    if (arg.createdByUserId) this.details.createdByUserId = arg.createdByUserId;
-    if (arg.updatedByUserId) this.details.updatedByUserId = arg.updatedByUserId;
-    if (arg.disabledReasonCode)
-      this.details.disabledReasonCode = arg.disabledReasonCode;
+    this.details = { ...this.details, ...arg };
 
     return await this.saasClient
       .Put(`webhooks/${this.id}`, this.details)
