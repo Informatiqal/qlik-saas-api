@@ -8,33 +8,21 @@ export interface IWebHookEvenType {
   description: string;
 }
 
-export interface IWebHookCreate {
-  name: string;
+// make all props optional, apart from id, url and name
+// remove id in general (cant be passed to create method anyway)
+// add url and name props again but this time as mandatory/required
+export type IWebHookCreate = Partial<
+  Omit<IWebHook, "id" | "url" | "name" | "createdAt" | "updatedAt">
+> & {
   /**
-   * Must be top-level domain (should end with .com, .io, or similar)
+   * Target URL for webhook HTTPS requests
    */
   url: string;
-  id?: string;
-  level?: "tenant" | "user";
-  filter?: string;
-  description?: string;
-  eventTypes?: string[];
-  headers?: {
-    [k: string]: string;
-  };
   /**
-   * Default value is "false"
+   * The name for the webhook
    */
-  enabled?: boolean;
-  secret?: string;
-  createdByUserId?: string;
-  updatedByUserId?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  ownerId?: string;
-  disabledReason?: string;
-  disabledReasonCode?: string;
-}
+  name: string;
+};
 
 export class WebHooks {
   private saasClient: QlikSaaSClient;

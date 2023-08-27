@@ -89,21 +89,8 @@ export interface IWebHook {
   disabledReasonCode: string;
 }
 
-export interface IWebHookUpdate {
-  name?: string;
-  description?: string;
-  url?: string;
-  eventTypes: IWebHookEvenType[];
-  headers: {
-    [k: string]: string;
-  };
-  enabled: boolean;
-  secret: string;
-  createdByUserId: string;
-  updatedByUserId: string;
-  createdAt: string;
-  updatedAt: string;
-}
+// remove id property and make all the rest optional
+export type IWebHookUpdate = Partial<Omit<IWebHook, "id">>;
 
 export interface IWebHookDelivery {
   id: string;
@@ -138,7 +125,7 @@ export interface IWebHookPatch {
     | "headers"
     | "enabled"
     | "secret";
-  value?: string;
+  value?: string | number | object | boolean;
 }
 
 export class WebHook {
@@ -168,17 +155,23 @@ export class WebHook {
   }
 
   async update(arg: IWebHookUpdate) {
-    if (arg.name) this.details.name = arg.name;
-    if (arg.description) this.details.name = arg.name ?? "";
     if (arg.url) this.details.url = arg.url;
-    if (arg.enabled) this.details.enabled = arg.enabled;
+    if (arg.name) this.details.name = arg.name;
+    if (arg.level) this.details.level = arg.level;
+    if (arg.filter) this.details.filter = arg.filter;
     if (arg.secret) this.details.secret = arg.secret;
-    if (arg.createdByUserId) this.details.createdByUserId = arg.createdByUserId;
+    if (arg.enabled) this.details.enabled = arg.enabled;
+    if (arg.headers) this.details.headers = arg.headers;
+    if (arg.ownerId) this.details.ownerId = arg.ownerId;
     if (arg.createdAt) this.details.createdAt = arg.createdAt;
-    if (arg.updatedByUserId) this.details.updatedByUserId = arg.updatedByUserId;
     if (arg.updatedAt) this.details.updatedAt = arg.updatedAt;
     if (arg.eventTypes) this.details.eventTypes = arg.eventTypes;
-    if (arg.headers) this.details.headers = arg.headers;
+    if (arg.description) this.details.description = arg.description;
+    if (arg.disabledReason) this.details.disabledReason = arg.disabledReason;
+    if (arg.createdByUserId) this.details.createdByUserId = arg.createdByUserId;
+    if (arg.updatedByUserId) this.details.updatedByUserId = arg.updatedByUserId;
+    if (arg.disabledReasonCode)
+      this.details.disabledReasonCode = arg.disabledReasonCode;
 
     return await this.saasClient
       .Put(`webhooks/${this.id}`, this.details)
