@@ -94,11 +94,7 @@ export type IWebHookUpdate = Partial<Omit<IWebHook, "id">>;
 
 export interface IWebHookDelivery {
   id: string;
-  webhookId: string;
-  triggeredAt: string;
-  status: "success";
-  statusMessage: string;
-  eventType: string;
+  status: "success" | "fail" | string;
   request: {
     url: string;
     headers: {
@@ -113,6 +109,10 @@ export interface IWebHookDelivery {
     };
     body: string;
   };
+  eventType: string;
+  webhookId: string;
+  triggeredAt: string;
+  statusMessage: string;
 }
 
 export interface IWebHookPatch {

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.13.4 - 2023-08-27
+
+- [#214](https://github.com/Informatiqal/qlik-saas-api/issues/214) `WebHooks` methods updated with the latest request and response types
+
 ## 0.13.3 - 2023-08-25
 
 - [#211](https://github.com/Informatiqal/qlik-saas-api/issues/211) issue with `app.update` method return data - was returning array instead of the first (and only) element of the array
