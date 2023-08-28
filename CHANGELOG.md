@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.14.1 - 2023-08-28
+
+- `apiKey.update` correctly passes an array with one element instead of an object only (Qlik responds with 400 in that case)
+
 ## 0.14.0 - 2023-08-28
 
 - [#82](https://github.com/Informatiqal/qlik-saas-api/issues/82) internal change. When performing `update` instead of just return the status first call `init` method to get the latest "true" version of the data from Qlik

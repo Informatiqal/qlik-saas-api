@@ -43,11 +43,11 @@ export class APIKey {
     if (!arg.description)
       throw new Error(`apiKey.update: "description" parameter is required`);
 
-    const data = {
+    const data = [{
       op: "replace",
       path: `/description`,
       value: arg.description,
-    };
+    }];
 
     let updateStatus = 0;
     return await this.saasClient
