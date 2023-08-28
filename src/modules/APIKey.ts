@@ -25,8 +25,8 @@ export class APIKey {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: true }) {
+    if (Object.keys(this.details).length == 0 || arg?.force == true) {
       this.details = await this.saasClient
         .Get<IAPIKey>(`api-keys/${this.id}`)
         .then((res) => res.data);
@@ -49,11 +49,13 @@ export class APIKey {
       value: arg.description,
     };
 
+    let updateStatus = 0;
     return await this.saasClient
       .Patch(`api-keys/${this.id}`, data)
       .then((res) => {
-        this.details.description = arg.description;
-        return res.status;
-      });
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 }

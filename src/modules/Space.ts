@@ -51,8 +51,12 @@ export class Space {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: boolean }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<ISpace>(`spaces/${this.id}`)
         .then((res) => res.data);
@@ -71,12 +75,15 @@ export class Space {
     if (arg.description) data["description"] = arg.description;
     if (arg.ownerId) data["ownerId"] = arg.ownerId;
 
+    let updateStatus = 0;
+
     return await this.saasClient
       .Put<ISpace>(`spaces/${this.id}`, data)
       .then((res) => {
-        this.details = res.data;
-        return res.status;
-      });
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 
   async assignments() {

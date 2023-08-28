@@ -140,8 +140,12 @@ export class WebHook {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: boolean }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<IWebHook>(`webhooks/${this.id}`)
         .then((res) => res.data);
@@ -154,12 +158,21 @@ export class WebHook {
       .then((res) => res.status);
   }
 
+  // Probably not a good idea to update the details like that?
+  // what about just pass the arguments to the Put request
+  // and then get back the details (init())?
   async update(arg: IWebHookUpdate) {
     this.details = { ...this.details, ...arg };
 
+    let updateStatus = 0;
+
     return await this.saasClient
       .Put(`webhooks/${this.id}`, this.details)
-      .then((res) => res.status);
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 
   async patch(arg: IWebHookPatch[]) {

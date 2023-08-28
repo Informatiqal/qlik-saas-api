@@ -6,11 +6,35 @@ export interface IWebIntegrationUpdate {
 }
 
 export interface IWebIntegration {
+  /**
+   * The unique web integration identifier.
+   */
   id: string;
+  /**
+   * The name of the web integration.
+   */
   name: string;
+  /**
+   * The time the web integration was created.
+   */
   created: string;
+  /**
+   * The tenant that the web integration belongs to.
+   */
+  tenantId: string;
+  /**
+   * The user that created the web integration.
+   */
   createdBy: string;
+  /**
+   * The time the web integration was last updated.
+   */
   lastUpdated: string;
+  /**
+   * The origins that are allowed to make requests to the tenant.
+   *
+   * Include protocol as well. For example: http://localhost and not only localhost
+   */
   validOrigins: string[];
 }
 
@@ -30,8 +54,8 @@ export class WebIntegration {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: true }) {
+    if (Object.keys(this.details).length == 0 || arg?.force == true) {
       this.details = await this.saasClient
         .Get<IWebIntegration>(`web-integrations/${this.id}`)
         .then((res) => res.data);
@@ -45,6 +69,8 @@ export class WebIntegration {
   }
 
   async update(arg: IWebIntegrationUpdate[]) {
+    let updateStatus = 0;
+
     return await this.saasClient
       .Patch(
         `web-integrations/${this.id}`,
@@ -54,6 +80,10 @@ export class WebIntegration {
           value: a.value,
         }))
       )
-      .then((res) => res.status);
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 }

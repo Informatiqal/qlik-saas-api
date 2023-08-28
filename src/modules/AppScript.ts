@@ -20,8 +20,8 @@ export class AppScript {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details) {
+  async init(arg?: { force: boolean }) {
+    if (!this.details || arg?.force == true) {
       this.details = await this.saasClient
         .Get<IScriptMetaWithScript>(
           `apps/${this.appId}/scripts?filter=ScriptId eq "${this.id}"`
@@ -56,12 +56,12 @@ export class AppScript {
         {
           op: "replace",
           path: "/versionMessage",
-          value: name,
+          value: arg.name,
         },
       ])
       .then((res) => res.status);
 
-    this.details.versionMessage = arg.name;
+    await this.init({ force: true });
 
     return updateStatus;
   }

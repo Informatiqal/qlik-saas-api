@@ -13,8 +13,12 @@ export class ReloadTask {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: boolean }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<IReloadTask>(`reload-tasks/${this.id}`)
         .then((res) => res.data);
@@ -40,11 +44,14 @@ export class ReloadTask {
     if (!arg.recurrence) arg.recurrence = this.details.recurrence;
     // if (!arg.state) arg.state = this.details.state;
 
+    let updateStatus = 0;
+
     return await this.saasClient
       .Put<IReloadTask>(`reload-tasks/${this.id}`, arg)
       .then((res) => {
-        this.details = res.data;
-        return res.status;
-      });
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 }

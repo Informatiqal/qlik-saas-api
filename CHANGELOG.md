@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.14.0 - 2023-08-28
+
+- [#82](https://github.com/Informatiqal/qlik-saas-api/issues/82) internal change. When performing `update` instead of just return the status first call `init` method to get the latest "true" version of the data from Qlik
+- dependency updates
+
 ## 0.13.4 - 2023-08-27
 
 - [#214](https://github.com/Informatiqal/qlik-saas-api/issues/214) `WebHooks` methods updated with the latest request and response types

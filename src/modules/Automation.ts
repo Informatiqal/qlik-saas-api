@@ -14,8 +14,12 @@ export class Automation {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: boolean }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<IAutomation>(`automations/${this.id}`)
         .then((res) => res.data);
@@ -33,7 +37,9 @@ export class Automation {
       throw new Error(`automation.copy: "name" parameter is required`);
 
     const copyResponse = await this.saasClient
-      .Post<IAutomation>(`automations/${this.id}/actions/copy`, { name: arg.name })
+      .Post<IAutomation>(`automations/${this.id}/actions/copy`, {
+        name: arg.name,
+      })
       .then((res) => res.data);
 
     const newAutomation = new Automation(
@@ -46,21 +52,39 @@ export class Automation {
   }
 
   async enable() {
+    let updateStatus = 0;
+
     return await this.saasClient
       .Post(`automations/${this.id}/actions/enable`, {})
-      .then((res) => res.status);
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 
   async disable() {
+    let updateStatus = 0;
+
     return await this.saasClient
       .Post(`automations/${this.id}/actions/disable`, {})
-      .then((res) => res.status);
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 
   async move() {
+    let updateStatus = 0;
+
     return await this.saasClient
       .Post(`automations/${this.id}/actions/move`, {})
-      .then((res) => res.status);
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 
   async getRuns() {

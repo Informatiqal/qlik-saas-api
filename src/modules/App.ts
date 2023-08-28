@@ -55,8 +55,12 @@ export class App {
       ];
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: true }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<IItem[]>(`items?resourceType=app&resourceId=${this.id}`)
         .then((res) => {
@@ -226,19 +230,17 @@ export class App {
   async update(arg: IAppUpdate) {
     if (!arg.name) throw new Error(`app.update: "name" parameter is required`);
 
+    let updateStatus = 0;
+
     return this.saasClient
       .Put<{ attributes: IAppAttributes }>(`apps/${this.id}`, {
         attributes: arg,
       })
-      .then(() =>
-        this.saasClient.Get<IItem[]>(
-          `items?resourceType=app&resourceId=${this.id}`
-        )
-      )
       .then((res) => {
-        this.details = res.data[0];
-        return this.details;
-      });
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 
   async thumbnail() {
@@ -313,7 +315,7 @@ export class App {
       arg.versionId,
       this.id
     );
-    await scriptVersion.init();
+    await scriptVersion.init()
     await scriptVersion.getScriptContent();
 
     return scriptVersion;

@@ -64,7 +64,7 @@ export class Automations {
   async create(arg: IAutomationCreate) {
     return await this.saasClient
       .Post<IAutomation>("automations", { ...arg })
-      .then((res) => res.data);
+      .then((res) => new Automation(this.saasClient, res.data.id, res.data));
   }
 
   async usage(arg: { filter: string; breakdown?: string }) {

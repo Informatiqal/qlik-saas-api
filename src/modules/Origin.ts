@@ -35,8 +35,12 @@ export class Origin {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: true }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<IOrigin>(`csp-origins/${this.id}`)
         .then((res) => res.data);
@@ -53,11 +57,14 @@ export class Origin {
     if (!arg.origin)
       throw new Error(`origins.create: "origin" parameter is required`);
 
+    let updateStatus = 0;
+
     return await this.saasClient
       .Put<IOrigin>(`csp-origins/${this.id}`, arg)
       .then((res) => {
-        this.details = res.data;
-        return res.status;
-      });
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 }

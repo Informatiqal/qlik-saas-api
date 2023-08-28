@@ -58,8 +58,12 @@ export class Collection {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: boolean }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<ICollection>(`collections/${this.id}`)
         .then((res) => res.data);
@@ -76,9 +80,15 @@ export class Collection {
     if (!arg.name)
       throw new Error(`collections.create: "name" parameter is required`);
 
+    let updateStatus = 0;
+
     return this.saasClient
       .Put(`collections/${this.id}`, arg)
-      .then((res) => res.status);
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 
   async items() {

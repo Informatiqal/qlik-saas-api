@@ -40,8 +40,12 @@ export class DataCredential {
     this.saasClient = saasClient;
   }
 
-  async init() {
-    if (!this.details || Object.keys(this.details).length == 0) {
+  async init(arg?: { force: true }) {
+    if (
+      !this.details ||
+      Object.keys(this.details).length == 0 ||
+      arg?.force == true
+    ) {
       this.details = await this.saasClient
         .Get<IDataCredential>(`data-credentials/${this.id}`)
         .then((res) => res.data);
@@ -63,8 +67,14 @@ export class DataCredential {
     if (arg.qType) data["qType"] = arg.qType;
     if (arg.qUsername) data["qUsername"] = arg.qUsername;
 
+    let updateStatus = 0;
+
     return await this.saasClient
       .Put(`data-credentials/${this.id}`, arg)
-      .then((res) => res.status);
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
   }
 }

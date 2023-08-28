@@ -116,7 +116,7 @@ export class DataAlerts {
   async create(arg: IDataAlertCreate) {
     return await this.saasClient
       .Post<IDataAlert>("data-alerts", { ...arg })
-      .then((res) => res.data);
+      .then((res) => new DataAlert(this.saasClient, res.data.id, res.data));
   }
 
   async triggerAction(arg: { alertingTaskId: string }) {

@@ -5,6 +5,8 @@ import { parseFilter } from "../util/filter";
 export interface IWebIntegrationCreate {
   name: string;
   /**
+   * The origins that are allowed to make requests to the tenant.
+   *
    * Include protocol as well. For example: http://localhost and not only localhost
    */
   validOrigins?: string[];
@@ -72,6 +74,8 @@ export class WebIntegrations {
 
     return await this.saasClient
       .Post<IWebIntegration>("web-integrations", { ...arg })
-      .then((res) => res.data);
+      .then(
+        (res) => new WebIntegration(this.saasClient, res.data.id, res.data)
+      );
   }
 }
