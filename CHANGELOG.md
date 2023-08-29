@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.14.2 - 2023-08-29
+
+- [#217](https://github.com/Informatiqal/qlik-saas-api/issues/217) import and update extension methods implemented
+
 ## 0.14.1 - 2023-08-28
 
 - `apiKey.update` correctly passes an array with one element instead of an object only (Qlik responds with 400 in that case)
