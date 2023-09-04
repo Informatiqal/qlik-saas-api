@@ -36,15 +36,15 @@ export interface IExtension {
 }
 
 export class Extension {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IExtension;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IExtension) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IExtension);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: boolean }) {
@@ -53,28 +53,28 @@ export class Extension {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<IExtension>(`extensions/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IExtension>(`extensions/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`extensions/${this.id}`)
+    return await this.#saasClient
+      .Delete(`extensions/${this.#id}`)
       .then((res) => res.status);
   }
 
   async file(arg: { fileName: string }) {
-    return await this.saasClient
-      .Get<string>(`extensions/${this.id}/file/${arg.fileName}`)
+    return await this.#saasClient
+      .Get<string>(`extensions/${this.#id}/file/${arg.fileName}`)
       .then((res) => res.data);
   }
 
   async download() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<string>(
-        `extensions/${this.id}/file`,
+        `extensions/${this.#id}/file`,
         "application/x-zip-compressed",
         "arraybuffer"
       )
@@ -133,8 +133,8 @@ export class Extension {
       });
 
     let updateStatus = 0;
-    return await this.saasClient
-      .Patch<IExtension>(`extensions/${this.id}`, fd.getData, fd.getHeaders)
+    return await this.#saasClient
+      .Patch<IExtension>(`extensions/${this.#id}`, fd.getData, fd.getHeaders)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });

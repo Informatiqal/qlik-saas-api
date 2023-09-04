@@ -2,15 +2,15 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { IReloadTask, IReloadTaskUpdate } from "./ReloadTask.interfaces";
 
 export class ReloadTask {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IReloadTask;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IReloadTask) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IReloadTask);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: boolean }) {
@@ -19,15 +19,15 @@ export class ReloadTask {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<IReloadTask>(`reload-tasks/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IReloadTask>(`reload-tasks/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`reload-tasks/${this.id}`)
+    return await this.#saasClient
+      .Delete(`reload-tasks/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -46,8 +46,8 @@ export class ReloadTask {
 
     let updateStatus = 0;
 
-    return await this.saasClient
-      .Put<IReloadTask>(`reload-tasks/${this.id}`, arg)
+    return await this.#saasClient
+      .Put<IReloadTask>(`reload-tasks/${this.#id}`, arg)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });

@@ -14,28 +14,28 @@ export interface IAPIKey {
 }
 
 export class APIKey {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IAPIKey;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IAPIKey) {
     if (!id) throw new Error(`apiKeys.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IAPIKey);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: true }) {
     if (Object.keys(this.details).length == 0 || arg?.force == true) {
-      this.details = await this.saasClient
-        .Get<IAPIKey>(`api-keys/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IAPIKey>(`api-keys/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`api-keys/${this.id}`)
+    return await this.#saasClient
+      .Delete(`api-keys/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -50,8 +50,8 @@ export class APIKey {
     }];
 
     let updateStatus = 0;
-    return await this.saasClient
-      .Patch(`api-keys/${this.id}`, data)
+    return await this.#saasClient
+      .Patch(`api-keys/${this.#id}`, data)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });

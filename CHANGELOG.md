@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.14.3 - 2023-09-04
+
+- [#219](https://github.com/Informatiqal/qlik-saas-api/issues/219) `saasClient` and `id` are private and should not be available
+
 ## 0.14.2 - 2023-08-29
 
 - [#217](https://github.com/Informatiqal/qlik-saas-api/issues/217) import and update extension methods implemented

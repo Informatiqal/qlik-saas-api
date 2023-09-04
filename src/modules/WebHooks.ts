@@ -25,25 +25,25 @@ export type IWebHookCreate = Partial<
 };
 
 export class WebHooks {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`webhooks.get: "id" parameter is required`);
 
-    const webHook: WebHook = new WebHook(this.saasClient, arg.id);
+    const webHook: WebHook = new WebHook(this.#saasClient, arg.id);
     await webHook.init();
 
     return webHook;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IWebHook[]>(`webhooks?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new WebHook(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new WebHook(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -74,7 +74,7 @@ export class WebHooks {
   }
 
   async eventTypes() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IWebHookEvenType[]>(`webhooks/event-types`)
       .then((res) => res.data);
   }
@@ -85,8 +85,8 @@ export class WebHooks {
     if (!arg.url)
       throw new Error(`webHooks.create: "url" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IWebHook>(`webhooks`, arg)
-      .then((res) => new WebHook(this.saasClient, res.data.id, res.data));
+      .then((res) => new WebHook(this.#saasClient, res.data.id, res.data));
   }
 }

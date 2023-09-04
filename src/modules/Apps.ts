@@ -7,36 +7,36 @@ import { parseFilter } from "../util/filter";
 import { IItem } from "./Item";
 
 export class Apps {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`apps.get: "id" parameter is required`);
 
-    const app: App = new App(this.saasClient, arg.id);
+    const app: App = new App(this.#saasClient, arg.id);
     await app.init();
 
     return app;
   }
 
   async getEvaluation(arg: { id: string }) {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAppEvaluation>(`apps/evaluations/${arg.id}`)
       .then((res) => res.data)
       .then(
         (data) =>
-          new AppEvaluation(this.saasClient, (data.id || data.ID) ?? "", data)
+          new AppEvaluation(this.#saasClient, (data.id || data.ID) ?? "", data)
       );
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IItem[]>(`items?resourceType=app&limit=50`)
       .then((res) => res.data)
       .then((data) => {
-        return data.map((t) => new App(this.saasClient, t.resourceId, t));
+        return data.map((t) => new App(this.#saasClient, t.resourceId, t));
       });
   }
 
@@ -58,11 +58,11 @@ export class Apps {
     if (!arg.filter)
       throw new Error(`apps.getFilter: "filter" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IItem[]>(`items?resourceType=app,qvapp,qlikview&query=${arg.filter}`)
       .then((res) => res.data)
       .then((data) => {
-        return data.map((t) => new App(this.saasClient, t.id, t));
+        return data.map((t) => new App(this.#saasClient, t.id, t));
       });
   }
 
@@ -104,35 +104,35 @@ export class Apps {
     urlBuild.addParam("mode", arg.appId);
     urlBuild.addParam("fallbackName", arg.fallbackName);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IApp>(urlBuild.getUrl(), arg.file, "application/octet-stream")
       .then((res) =>
-        this.saasClient.Get<IItem[]>(
+        this.#saasClient.Get<IItem[]>(
           `/items?resourceType=app&resourceId=${res.data.attributes.id}`
         )
       )
       .then(
-        (res) => new App(this.saasClient, res.data[0].resourceId, res.data[0])
+        (res) => new App(this.#saasClient, res.data[0].resourceId, res.data[0])
       );
   }
 
   async create(arg: IAppCreate) {
     if (!arg.name) throw new Error(`apps.create: "name" parameter is required`);
 
-    return this.saasClient
+    return this.#saasClient
       .Post<IApp>("apps", { attributes: arg })
       .then((res) =>
-        this.saasClient.Get<IItem[]>(
+        this.#saasClient.Get<IItem[]>(
           `/items?resourceType=app&resourceId=${res.data.attributes.id}`
         )
       )
       .then(
-        (res) => new App(this.saasClient, res.data[0].resourceId, res.data[0])
+        (res) => new App(this.#saasClient, res.data[0].resourceId, res.data[0])
       );
   }
 
   async privileges() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<{ [key: string]: string }>(`apps/privileges`)
       .then((p) => p.data);
   }

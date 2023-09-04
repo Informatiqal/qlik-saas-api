@@ -59,13 +59,13 @@ export interface INL {
 }
 
 export class NL {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async ask(arg: INLAsk) {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<INL>(`questions/actions/ask`, arg)
       .then((res) => res.data);
   }

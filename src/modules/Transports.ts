@@ -79,15 +79,15 @@ export interface IEmailConfigFieldPatch {
 }
 
 export class Transports {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   _actions: TransportsActions;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
-    this._actions = new TransportsActions(this.saasClient);
+    this.#saasClient = saasClient;
+    this._actions = new TransportsActions(this.#saasClient);
   }
 
   async get() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IEmailConfigGet>(`transports/email-config`)
       .then((res) => res.data);
   }
@@ -98,13 +98,13 @@ export class Transports {
     if (!Array.isArray(arg))
       throw new Error(`transports.patch: provided argument is not an array`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Patch(`transports/email-config`, arg)
       .then((res) => res.status);
   }
 
   async delete() {
-    return await this.saasClient
+    return await this.#saasClient
       .Delete(`transports/email-config`)
       .then((res) => res.status);
   }

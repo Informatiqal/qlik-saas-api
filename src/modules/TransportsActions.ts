@@ -33,9 +33,9 @@ export interface ISmtpCheck {
 }
 
 export class TransportsActions {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   /**
@@ -61,7 +61,7 @@ export class TransportsActions {
         `transports._actions.sendTestEmail: "subject" parameter is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ISmtpResult>(`transports/email-config/actions/send-test-email`, arg)
       .then((res) => res.data);
   }
@@ -72,7 +72,7 @@ export class TransportsActions {
    * Rate limit: Tier 2 (60 requests per minute)
    */
   async validate(): Promise<ISmtpCheck> {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ISmtpCheck>(`transports/email-config/actions/validate`, {})
       .then((res) => res.data);
   }
@@ -83,7 +83,7 @@ export class TransportsActions {
    * Rate limit: Tier 2 (60 requests per minute)
    */
   async verifyConnection(): Promise<ISmtpResult> {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ISmtpResult>(
         `transports/email-config/actions/verify-connection`,
         {}

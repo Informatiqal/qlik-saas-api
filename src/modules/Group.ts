@@ -27,28 +27,28 @@ export type IGroupUpdate =
   | { name: string };
 
 export class Group {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IGroup;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IGroup) {
     if (!id) throw new Error(`group.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IGroup);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: true }) {
     if (Object.keys(this.details).length == 0 || arg?.force == true) {
-      this.details = await this.saasClient
-        .Get<IGroup>(`groups/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IGroup>(`groups/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`groups/${this.id}`)
+    return await this.#saasClient
+      .Delete(`groups/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -63,8 +63,8 @@ export class Group {
 
     let updateStatus: number = -1;
 
-    return await this.saasClient
-      .Patch(`groups/${this.id}`, data)
+    return await this.#saasClient
+      .Patch(`groups/${this.#id}`, data)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });

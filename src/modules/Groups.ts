@@ -31,15 +31,15 @@ export interface IGroupCreate {
 }
 
 export class Groups {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`groups.get: "id" parameter is required`);
 
-    const group: Group = new Group(this.saasClient, arg.id);
+    const group: Group = new Group(this.#saasClient, arg.id);
     await group.init();
 
     return group;
@@ -52,7 +52,7 @@ export class Groups {
     if (!arg.filter)
       throw new Error(`groups.getFilter: "filter" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IGroup[]>(urlBuild.getUrl(), { filter: arg.filter })
       .then((res) => res.data);
   }
@@ -85,14 +85,14 @@ export class Groups {
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IGroup[]>(`groups?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new Group(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Group(this.#saasClient, t.id, t)));
   }
 
   async getSettings() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IGroupSettings>(`groups/settings`)
       .then((res) => res.data);
   }
@@ -107,7 +107,7 @@ export class Groups {
         `groups.updateSettings: at least one update setting is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Patch(
         `groups/settings`,
         arg.map((a) => ({
@@ -125,8 +125,8 @@ export class Groups {
     if (!arg.assignedRoles)
       throw new Error(`group.create: "assignedRoles" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IGroup>(`groups`, arg)
-      .then((res) => new Group(this.saasClient, res.data.id, res.data));
+      .then((res) => new Group(this.#saasClient, res.data.id, res.data));
   }
 }

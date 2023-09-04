@@ -32,25 +32,25 @@ export interface ISpaceCreate {
 }
 
 export class Spaces {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`spaces.get: "id" parameter is required`);
 
-    const space: Space = new Space(this.saasClient, arg.id);
+    const space: Space = new Space(this.#saasClient, arg.id);
     await space.init();
 
     return space;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ISpace[]>(`spaces?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Space(this.#saasClient, t.id, t)));
   }
 
   async getFilterNative(arg: ISpaceFilter) {
@@ -63,10 +63,10 @@ export class Spaces {
       ids: arg.ids || [],
       names: arg.names || [],
     };
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ISpace[]>(`spaces/filter`, filter)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new Space(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Space(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -111,8 +111,8 @@ export class Spaces {
       throw new Error(`spaces.create: "name" parameter is required`);
     if (!arg.type) throw new Error(`spaces.type: "type" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ISpace>(`spaces`, arg)
-      .then((res) => new Space(this.saasClient, res.data.id, res.data));
+      .then((res) => new Space(this.#saasClient, res.data.id, res.data));
   }
 }

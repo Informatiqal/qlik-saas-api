@@ -3,18 +3,18 @@ import { IOAuthToken, OAuthToken } from "./OAuthToken";
 import { parseFilter } from "../util/filter";
 
 export class OAuthTokens {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   // TODO: 400 when called?
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IOAuthToken[]>(`oauth-tokens?limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new OAuthToken(this.saasClient, t.id, t))
+        data.map((t) => new OAuthToken(this.#saasClient, t.id, t))
       );
   }
 

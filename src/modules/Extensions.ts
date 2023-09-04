@@ -111,24 +111,24 @@ export interface IExtensionImportData {
 
 //TODO: import extension method
 export class Extensions {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`extensions.get: "id" parameter is required`);
-    const extension: Extension = new Extension(this.saasClient, arg.id);
+    const extension: Extension = new Extension(this.#saasClient, arg.id);
     await extension.init();
 
     return extension;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IExtension[]>(`extensions?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new Extension(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Extension(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -178,8 +178,8 @@ export class Extensions {
       data: JSON.stringify(arg.data),
     });
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IExtension>("extensions", fd.getData, fd.getHeaders)
-      .then((res) => new Extension(this.saasClient, res.data.id, res.data));
+      .then((res) => new Extension(this.#saasClient, res.data.id, res.data));
   }
 }

@@ -25,8 +25,8 @@ export interface IDataCredentialUpdate {
 
 //TODO: whats the difference between the PUT and the PATCH methods
 export class DataCredential {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IDataCredential;
   constructor(
     saasClient: QlikSaaSClient,
@@ -36,8 +36,8 @@ export class DataCredential {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IDataCredential);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: true }) {
@@ -46,15 +46,15 @@ export class DataCredential {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<IDataCredential>(`data-credentials/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IDataCredential>(`data-credentials/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`data-credentials/${this.id}`)
+    return await this.#saasClient
+      .Delete(`data-credentials/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -69,8 +69,8 @@ export class DataCredential {
 
     let updateStatus = 0;
 
-    return await this.saasClient
-      .Put(`data-credentials/${this.id}`, arg)
+    return await this.#saasClient
+      .Put(`data-credentials/${this.#id}`, arg)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });

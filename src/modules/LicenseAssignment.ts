@@ -10,15 +10,15 @@ export interface ILicenseAssignment {
 }
 
 export class LicenseAssignment {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   details: ILicenseAssignment;
   constructor(saasClient: QlikSaaSClient, details?: ILicenseAssignment) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
     this.details = details ?? ({} as ILicenseAssignment);
   }
 
   async remove() {
-    return await this.saasClient
+    return await this.#saasClient
       .Post(`licenses/assignments/actions/delete`, {
         delete: [
           {
@@ -34,7 +34,7 @@ export class LicenseAssignment {
     if (!arg.sourceType)
       throw new Error(`assignments.update: "sourceType" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post(`licenses/assignments/actions/update`, {
         update: [
           {

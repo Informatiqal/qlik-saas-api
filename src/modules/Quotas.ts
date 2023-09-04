@@ -21,15 +21,15 @@ type QuotaType =
   | string;
 
 export class Quotas {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: QuotaType }) {
     if (!arg.id) throw new Error(`quotas.get: "id" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IQuotas>(`quotas/${arg.id}`)
       .then((res) => res.data);
   }
@@ -38,7 +38,7 @@ export class Quotas {
     const urlBuild = new URLBuild("quotas?limit=50");
     urlBuild.addParam("reportUsage", "true");
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IQuotas[]>(urlBuild.getUrl())
       .then((res) => res.data);
   }

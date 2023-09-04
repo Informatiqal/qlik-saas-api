@@ -22,9 +22,9 @@ export interface IUserActionsInvite {
 }
 
 export class UsersActions {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   /**
@@ -34,7 +34,7 @@ export class UsersActions {
    * Rate limit: Tier 1 (1000 requests per minute)
    */
   async count() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<{ total: number }>(`users/actions/count`)
       .then((res) => res.data);
   }
@@ -48,7 +48,7 @@ export class UsersActions {
     if (!arg)
       throw new Error(`users._actions.invite: update arguments are missing`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<{ data: any[] }>(`users/actions/invite`, arg)
       .then((res) => res.data);
   }

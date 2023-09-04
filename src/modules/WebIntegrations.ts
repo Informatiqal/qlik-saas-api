@@ -13,27 +13,27 @@ export interface IWebIntegrationCreate {
 }
 
 export class WebIntegrations {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id)
       throw new Error(`webIntegrations.get: "id" parameter is required`);
 
-    const wi: WebIntegration = new WebIntegration(this.saasClient, arg.id);
+    const wi: WebIntegration = new WebIntegration(this.#saasClient, arg.id);
     await wi.init();
 
     return wi;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IWebIntegration[]>(`web-integrations?limit=50`)
       .then((res) => res.data)
       .then((data) => {
-        return data.map((t) => new WebIntegration(this.saasClient, t.id, t));
+        return data.map((t) => new WebIntegration(this.#saasClient, t.id, t));
       });
   }
 
@@ -72,10 +72,10 @@ export class WebIntegrations {
     if (!arg.name)
       throw new Error(`webIntegrations.create: "name" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IWebIntegration>("web-integrations", { ...arg })
       .then(
-        (res) => new WebIntegration(this.saasClient, res.data.id, res.data)
+        (res) => new WebIntegration(this.#saasClient, res.data.id, res.data)
       );
   }
 }

@@ -47,15 +47,15 @@ export interface ICollection {
 }
 
 export class Collection {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: ICollection;
   constructor(saasClient: QlikSaaSClient, id: string, details?: ICollection) {
     if (!id) throw new Error(`collection.get: "id" parameter is required`);
 
     this.details = details ?? ({} as ICollection);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: boolean }) {
@@ -64,15 +64,15 @@ export class Collection {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<ICollection>(`collections/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<ICollection>(`collections/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`collections/${this.id}`)
+    return await this.#saasClient
+      .Delete(`collections/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -82,8 +82,8 @@ export class Collection {
 
     let updateStatus = 0;
 
-    return this.saasClient
-      .Put(`collections/${this.id}`, arg)
+    return this.#saasClient
+      .Put(`collections/${this.#id}`, arg)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });
@@ -92,11 +92,11 @@ export class Collection {
   }
 
   async items() {
-    return await this.saasClient
-      .Get<ICollectionItem[]>(`collections/${this.id}/items`)
+    return await this.#saasClient
+      .Get<ICollectionItem[]>(`collections/${this.#id}/items`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new CollectionItem(this.saasClient, t.id, this.id, t))
+        data.map((t) => new CollectionItem(this.#saasClient, t.id, this.#id, t))
       );
   }
 
@@ -104,11 +104,11 @@ export class Collection {
     if (!arg.id)
       throw new Error(`collection.addItem: "id" parameter is required`);
 
-    return await this.saasClient
-      .Post<ICollectionItem>(`collections/${this.id}/items`, { id: arg.id })
+    return await this.#saasClient
+      .Post<ICollectionItem>(`collections/${this.#id}/items`, { id: arg.id })
       .then(
         (res) =>
-          new CollectionItem(this.saasClient, res.data.id, this.id, res.data)
+          new CollectionItem(this.#saasClient, res.data.id, this.#id, res.data)
       );
   }
 }

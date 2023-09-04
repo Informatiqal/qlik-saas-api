@@ -9,26 +9,26 @@ export interface ICollectionCreate {
 }
 
 export class Collections {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`collections.get: "id" parameter is required`);
 
-    const collection: Collection = new Collection(this.saasClient, arg.id);
+    const collection: Collection = new Collection(this.#saasClient, arg.id);
     await collection.init();
 
     return collection;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ICollection[]>(`collections?limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new Collection(this.saasClient, t.id, t))
+        data.map((t) => new Collection(this.#saasClient, t.id, t))
       );
   }
 
@@ -62,9 +62,9 @@ export class Collections {
   }
 
   async favorites() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ICollection>(`collections/favorites`)
-      .then((res) => new Collection(this.saasClient, res.data.id, res.data));
+      .then((res) => new Collection(this.#saasClient, res.data.id, res.data));
   }
 
   async create(arg: ICollectionCreate) {
@@ -73,8 +73,8 @@ export class Collections {
     if (!arg.type)
       throw new Error(`collections.create: "type" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ICollection>(`collections`, arg)
-      .then((res) => new Collection(this.saasClient, res.data.id, res.data));
+      .then((res) => new Collection(this.#saasClient, res.data.id, res.data));
   }
 }

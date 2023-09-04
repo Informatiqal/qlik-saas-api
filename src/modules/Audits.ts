@@ -69,14 +69,14 @@ export interface IAuditsSettings {
 }
 
 export class Audits {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`audits.get: "id" parameter is required`);
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAudit>(`audits/${arg.id}`)
       .then((res) => res.data);
   }
@@ -89,25 +89,25 @@ export class Audits {
     urlBuild.addParam("eventTime", arg.eventTime);
     urlBuild.addParam("userId", arg.userId);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAudit[]>(urlBuild.getUrl())
       .then((res) => res.data);
   }
 
   async settings() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAuditsSettings>(`audits/settings`)
       .then((res) => res.data);
   }
 
   async sources() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<string[]>(`audits/sources`)
       .then((res) => res.data);
   }
 
   async types() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<string[]>(`audits/types`)
       .then((res) => res.data);
   }
@@ -117,7 +117,7 @@ export class Audits {
     if (!arg.date)
       throw new Error(`audits.archive: "date" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAudit[]>(`audits/archive?date=${arg.date}`)
       .then((res) => res.data);
   }

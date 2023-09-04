@@ -5,15 +5,15 @@ import { ReloadTasks } from "./ReloadTasks";
 import { AppObject } from "./Apps.interfaces";
 
 export class AppActions {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   private reloadTasks: ReloadTasks;
   private appReload: Reloads;
   constructor(saasClient: QlikSaaSClient, id: string) {
-    this.id = id;
-    this.saasClient = saasClient;
-    this.reloadTasks = new ReloadTasks(this.saasClient);
-    this.appReload = new Reloads(this.saasClient);
+    this.#id = id;
+    this.#saasClient = saasClient;
+    this.reloadTasks = new ReloadTasks(this.#saasClient);
+    this.appReload = new Reloads(this.#saasClient);
   }
 
   /**
@@ -21,7 +21,7 @@ export class AppActions {
    */
   async createReloadTask(arg: Omit<IReloadTaskCreate, "appId">) {
     await this.reloadTasks.create({
-      appId: this.id,
+      appId: this.#id,
       ...arg,
     });
     return true;
@@ -33,7 +33,7 @@ export class AppActions {
   async getReloadTasks() {
     return await this.reloadTasks
       .getAll()
-      .then((allTasks) => allTasks.filter((r) => r.details.appId == this.id));
+      .then((allTasks) => allTasks.filter((r) => r.details.appId == this.#id));
   }
 
   /**
@@ -46,7 +46,7 @@ export class AppActions {
       );
 
     return await this.appReload.start({
-      appId: this.id,
+      appId: this.#id,
       partial: arg?.partial || false,
     });
   }
@@ -60,8 +60,8 @@ export class AppActions {
     if (!arg.ownerId)
       throw new Error(`app.changeObjectOwner: "ownerId" parameter is required`);
 
-    return this.saasClient.Post<AppObject>(
-      `apps/${this.id}/objects/${arg.objectId}/actions/change-owner`,
+    return this.#saasClient.Post<AppObject>(
+      `apps/${this.#id}/objects/${arg.objectId}/actions/change-owner`,
       { ownerId: arg.ownerId }
     );
   }

@@ -49,45 +49,45 @@ export interface ILicenseOverview {
 }
 
 export class Licenses {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   // TODO: Cannot read property 'Href' of undefined
   async consumption() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ILicenseConsumption[]>(`licenses/consumption`)
       .then((res) => res.data);
   }
 
   // TODO: Cannot read property 'Href' of undefined
   async assignments() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ILicenseAssignment[]>(`licenses/assignments`)
       .then((res) => res.data)
       .then((assignments) =>
-        assignments.map((a) => new LicenseAssignment(this.saasClient, a))
+        assignments.map((a) => new LicenseAssignment(this.#saasClient, a))
       );
   }
 
   async assignmentsAdd(arg: { subject: string; type: string }[]) {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ILicenseAssignment[]>(`licenses/assignments/actions/add`, arg)
       .then((res) => res.data)
       .then((assignments) =>
-        assignments.map((a) => new LicenseAssignment(this.saasClient, a))
+        assignments.map((a) => new LicenseAssignment(this.#saasClient, a))
       );
   }
 
   async status() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ILicenseStatus>(`licenses/status`)
       .then((res) => res.data);
   }
 
   async overview() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ILicenseOverview>(`licenses/overview`)
       .then((res) => res.data);
   }

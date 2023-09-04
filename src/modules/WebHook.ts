@@ -129,15 +129,15 @@ export interface IWebHookPatch {
 }
 
 export class WebHook {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IWebHook;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IWebHook) {
     if (!id) throw new Error(`webHooks.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IWebHook);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: boolean }) {
@@ -146,15 +146,15 @@ export class WebHook {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<IWebHook>(`webhooks/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IWebHook>(`webhooks/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`webhooks/${this.id}`)
+    return await this.#saasClient
+      .Delete(`webhooks/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -166,8 +166,8 @@ export class WebHook {
 
     let updateStatus = 0;
 
-    return await this.saasClient
-      .Put(`webhooks/${this.id}`, this.details)
+    return await this.#saasClient
+      .Put(`webhooks/${this.#id}`, this.details)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });
@@ -176,9 +176,9 @@ export class WebHook {
   }
 
   async patch(arg: IWebHookPatch[]) {
-    return await this.saasClient
+    return await this.#saasClient
       .Patch(
-        `/webhooks/${this.id}`,
+        `/webhooks/${this.#id}`,
         arg.map((a) => {
           const o: any = {
             op: a.op,
@@ -194,8 +194,8 @@ export class WebHook {
   }
 
   async deliveries() {
-    return await this.saasClient
-      .Get<IWebHookDelivery[]>(`webhooks/${this.id}/deliveries`)
+    return await this.#saasClient
+      .Get<IWebHookDelivery[]>(`webhooks/${this.#id}/deliveries`)
       .then((res) => res.data);
   }
 
@@ -203,8 +203,8 @@ export class WebHook {
     if (!arg.id)
       throw new Error(`webHook.delivery: "id" parameter is required`);
 
-    return await this.saasClient
-      .Get<IWebHookDelivery>(`webhooks/${this.id}/deliveries/${arg.id}`)
+    return await this.#saasClient
+      .Get<IWebHookDelivery>(`webhooks/${this.#id}/deliveries/${arg.id}`)
       .then((res) => res.data);
   }
 
@@ -212,9 +212,9 @@ export class WebHook {
     if (!arg.id)
       throw new Error(`webHook.deliveryResend: "id" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IWebHookDelivery>(
-        `webhooks/${this.id}/deliveries/${arg.id}/actions/resend`,
+        `webhooks/${this.#id}/deliveries/${arg.id}/actions/resend`,
         {}
       )
       .then((res) => res.data);

@@ -8,25 +8,25 @@ import { parseFilter } from "../util/filter";
 // }
 
 export class Themes {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`themes.get: "id" parameter is required`);
 
-    const theme: Theme = new Theme(this.saasClient, arg.id);
+    const theme: Theme = new Theme(this.#saasClient, arg.id);
     await theme.init();
 
     return theme;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<ITheme[]>(`themes?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new Theme(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Theme(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -57,8 +57,8 @@ export class Themes {
   }
 
   // async create(arg: IThemeCreate) {
-  //   return await this.saasClient
+  //   return await this.#saasClient
   //     .Post(`themes`, arg)
-  //     .then((res) => new Theme(this.saasClient, res.data.id, res.data));
+  //     .then((res) => new Theme(this.#saasClient, res.data.id, res.data));
   // }
 }

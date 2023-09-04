@@ -62,28 +62,28 @@ export interface IConditionComposite extends IConditionBase {
 export type ICondition = IConditionData | IConditionComposite;
 
 export class Condition {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: ICondition;
   constructor(saasClient: QlikSaaSClient, id: string, details?: ICondition) {
     if (!id) throw new Error(`conditions.get: "id" parameter is required`);
 
     this.details = details ?? ({} as ICondition);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init() {
     if (!this.details || Object.keys(this.details).length == 0) {
-      this.details = await this.saasClient
-        .Get<ICondition>(`conditions/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<ICondition>(`conditions/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`conditions/${this.id}`)
+    return await this.#saasClient
+      .Delete(`conditions/${this.#id}`)
       .then((res) => res.status);
   }
 }

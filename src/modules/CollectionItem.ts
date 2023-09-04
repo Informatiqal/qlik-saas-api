@@ -58,8 +58,8 @@ export interface ICollectionItem {
 }
 
 export class CollectionItem {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: ICollectionItem;
   collectionId: string;
   constructor(
@@ -71,22 +71,22 @@ export class CollectionItem {
     if (!id) throw new Error(`collectionItems.get: "id" parameter is required`);
 
     this.details = details ?? ({} as ICollectionItem);
-    this.id = id;
+    this.#id = id;
     this.collectionId = collectionId;
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async init() {
     if (!this.details || Object.keys(this.details).length == 0) {
-      this.details = await this.saasClient
-        .Get<ICollectionItem>(`collections/${this.id}/items/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<ICollectionItem>(`collections/${this.#id}/items/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`collections/${this.collectionId}/items/${this.id}`)
+    return await this.#saasClient
+      .Delete(`collections/${this.collectionId}/items/${this.#id}`)
       .then((res) => res.status);
   }
 }

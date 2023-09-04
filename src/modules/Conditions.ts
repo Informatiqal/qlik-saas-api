@@ -58,30 +58,30 @@ export interface IConditionCreateComposite extends IConditionCreateBase {
 export type IConditionCreate = IConditionCreateData | IConditionCreateComposite;
 
 export class Conditions {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`conditions.get: "id" parameter is required`);
 
-    const condition: Condition = new Condition(this.saasClient, arg.id);
+    const condition: Condition = new Condition(this.#saasClient, arg.id);
     await condition.init();
 
     return condition;
   }
 
   // async getAll() {
-  //   return await this.saasClient
+  //   return await this.#saasClient
   //     .Get<ICondition[]>(`conditions?limit=50`)
   //     .then((res) => res.data)
-  //     .then((data) => data.map((t) => new Condition(this.saasClient, t.id, t)));
+  //     .then((data) => data.map((t) => new Condition(this.#saasClient, t.id, t)));
   // }
 
   async create(arg: IConditionCreate) {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<ICondition>(`conditions`, arg)
-      .then((res) => new Condition(this.saasClient, "res.data.id", res.data));
+      .then((res) => new Condition(this.#saasClient, "res.data.id", res.data));
   }
 }

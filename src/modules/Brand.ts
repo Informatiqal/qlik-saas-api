@@ -33,26 +33,26 @@ export interface IBrandUpdate {
 }
 
 export class Brand {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IBrand;
   _actions: BrandActions;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IBrand) {
     if (!id) throw new Error(`brands.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IBrand);
-    this.id = id;
-    this.saasClient = saasClient;
-    this._actions = new BrandActions(this.saasClient, this.id);
+    this.#id = id;
+    this.#saasClient = saasClient;
+    this._actions = new BrandActions(this.#saasClient, this.#id);
   }
 
   async init(arg?: { force: true }) {
     if (Object.keys(this.details).length == 0 || arg?.force == true) {
-      this.details = await this.saasClient
-        .Get<IBrandResponse>(`brands/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IBrandResponse>(`brands/${this.#id}`)
         .then((res) => {
           const filesInstances = res.data.files.map(
-            (f) => new BrandFile(this.saasClient, this.id, f.id, f)
+            (f) => new BrandFile(this.#saasClient, this.#id, f.id, f)
           );
 
           return {
@@ -74,8 +74,8 @@ export class Brand {
    * Deletes the current brand
    */
   async remove() {
-    return await this.saasClient
-      .Delete(`brands/${this.id}`)
+    return await this.#saasClient
+      .Delete(`brands/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -92,8 +92,8 @@ export class Brand {
     }));
 
     let updateStatus = -1;
-    return await this.saasClient
-      .Patch(`brands/${this.id}`, data)
+    return await this.#saasClient
+      .Patch(`brands/${this.#id}`, data)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });
@@ -128,8 +128,8 @@ export class Brand {
 
     let addFileStatus = 0;
 
-    return this.saasClient
-      .Post(`brands/${this.id}/files/${arg.id}`, fd.getData, fd.getHeaders)
+    return this.#saasClient
+      .Post(`brands/${this.#id}/files/${arg.id}`, fd.getData, fd.getHeaders)
       .then((res) => {
         addFileStatus = res.status;
         return this.init({ force: true });

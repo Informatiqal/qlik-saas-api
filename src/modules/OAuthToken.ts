@@ -10,20 +10,20 @@ export interface IOAuthToken {
 }
 
 export class OAuthToken {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IOAuthToken;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IOAuthToken) {
     if (!id) throw new Error(`oauthToken.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IOAuthToken);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`oauth-tokens/${this.id}`)
+    return await this.#saasClient
+      .Delete(`oauth-tokens/${this.#id}`)
       .then((res) => res.status);
   }
 }

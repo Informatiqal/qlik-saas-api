@@ -22,16 +22,16 @@ export interface IDataConnectionsCreate {
 }
 
 export class DataConnections {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id)
       throw new Error(`dataConnections.get: "id" parameter is required`);
     const dataConnection: DataConnection = new DataConnection(
-      this.saasClient,
+      this.#saasClient,
       arg.id
     );
     await dataConnection.init();
@@ -40,11 +40,11 @@ export class DataConnections {
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IDataConnection[]>(`data-connections?limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new DataConnection(this.saasClient, t.id, t))
+        data.map((t) => new DataConnection(this.#saasClient, t.id, t))
       );
   }
 
@@ -89,10 +89,10 @@ export class DataConnections {
     if (!arg.qType)
       throw new Error(`dataConnections.create: "qType" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IDataConnection>(`data-connections`, arg)
       .then(
-        (res) => new DataConnection(this.saasClient, res.data.id, res.data)
+        (res) => new DataConnection(this.#saasClient, res.data.id, res.data)
       );
   }
 }

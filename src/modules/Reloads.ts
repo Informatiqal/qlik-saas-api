@@ -3,24 +3,24 @@ import { IReload, Reload } from "./Reload";
 import { parseFilter } from "../util/filter";
 
 export class Reloads {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`reloads.get: "id" parameter is required`);
-    const reload: Reload = new Reload(this.saasClient, arg.id);
+    const reload: Reload = new Reload(this.#saasClient, arg.id);
     await reload.init();
 
     return reload;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IReload[]>(`reloads?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new Reload(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Reload(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -41,8 +41,8 @@ export class Reloads {
     if (!arg.appId)
       throw new Error(`reloads.start: "appId" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IReload>(`reloads`, { appId: arg.appId, partial: arg.partial })
-      .then((res) => new Reload(this.saasClient, res.data.id, res.data));
+      .then((res) => new Reload(this.#saasClient, res.data.id, res.data));
   }
 }

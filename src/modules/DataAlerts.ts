@@ -59,15 +59,15 @@ export interface IGetTaskExecutionsFilter {
 }
 
 export class DataAlerts {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`dataAlerts.get: "id" parameter is required`);
 
-    const da: DataAlert = new DataAlert(this.saasClient, arg.id);
+    const da: DataAlert = new DataAlert(this.#saasClient, arg.id);
     await da.init();
 
     return da;
@@ -76,11 +76,11 @@ export class DataAlerts {
   // TODO: why is Qlik returning the meaningful data under "tasks" property???
   // https://community.qlik.com/t5/Integration-Extension-APIs/Inconsistencies-in-SaaS-REST-API/m-p/1958356#M17079
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<{ tasks: IDataAlert[] }>(`data-alerts?limit=50`)
       .then((res) => res.data)
       .then((data) => {
-        return data.tasks.map((t) => new DataAlert(this.saasClient, t.id, t));
+        return data.tasks.map((t) => new DataAlert(this.#saasClient, t.id, t));
       });
   }
 
@@ -114,9 +114,9 @@ export class DataAlerts {
   }
 
   async create(arg: IDataAlertCreate) {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IDataAlert>("data-alerts", { ...arg })
-      .then((res) => new DataAlert(this.saasClient, res.data.id, res.data));
+      .then((res) => new DataAlert(this.#saasClient, res.data.id, res.data));
   }
 
   async triggerAction(arg: { alertingTaskId: string }) {
@@ -125,7 +125,7 @@ export class DataAlerts {
         `dataAlert.triggerAction: "alertingTaskId" parameter is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IDataAlertTriggerActionResponse>("data-alerts/actions/trigger", {
         alertingTaskID: arg.alertingTaskId,
       })
@@ -133,7 +133,7 @@ export class DataAlerts {
   }
 
   async getSettings() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IDataAlertSettings>("data-alerts/settings")
       .then((res) => res.data);
   }
@@ -144,7 +144,7 @@ export class DataAlerts {
         `dataAlert.updateSettings: "enableDataAlerting" parameter is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Put("data-alerts/settings", {
         "enable-data-alerting": arg.enableDataAlerting,
       })
@@ -157,7 +157,7 @@ export class DataAlerts {
         `dataAlert.getTaskIdStats: "taskId" parameter is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IDataAlertExecutionStatsAggregatedResponse>(
         `data-alerts/${arg.taskId}/stats`
       )
@@ -196,7 +196,7 @@ export class DataAlerts {
       urlBuild.addParam("until", arg.filter.until);
     }
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IDataAlertExecutionStatsAggregatedResponse>(urlBuild.getUrl())
       .then((res) => res.data);
   }
@@ -212,7 +212,7 @@ export class DataAlerts {
         `dataAlert.getTaskIdExecutionsStats: "period" parameter is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IDataAlertTaskExecutionStatsResponse>(
         `data-alerts/${arg.taskId}/executions?period=${arg.period}`
       )
@@ -233,7 +233,7 @@ export class DataAlerts {
         `dataAlert.getTaskIdExecutionIdEvaluation: "executionId" parameter is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IDataAlertEvaluationGetResponse>(
         `data-alerts/${arg.taskId}/executions/${arg.executionId}/evaluations`
       )
@@ -241,7 +241,7 @@ export class DataAlerts {
   }
 
   async validateActions(arg: IDataAlertCreate) {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IDataAlertValidateActionsResponse>(`data-alerts/actions/validate`, {
         ...arg,
       })

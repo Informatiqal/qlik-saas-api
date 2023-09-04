@@ -28,41 +28,41 @@ export interface ITheme {
 }
 
 export class Theme {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: ITheme;
   constructor(saasClient: QlikSaaSClient, id: string, details?: ITheme) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details || ({} as ITheme);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init() {
     if (!this.details || Object.keys(this.details).length == 0) {
-      this.details = await this.saasClient
-        .Get<ITheme>(`themes/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<ITheme>(`themes/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`themes/${this.id}`)
+    return await this.#saasClient
+      .Delete(`themes/${this.#id}`)
       .then((res) => res.status);
   }
 
   async file(arg: { fileName: string }) {
-    return await this.saasClient
-      .Get<string>(`themes/${this.id}/file/${arg.fileName}`)
+    return await this.#saasClient
+      .Get<string>(`themes/${this.#id}/file/${arg.fileName}`)
       .then((res) => res.data);
   }
 
   async download() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<string>(
-        `themes/${this.id}/file`,
+        `themes/${this.#id}/file`,
         "application/x-zip-compressed",
         "arraybuffer"
       )
@@ -82,8 +82,8 @@ export class Theme {
   //   // ts-ignore
   //   formData.append("file", stream);
   //   formData.append("data", { name: "test" });
-  //   return await this.saasClient
-  //     .Patch(`themes/${this.id}/file`, formData, "multipart/form-data")
+  //   return await this.#saasClient
+  //     .Patch(`themes/${this.#id}/file`, formData, "multipart/form-data")
   //     .then((res) => res.data);
   // }
 }

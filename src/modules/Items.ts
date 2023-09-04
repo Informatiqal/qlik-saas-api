@@ -21,25 +21,25 @@ export interface IItemCreate {
 }
 
 export class Items {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`items.get: "id" parameter is required`);
-    const item: Item = new Item(this.saasClient, arg.id);
+    const item: Item = new Item(this.#saasClient, arg.id);
     await item.init();
 
     return item;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IItem[]>(`items?limit=50`)
       .then((res) => res.data)
       .then((data) => {
-        return data.map((t) => new Item(this.saasClient, t.id, t));
+        return data.map((t) => new Item(this.#saasClient, t.id, t));
       });
   }
 
@@ -81,6 +81,6 @@ export class Items {
   //     arg.resourceCreatedAt = d.toISOString();
   //   }
 
-  //   return await this.saasClient.Post(`items`, arg).then((res) => res.data);
+  //   return await this.#saasClient.Post(`items`, arg).then((res) => res.data);
   // }
 }
