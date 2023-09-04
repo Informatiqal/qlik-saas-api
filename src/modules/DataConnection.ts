@@ -51,8 +51,8 @@ export interface IDataConnectionsUpdate {
 
 //TODO: whats the difference between the PUT and the PATCH methods
 export class DataConnection {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IDataConnection;
   constructor(
     saasClient: QlikSaaSClient,
@@ -62,8 +62,8 @@ export class DataConnection {
     if (!id) throw new Error(`dataConnection.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IDataConnection);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: boolean }) {
@@ -72,15 +72,15 @@ export class DataConnection {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<IDataConnection>(`data-connections/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IDataConnection>(`data-connections/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`data-connections/${this.id}`)
+    return await this.#saasClient
+      .Delete(`data-connections/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -105,8 +105,8 @@ export class DataConnection {
 
     let updateStatus = 0;
 
-    return await this.saasClient
-      .Put(`data-connections/${this.id}`, this.details)
+    return await this.#saasClient
+      .Put(`data-connections/${this.#id}`, this.details)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });

@@ -215,8 +215,8 @@ export interface IAppEvaluation {
 }
 
 export class AppEvaluation {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IAppEvaluation;
   constructor(
     saasClient: QlikSaaSClient,
@@ -225,8 +225,8 @@ export class AppEvaluation {
   ) {
     if (!id) throw new Error(`evaluations.get: "id" parameter is required`);
 
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
     this.details = details ?? ({} as IAppEvaluation);
     if (details && details.ID && !details.id)
       this.details.id = this.details.ID ?? "";
@@ -234,8 +234,8 @@ export class AppEvaluation {
 
   async init() {
     if (!this.details || Object.keys(this.details).length == 0) {
-      this.details = await this.saasClient
-        .Get<IAppEvaluation>(`/app/evaluations/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IAppEvaluation>(`/app/evaluations/${this.#id}`)
         .then((res) => res.data);
     }
   }
@@ -244,8 +244,8 @@ export class AppEvaluation {
    * Download a detailed XML log of a specific evaluation
    */
   async download() {
-    return await this.saasClient
-      .Get<string>(`apps/evaluations/${this.id}/actions/download`)
+    return await this.#saasClient
+      .Get<string>(`apps/evaluations/${this.#id}/actions/download`)
       .then((res) => res.data);
   }
 
@@ -261,14 +261,14 @@ export class AppEvaluation {
       );
 
     const [result, log] = await Promise.all([
-      this.saasClient
+      this.#saasClient
         .Get<IAppEvaluationComparison>(
-          `apps/evaluations/${this.id}/actions/compare/${arg.comparisonId}?all=true&format=json`
+          `apps/evaluations/${this.#id}/actions/compare/${arg.comparisonId}?all=true&format=json`
         )
         .then((res) => res.data),
-      this.saasClient
+      this.#saasClient
         .Get<string>(
-          `apps/evaluations/${this.id}/actions/compare/${arg.comparisonId}/actions/download`
+          `apps/evaluations/${this.#id}/actions/compare/${arg.comparisonId}/actions/download`
         )
         .then((res) => res.data),
     ]);

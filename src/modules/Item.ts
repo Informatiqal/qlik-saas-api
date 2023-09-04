@@ -89,40 +89,40 @@ export interface IItem {
 }
 
 export class Item {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IItem;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IItem) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IItem);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init() {
     if (!this.details || Object.keys(this.details).length == 0) {
-      this.details = await this.saasClient
-        .Get<IItem>(`items/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IItem>(`items/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`items/${this.id}`)
+    return await this.#saasClient
+      .Delete(`items/${this.#id}`)
       .then((res) => res.status);
   }
 
   async collections() {
-    return await this.saasClient
-      .Get<IITemCollections[]>(`items/${this.id}/collections`)
+    return await this.#saasClient
+      .Get<IITemCollections[]>(`items/${this.#id}/collections`)
       .then((res) => res.data);
   }
 
   async publishedItems() {
-    return await this.saasClient
-      .Get<IITemCollections[]>(`items/${this.id}/publisheditems`)
+    return await this.#saasClient
+      .Get<IITemCollections[]>(`items/${this.#id}/publisheditems`)
       .then((res) => res.data);
   }
 }

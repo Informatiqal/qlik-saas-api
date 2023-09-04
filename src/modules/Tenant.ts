@@ -29,21 +29,21 @@ export type DeactivateStatus = {
 };
 
 export class Tenant {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: ITenant;
   constructor(saasClient: QlikSaaSClient, id: string, details?: ITenant) {
     if (!id) throw new Error(`tenant.get: "id" parameter is required`);
 
     this.details = details ?? ({} as ITenant);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: true }) {
     if (Object.keys(this.details).length == 0 || arg?.force == true) {
-      this.details = await this.saasClient
-        .Get<ITenant>(`tenants/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<ITenant>(`tenants/${this.#id}`)
         .then((res) => res.data);
     }
   }
@@ -59,8 +59,8 @@ export class Tenant {
 
     let updateStatus: number = -1;
 
-    return await this.saasClient
-      .Patch(`tenants/${this.id}`, data)
+    return await this.#saasClient
+      .Patch(`tenants/${this.#id}`, data)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });
@@ -71,8 +71,8 @@ export class Tenant {
   async reactivate() {
     let status = 200;
 
-    return await this.saasClient
-      .Post(`tenants/${this.id}/actions/reactivate`, {})
+    return await this.#saasClient
+      .Post(`tenants/${this.#id}/actions/reactivate`, {})
       .then((res) => {
         status = res.status;
         return this.init({ force: true });
@@ -92,9 +92,9 @@ export class Tenant {
       estimatedPurgeDate: "",
     };
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<DeactivateStatus>(
-        `tenants/${this.id}/actions/deactivate`,
+        `tenants/${this.#id}/actions/deactivate`,
         arg?.purgeAfterDays ? { purgeAfterDays: arg.purgeAfterDays } : {}
       )
       .then((res) => {

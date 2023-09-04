@@ -10,25 +10,25 @@ import {
 import { parseFilter } from "../util/filter";
 
 export class Automations {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`automations.get: "id" parameter is required`);
-    const a: Automation = new Automation(this.saasClient, arg.id);
+    const a: Automation = new Automation(this.#saasClient, arg.id);
     await a.init();
 
     return a;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAutomation[]>(`automations?limit=50`)
       .then((res) => res.data)
       .then((data) => {
-        return data.map((t) => new Automation(this.saasClient, t.id, t));
+        return data.map((t) => new Automation(this.#saasClient, t.id, t));
       });
   }
 
@@ -62,9 +62,9 @@ export class Automations {
   }
 
   async create(arg: IAutomationCreate) {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IAutomation>("automations", { ...arg })
-      .then((res) => new Automation(this.saasClient, res.data.id, res.data));
+      .then((res) => new Automation(this.#saasClient, res.data.id, res.data));
   }
 
   async usage(arg: { filter: string; breakdown?: string }) {
@@ -73,13 +73,13 @@ export class Automations {
     urlBuild.addParam("filter", arg.filter);
     urlBuild.addParam("breakdown", arg.breakdown);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAutomationUsage[]>(urlBuild.getUrl())
       .then((res) => res.data);
   }
 
   async getSettings() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAutomationsSettings>(`automations/automations/settings`)
       .then((res) => res.data);
   }
@@ -90,7 +90,7 @@ export class Automations {
         `automations.setSettings: "automationsEnabled" parameter is required`
       );
 
-    return await this.saasClient
+    return await this.#saasClient
       .Put<IAutomationsSettings>(`automations/automations/settings`, {
         automationsEnabled: arg.automationsEnabled,
       })

@@ -24,14 +24,14 @@ export interface IOriginCreate {
 }
 
 export class Origins {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`origins.get: "id" parameter is required`);
-    const origin: Origin = new Origin(this.saasClient, arg.id);
+    const origin: Origin = new Origin(this.#saasClient, arg.id);
     await origin.init();
 
     return origin;
@@ -39,10 +39,10 @@ export class Origins {
 
   // TODO: 400 when called?
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IOrigin[]>(`csp-origins?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new Origin(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Origin(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -73,7 +73,7 @@ export class Origins {
   }
 
   async generateHeader() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<{ [k: string]: any }>(`csp-origins/actions/generate-header`)
       .then((res) => res.data);
   }
@@ -82,8 +82,8 @@ export class Origins {
     if (!arg.origin)
       throw new Error(`origins.create: "origin" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IOrigin>(`csp-origins`, arg)
-      .then((res) => new Origin(this.saasClient, res.data.id, res.data));
+      .then((res) => new Origin(this.#saasClient, res.data.id, res.data));
   }
 }

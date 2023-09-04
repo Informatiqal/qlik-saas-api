@@ -4,9 +4,9 @@ import { URLBuild } from "../util/UrlBuild";
 import { INotificationItem, Notification } from "./Notification";
 
 export class Notifications {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async getAll(arg?: { locale?: string; subscribable?: "true" | "false" }) {
@@ -14,9 +14,9 @@ export class Notifications {
     urlBuild.addParam("locale", arg?.locale);
     urlBuild.addParam("subscribable", arg?.subscribable);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<{ notifications: INotificationItem[] }>(urlBuild.getUrl())
       .then((res) => res.data.notifications as INotificationItem[])
-      .then((data) => data.map((t) => new Notification(this.saasClient, t)));
+      .then((data) => data.map((t) => new Notification(this.#saasClient, t)));
   }
 }

@@ -4,16 +4,16 @@ import { parseFilter } from "../util/filter";
 
 // TODO: documentation is incomplete!
 export class IdentityProviders {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id)
       throw new Error(`identityProviders.get: "id" parameter is required`);
     const identityProvider: IdentityProvider = new IdentityProvider(
-      this.saasClient,
+      this.#saasClient,
       arg.id
     );
     await identityProvider.init();
@@ -22,11 +22,11 @@ export class IdentityProviders {
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IIdentityProvider[]>(`identity-providers?limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new IdentityProvider(this.saasClient, t.id, t))
+        data.map((t) => new IdentityProvider(this.#saasClient, t.id, t))
       );
   }
 

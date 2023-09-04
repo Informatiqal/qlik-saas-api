@@ -3,19 +3,19 @@ import { AppEvaluation, IAppEvaluation } from "./AppEvaluation";
 import { parseFilter } from "../util/filter";
 
 export class AppEvaluations {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   private appId: string;
   constructor(saasClient: QlikSaaSClient, appId: string) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
     this.appId = appId;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAppEvaluation[]>(`/apps/${this.appId}/evaluations?all=true&limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new AppEvaluation(this.saasClient, t.id ?? t.ID, t))
+        data.map((t) => new AppEvaluation(this.#saasClient, t.id ?? t.ID, t))
       );
   }
 
@@ -34,12 +34,12 @@ export class AppEvaluations {
   }
 
   async create() {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IAppEvaluation>(`/apps/${this.appId}/evaluations`, {})
       .then(
         (res) =>
           new AppEvaluation(
-            this.saasClient,
+            this.#saasClient,
             res.data.id ?? res.data.ID,
             res.data
           )

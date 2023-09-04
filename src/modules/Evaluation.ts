@@ -137,28 +137,28 @@ export interface IEvaluation {
 }
 
 export class Evaluation {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IEvaluation;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IEvaluation) {
     if (!id) throw new Error(`evaluations.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IEvaluation);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init() {
     if (!this.details || Object.keys(this.details).length == 0) {
-      this.details = await this.saasClient
-        .Get<IEvaluation>(`evaluations/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IEvaluation>(`evaluations/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async download() {
-    return await this.saasClient
-      .Get<IEvaluation>(`evaluations/${this.id}/download`)
+    return await this.#saasClient
+      .Get<IEvaluation>(`evaluations/${this.#id}/download`)
       .then((res) => res.data);
   }
 }

@@ -22,28 +22,28 @@ export interface IReload {
 }
 
 export class Reload {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IReload;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IReload) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IReload);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init() {
     if (!this.details || Object.keys(this.details).length == 0) {
-      this.details = await this.saasClient
-        .Get<IReload>(`reloads/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IReload>(`reloads/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
-  async cancel() {
-    return await this.saasClient
-      .Post(`reloads/${this.id}/actions/cancel`, {})
+  async cancel(arg?: { waitForCancel: boolean }) {
+    return await this.#saasClient
+      .Post(`reloads/${this.#id}/actions/cancel`, {})
       .then((res) => res.status);
   }
 }

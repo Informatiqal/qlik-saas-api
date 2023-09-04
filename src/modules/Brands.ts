@@ -34,9 +34,9 @@ export interface IBrandCreate {
 }
 
 export class Brands {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   /**
@@ -44,7 +44,7 @@ export class Brands {
    */
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`brands.get: "id" parameter is required`);
-    const brand: Brand = new Brand(this.saasClient, arg.id);
+    const brand: Brand = new Brand(this.#saasClient, arg.id);
     await brand.init();
 
     return brand;
@@ -54,10 +54,10 @@ export class Brands {
    * Get all existing brands
    */
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<{ data: IBrand[] }>(`brands?limit=50`)
       .then((res) => res.data.data ?? res.data ?? [])
-      .then((data) => data.map((t) => new Brand(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new Brand(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -121,8 +121,8 @@ export class Brands {
         // contentType: contentTypeMime.styles,
       });
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IBrand>(`brands`, fd.getData, fd.getHeaders)
-      .then((res) => new Brand(this.saasClient, res.data.id, res.data));
+      .then((res) => new Brand(this.#saasClient, res.data.id, res.data));
   }
 }

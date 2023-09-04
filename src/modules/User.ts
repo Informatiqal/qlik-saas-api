@@ -55,15 +55,15 @@ export interface IUserUpdate {
 }
 
 export class User {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IUser;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IUser) {
     if (!id) throw new Error(`user.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IUser);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: boolean }) {
@@ -72,15 +72,15 @@ export class User {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<IUser>(`users/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IUser>(`users/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`users/${this.id}`)
+    return await this.#saasClient
+      .Delete(`users/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -92,8 +92,8 @@ export class User {
 
     let updateStatus = 0;
 
-    return await this.saasClient
-      .Patch(`users/${this.id}`, data)
+    return await this.#saasClient
+      .Patch(`users/${this.#id}`, data)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });

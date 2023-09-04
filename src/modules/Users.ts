@@ -15,24 +15,24 @@ export interface IUserCreate {
 }
 
 export class Users {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   _actions: UsersActions;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
-    this._actions = new UsersActions(this.saasClient);
+    this.#saasClient = saasClient;
+    this._actions = new UsersActions(this.#saasClient);
   }
 
   /**
    * Info about the tenant accessing the endpoint
    */
   async get(arg: { id: string }) {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<{ data: IUser[] }>("users/actions/filter", {
         filter: `id eq "${arg.id}"`,
       })
       .then((res) => res.data.data)
       .then((usersData) =>
-        usersData.map((user) => new User(this.saasClient, user.id, user))
+        usersData.map((user) => new User(this.#saasClient, user.id, user))
       );
   }
 
@@ -49,7 +49,7 @@ export class Users {
     const urlBuild = new URLBuild(`users/actions/filter`);
     urlBuild.addParam("sort", arg.sort);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IUser[]>(urlBuild.getUrl(), { filter: arg.filter })
       .then((res) => res.data);
   }
@@ -85,19 +85,19 @@ export class Users {
    * Returns a list of users. Each element of the list is an instance of the User class
    */
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IUser[]>(`users?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new User(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new User(this.#saasClient, t.id, t)));
   }
 
   /**
    * Redirects to retrieve the user resource associated with the JWT claims
    */
   async me() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IUser>(`users/me`)
-      .then((res) => new User(this.saasClient, res.data.id, res.data));
+      .then((res) => new User(this.#saasClient, res.data.id, res.data));
   }
 
   /**
@@ -111,7 +111,7 @@ export class Users {
    * The role names can now be retrieved from the list roles endpoint.
    */
   async metadata() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<{ valid_roles: string[] }>(`users/metadata`)
       .then((res) => res.data);
   }
@@ -127,8 +127,8 @@ export class Users {
     if (!arg.tenantId)
       throw new Error(`users.create: "tenantId" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IUser>(`users`, arg)
-      .then((res) => new User(this.saasClient, res.data.id, res.data));
+      .then((res) => new User(this.#saasClient, res.data.id, res.data));
   }
 }

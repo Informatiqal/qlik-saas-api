@@ -21,9 +21,9 @@ export interface IAssignment {
 }
 
 export class Assignment {
-  private id: string;
+  #id: string;
   private spaceId: string;
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   details: IAssignment;
   constructor(
     saasClient: QlikSaaSClient,
@@ -35,20 +35,20 @@ export class Assignment {
     if (!spaceId) throw new Error(`assignment.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IAssignment);
-    this.id = id;
+    this.#id = id;
     this.spaceId = spaceId;
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`spaces/${this.spaceId}/assignments/${this.id}`)
+    return await this.#saasClient
+      .Delete(`spaces/${this.spaceId}/assignments/${this.#id}`)
       .then((res) => res.status);
   }
 
   async update(arg: { roles: string[] }) {
-    return await this.saasClient
-      .Put(`spaces/${this.spaceId}/assignments/${this.id}`, {
+    return await this.#saasClient
+      .Put(`spaces/${this.spaceId}/assignments/${this.#id}`, {
         roles: arg.roles,
       })
       .then((res) => {

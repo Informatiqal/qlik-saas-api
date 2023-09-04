@@ -19,10 +19,10 @@ export interface INotificationItem {
 }
 
 export class Notification {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   details: INotificationItem;
   constructor(saasClient: QlikSaaSClient, details?: INotificationItem) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
     this.details = details ?? ({} as INotificationItem);
   }
 }

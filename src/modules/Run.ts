@@ -35,9 +35,9 @@ export interface IRunExportResponse {
 }
 
 export class Run {
-  private id: string;
+  #id: string;
   private automationId: string;
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   details: IRun;
   constructor(
     saasClient: QlikSaaSClient,
@@ -48,41 +48,41 @@ export class Run {
     if (!id) throw new Error(`run.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IRun);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
     this.automationId = automationId;
   }
 
   // async init() {
   //   if (!this.details || Object.keys(this.details).length == 0) {
-  //     this.details = await this.saasClient
-  //       .Get<IRun>(`automations/${this.id}`)
+  //     this.details = await this.#saasClient
+  //       .Get<IRun>(`automations/${this.#id}`)
   //       .then((res) => res.data);
   //   }
   // }
 
   async export() {
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IRunExportResponse>(
-        `automations/automations/${this.automationId}/runs/${this.id}/actions/export`,
+        `automations/automations/${this.automationId}/runs/${this.#id}/actions/export`,
         {}
       )
       .then((res) => res.data);
   }
 
   async retry() {
-    return await this.saasClient
+    return await this.#saasClient
       .Post(
-        `automations/automations/${this.automationId}/runs/${this.id}/actions/retry`,
+        `automations/automations/${this.automationId}/runs/${this.#id}/actions/retry`,
         {}
       )
       .then((res) => res.status);
   }
 
   async stop() {
-    return await this.saasClient
+    return await this.#saasClient
       .Post(
-        `automations/automations/${this.automationId}/runs/${this.id}/actions/stop`,
+        `automations/automations/${this.automationId}/runs/${this.#id}/actions/stop`,
         {}
       )
       .then((res) => res.status);

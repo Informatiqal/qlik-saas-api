@@ -14,9 +14,9 @@ export const contentTypeMime = {
 };
 
 export class BrandFile {
-  private id: string;
+  #id: string;
   private brandId: string;
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   details: IBrandFile;
   constructor(
     saasClient: QlikSaaSClient,
@@ -24,9 +24,9 @@ export class BrandFile {
     id: string,
     details: IBrandFile
   ) {
-    this.id = id;
+    this.#id = id;
     this.brandId = brandId;
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
     this.details = details;
   }
 
@@ -34,8 +34,8 @@ export class BrandFile {
    * Download the current brand file
    */
   async download() {
-    return this.saasClient
-      .Get<string>(`brands/${this.brandId}/files/${this.id}`)
+    return this.#saasClient
+      .Get<string>(`brands/${this.brandId}/files/${this.#id}`)
       .then((res) => res.data);
   }
 
@@ -43,8 +43,8 @@ export class BrandFile {
    * Remove the current brand file from the brand
    */
   async remove() {
-    return this.saasClient
-      .Delete(`brands/${this.brandId}/files/${this.id}`)
+    return this.#saasClient
+      .Delete(`brands/${this.brandId}/files/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -56,11 +56,11 @@ export class BrandFile {
     fd.append({
       field: "file",
       data: arg.file,
-      contentType: contentTypeMime[this.id],
+      contentType: contentTypeMime[this.#id],
     });
 
-    return this.saasClient
-      .Put(`brands/${this.brandId}/files/${this.id}`, fd.getData, fd.getHeaders)
+    return this.#saasClient
+      .Put(`brands/${this.brandId}/files/${this.#id}`, fd.getData, fd.getHeaders)
       .then((res) => res.status);
   }
 }

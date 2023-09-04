@@ -3,16 +3,16 @@ import { DataCredential, IDataCredential } from "./DataCredential";
 import { parseFilter } from "../util/filter";
 
 export class DataCredentials {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id)
       throw new Error(`dataCredentials.get: "id" parameter is required`);
     const dataCredential: DataCredential = new DataCredential(
-      this.saasClient,
+      this.#saasClient,
       arg.id
     );
     await dataCredential.init();
@@ -21,11 +21,11 @@ export class DataCredentials {
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IDataCredential[]>(`data-credentials?limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new DataCredential(this.saasClient, t.qID, t))
+        data.map((t) => new DataCredential(this.#saasClient, t.qID, t))
       );
   }
 

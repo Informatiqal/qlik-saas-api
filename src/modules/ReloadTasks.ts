@@ -4,25 +4,25 @@ import { IReloadTask, IReloadTaskCreate } from "./ReloadTask.interfaces";
 import { parseFilter } from "../util/filter";
 
 export class ReloadTasks {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`reloadTasks.get: "id" parameter is required`);
-    const rt: ReloadTask = new ReloadTask(this.saasClient, arg.id);
+    const rt: ReloadTask = new ReloadTask(this.#saasClient, arg.id);
     await rt.init();
 
     return rt;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IReloadTask[]>(`reload-tasks?limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new ReloadTask(this.saasClient, t.id, t))
+        data.map((t) => new ReloadTask(this.#saasClient, t.id, t))
       );
   }
 
@@ -73,8 +73,8 @@ export class ReloadTasks {
     arg["state"] = "Enabled";
     arg["type"] = "scheduled_reload";
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IReloadTask>(`reload-tasks`, arg)
-      .then((res) => new ReloadTask(this.saasClient, res.data.id, res.data));
+      .then((res) => new ReloadTask(this.#saasClient, res.data.id, res.data));
   }
 }

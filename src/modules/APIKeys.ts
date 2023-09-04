@@ -25,24 +25,24 @@ export interface IAPIKeysConfigsUpdate {
 }
 
 export class APIKeys {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`apiKeys.get: "id" parameter is required`);
-    const apiKey: APIKey = new APIKey(this.saasClient, arg.id);
+    const apiKey: APIKey = new APIKey(this.#saasClient, arg.id);
     await apiKey.init();
 
     return apiKey;
   }
 
   async getAll() {
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAPIKey[]>(`api-keys?limit=50`)
       .then((res) => res.data)
-      .then((data) => data.map((t) => new APIKey(this.saasClient, t.id, t)));
+      .then((data) => data.map((t) => new APIKey(this.#saasClient, t.id, t)));
   }
 
   async getFilter(arg: { filter: string }) {
@@ -76,16 +76,16 @@ export class APIKeys {
     if (!arg.description)
       throw new Error(`apiKeys.create: "description" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Post<IAPIKey>(`api-keys`, arg)
-      .then((res) => new APIKey(this.saasClient, res.data.id, res.data));
+      .then((res) => new APIKey(this.#saasClient, res.data.id, res.data));
   }
 
   async configs(arg: { tenantId: string }) {
     if (!arg.tenantId)
       throw new Error(`apiKeys.configs: "tenantId" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IAPIKeysConfigs>(`api-keys/configs/${arg.tenantId}`)
       .then((res) => res.data);
   }
@@ -106,7 +106,7 @@ export class APIKeys {
       value: a.value,
     }));
 
-    return await this.saasClient
+    return await this.#saasClient
       .Patch(`api-keys/configs/${arg.tenantId}`, data)
       .then((res) => res.status);
   }

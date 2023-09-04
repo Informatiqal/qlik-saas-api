@@ -39,8 +39,8 @@ export interface IWebIntegration {
 }
 
 export class WebIntegration {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: IWebIntegration;
   constructor(
     saasClient: QlikSaaSClient,
@@ -50,30 +50,30 @@ export class WebIntegration {
     if (!id) throw new Error(`webIntegration.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IWebIntegration);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: true }) {
     if (Object.keys(this.details).length == 0 || arg?.force == true) {
-      this.details = await this.saasClient
-        .Get<IWebIntegration>(`web-integrations/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<IWebIntegration>(`web-integrations/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`web-integrations/${this.id}`)
+    return await this.#saasClient
+      .Delete(`web-integrations/${this.#id}`)
       .then((res) => res.status);
   }
 
   async update(arg: IWebIntegrationUpdate[]) {
     let updateStatus = 0;
 
-    return await this.saasClient
+    return await this.#saasClient
       .Patch(
-        `web-integrations/${this.id}`,
+        `web-integrations/${this.#id}`,
         arg.map((a) => ({
           op: "replace",
           path: `/${a.path}`,

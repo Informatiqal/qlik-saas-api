@@ -22,21 +22,21 @@ export interface IRole extends IRoleCondensed {
 }
 
 export class Roles {
-  private saasClient: QlikSaaSClient;
+  #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
-    this.saasClient = saasClient;
+    this.#saasClient = saasClient;
   }
 
   async get(arg: { id: string }) {
     if (!arg.id) throw new Error(`roles.get: "id" parameter is required`);
 
-    return await this.saasClient
+    return await this.#saasClient
       .Get<IRole>(`roles/${arg.id}`)
       .then((res) => res.data);
   }
 
   async getAll() {
-    return await this.saasClient.Get<IRole[]>(`roles?limit=50`).then((res) => res.data);
+    return await this.#saasClient.Get<IRole[]>(`roles?limit=50`).then((res) => res.data);
   }
 
   async getFilter(arg: { filter: string }) {

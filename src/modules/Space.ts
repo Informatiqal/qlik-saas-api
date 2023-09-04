@@ -40,15 +40,15 @@ export interface IAssignmentCreate {
 }
 
 export class Space {
-  private id: string;
-  private saasClient: QlikSaaSClient;
+  #id: string;
+  #saasClient: QlikSaaSClient;
   details: ISpace;
   constructor(saasClient: QlikSaaSClient, id: string, details?: ISpace) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details ?? ({} as ISpace);
-    this.id = id;
-    this.saasClient = saasClient;
+    this.#id = id;
+    this.#saasClient = saasClient;
   }
 
   async init(arg?: { force: boolean }) {
@@ -57,15 +57,15 @@ export class Space {
       Object.keys(this.details).length == 0 ||
       arg?.force == true
     ) {
-      this.details = await this.saasClient
-        .Get<ISpace>(`spaces/${this.id}`)
+      this.details = await this.#saasClient
+        .Get<ISpace>(`spaces/${this.#id}`)
         .then((res) => res.data);
     }
   }
 
   async remove() {
-    return await this.saasClient
-      .Delete(`spaces/${this.id}`)
+    return await this.#saasClient
+      .Delete(`spaces/${this.#id}`)
       .then((res) => res.status);
   }
 
@@ -77,8 +77,8 @@ export class Space {
 
     let updateStatus = 0;
 
-    return await this.saasClient
-      .Put<ISpace>(`spaces/${this.id}`, data)
+    return await this.#saasClient
+      .Put<ISpace>(`spaces/${this.#id}`, data)
       .then((res) => {
         updateStatus = res.status;
         return this.init({ force: true });
@@ -87,13 +87,13 @@ export class Space {
   }
 
   async assignments() {
-    return await this.saasClient
-      .Get<IAssignment[]>(`spaces/${this.id}/assignments`)
+    return await this.#saasClient
+      .Get<IAssignment[]>(`spaces/${this.#id}/assignments`)
       .then((res) => res.data)
       .then((assignments) =>
         assignments.map(
           (assignment) =>
-            new Assignment(this.saasClient, assignment.id, this.id, assignment)
+            new Assignment(this.#saasClient, assignment.id, this.#id, assignment)
         )
       );
   }
@@ -104,12 +104,12 @@ export class Space {
     if (arg.assigneeId) data["assigneeId"] = arg.assigneeId;
     if (arg.roles) data["roles"] = arg.roles;
 
-    return await this.saasClient
-      .Post<IAssignment>(`spaces/${this.id}/assignments`, data)
+    return await this.#saasClient
+      .Post<IAssignment>(`spaces/${this.#id}/assignments`, data)
       .then((res) => res.data)
       .then(
         (assignment) =>
-          new Assignment(this.saasClient, assignment.id, this.id, assignment)
+          new Assignment(this.#saasClient, assignment.id, this.#id, assignment)
       );
   }
 }
