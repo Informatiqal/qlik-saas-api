@@ -30,7 +30,13 @@ export interface IExtension {
     description: string;
   };
   supernova: boolean;
-  file: {};
+  file: {
+    contentType: string;
+    contentLength: number;
+    md5: string;
+    fileId: string;
+    originalname: string;
+  };
   createdAt: string;
   updateAt: string;
 }
@@ -78,12 +84,18 @@ export class Extension {
         "application/x-zip-compressed",
         "arraybuffer"
       )
-      .then((res) => res.data);
+      .then((res) => ({
+        file: res.data,
+        id: this.#id,
+        name: this.details.file?.originalname
+          ? this.details.file.originalname
+          : `${this.details.id}.zip`,
+      }));
   }
 
   /**
-   * **WARNING!** 
-   * 
+   * **WARNING!**
+   *
    * At this point (2023-08-29) not all "data" properties can be updated.
    * Qlik will reply with status 200 ("OK. Extension has been updated.") but the extension
    * is not updated. For example: if we pass new value for "name" property the update request

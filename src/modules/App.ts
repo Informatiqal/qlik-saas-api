@@ -115,7 +115,11 @@ export class App {
       )
       .then((a) => a.data as Buffer);
 
-    return appContent;
+    return {
+      file: appContent,
+      id: `${this.#id}`,
+      name: `${this.details.name}.qvf`,
+    };
   }
 
   /**
@@ -315,7 +319,7 @@ export class App {
       arg.versionId,
       this.#id
     );
-    await scriptVersion.init()
+    await scriptVersion.init();
     await scriptVersion.getScriptContent();
 
     return scriptVersion;

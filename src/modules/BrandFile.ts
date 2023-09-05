@@ -34,9 +34,19 @@ export class BrandFile {
    * Download the current brand file
    */
   async download() {
+    const fileExtensions = {
+      logo: "png",
+      styles: "css",
+      favIcon: "ico",
+    };
+
     return this.#saasClient
-      .Get<string>(`brands/${this.brandId}/files/${this.#id}`)
-      .then((res) => res.data);
+      .Get<Buffer>(`brands/${this.brandId}/files/${this.#id}`)
+      .then((res) => ({
+        file: res.data,
+        id: `${this.#id}`,
+        name: `${this.#id}.${fileExtensions[this.#id]}`,
+      }));
   }
 
   /**
@@ -60,7 +70,11 @@ export class BrandFile {
     });
 
     return this.#saasClient
-      .Put(`brands/${this.brandId}/files/${this.#id}`, fd.getData, fd.getHeaders)
+      .Put(
+        `brands/${this.brandId}/files/${this.#id}`,
+        fd.getData,
+        fd.getHeaders
+      )
       .then((res) => res.status);
   }
 }

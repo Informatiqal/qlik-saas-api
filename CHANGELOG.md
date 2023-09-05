@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.14.4 - 2023-09-05
+
+- [#220](https://github.com/Informatiqal/qlik-saas-api/issues/220) Export/download methods that actually return some file(s) now return extra data as well (to bring inline with `qlik-repo-api`) package
+
 ## 0.14.3 - 2023-09-04
 
 - [#219](https://github.com/Informatiqal/qlik-saas-api/issues/219) `saasClient` and `id` are private and should not be available
