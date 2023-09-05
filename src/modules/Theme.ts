@@ -66,7 +66,11 @@ export class Theme {
         "application/x-zip-compressed",
         "arraybuffer"
       )
-      .then((res) => res.data);
+      .then((res) => ({
+        file: res.data,
+        id: `${this.#id}`,
+        name: `${this.details.name}.zip`,
+      }));
   }
 
   // async update(file: Buffer) {
