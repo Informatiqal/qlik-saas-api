@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { IReload, Reload } from "./Reload";
-import { parseFilter } from "../util/filter";
+import { URLBuild } from "../util/UrlBuild";
 
 export class Reloads {
   #saasClient: QlikSaaSClient;
@@ -16,25 +16,34 @@ export class Reloads {
     return reload;
   }
 
-  async getAll() {
+  async getAll(arg?: { log: boolean }) {
+    const urlBuild = new URLBuild(`reloads`);
+    urlBuild.addParam("limit", "50");
+    urlBuild.addParam("log", `${arg?.log}`);
+
+    const url = urlBuild.getUrl();
+
     return await this.#saasClient
-      .Get<IReload[]>(`reloads?limit=50`)
+      .Get<IReload[]>(url)
       .then((res) => res.data)
       .then((data) => data.map((t) => new Reload(this.#saasClient, t.id, t)));
   }
 
-  async getFilter(arg: { filter: string }) {
+  async getFilter(arg: { filter: string; log?: boolean }) {
     if (!arg.filter)
       throw new Error(`reloads.getFilter: "filter" parameter is required`);
 
-    return await this.getAll().then((entities) => {
-      const anonFunction = Function(
-        "entities",
-        `return entities.filter(f => ${parseFilter(arg.filter, "f.details")})`
-      );
+    const urlBuild = new URLBuild(`reloads`);
+    urlBuild.addParam("limit", 50);
+    urlBuild.addParam("filter", arg.filter);
+    urlBuild.addParam("log", arg.log);
 
-      return anonFunction(entities) as Reload[];
-    });
+    const url = urlBuild.getUrl();
+
+    return await this.#saasClient
+      .Get<IReload[]>(url)
+      .then((res) => res.data)
+      .then((data) => data.map((t) => new Reload(this.#saasClient, t.id, t)));
   }
 
   async start(arg: { appId: string; partial?: boolean }) {

@@ -8,7 +8,7 @@ export interface IReload {
   partial: boolean;
   type: "hub" | "chronos" | "external" | string;
   status: "CREATED" | "QUEUED" | "RELOADING" | "FAILED" | "SUCCEEDED" | string;
-  log: string;
+  log?: string;
   duration: string;
   creationTime: string;
   startTime: string;

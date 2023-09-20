@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.14.5 - 2023-09-20
+
+- `reloads.getFilter()` [qlik.dev post](https://qlik.dev/changelog/57-reloads-api-improvements)
+  - `filter` argument is now passed as it is. Qlik itself allows this argument
+  - `log` - optional parameter. Default is `true`. If passed and set to `false` the response will not include the script log
+- `reloads.getAll()` - optional `log` argument. See above
+- dependency updates
+
 ## 0.14.4 - 2023-09-05
 
 - [#220](https://github.com/Informatiqal/qlik-saas-api/issues/220) Export/download methods that actually return some file(s) now return extra data as well (to bring inline with `qlik-repo-api`) package
