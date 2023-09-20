@@ -1,6 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { Actions } from "../types/types";
-import { Assignment, IAssignment } from "./Assignment";
+import { SpaceAssignments } from "./SpaceAssignments";
 
 export interface ISpace {
   id: string;
@@ -33,22 +33,18 @@ export interface ISpaceUpdate {
   ownerId?: string;
 }
 
-export interface IAssignmentCreate {
-  type?: "user" | "group";
-  assigneeId?: string;
-  roles?: string[];
-}
-
 export class Space {
   #id: string;
   #saasClient: QlikSaaSClient;
   details: ISpace;
+  assignments: SpaceAssignments;
   constructor(saasClient: QlikSaaSClient, id: string, details?: ISpace) {
     if (!id) throw new Error(`app.get: "id" parameter is required`);
 
     this.details = details ?? ({} as ISpace);
     this.#id = id;
     this.#saasClient = saasClient;
+    this.assignments = new SpaceAssignments(this.#saasClient, this.#id);
   }
 
   async init(arg?: { force: boolean }) {
@@ -84,32 +80,5 @@ export class Space {
         return this.init({ force: true });
       })
       .then(() => updateStatus);
-  }
-
-  async assignments() {
-    return await this.#saasClient
-      .Get<IAssignment[]>(`spaces/${this.#id}/assignments`)
-      .then((res) => res.data)
-      .then((assignments) =>
-        assignments.map(
-          (assignment) =>
-            new Assignment(this.#saasClient, assignment.id, this.#id, assignment)
-        )
-      );
-  }
-
-  async assignmentCreate(arg: IAssignmentCreate) {
-    let data: { [k: string]: any } = {};
-    if (arg.type) data["type"] = arg.type;
-    if (arg.assigneeId) data["assigneeId"] = arg.assigneeId;
-    if (arg.roles) data["roles"] = arg.roles;
-
-    return await this.#saasClient
-      .Post<IAssignment>(`spaces/${this.#id}/assignments`, data)
-      .then((res) => res.data)
-      .then(
-        (assignment) =>
-          new Assignment(this.#saasClient, assignment.id, this.#id, assignment)
-      );
   }
 }

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.14.6 - 2023-09-20
+
+- space assignments
+  - in their own classes - `Assignments` and `Assignment`
+  - accessible under Space instance
+  - the usual methods - get, getAll, getFilter, update, create and remove
+
 ## 0.14.5 - 2023-09-20
 
 - `reloads.getFilter()` [qlik.dev post](https://qlik.dev/changelog/57-reloads-api-improvements)

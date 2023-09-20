@@ -46,7 +46,12 @@ export class Assignment {
       .then((res) => res.status);
   }
 
-  async update(arg: { roles: string[] }) {
+  async update(arg: {
+    /**
+     *  codeveloper, consumer, dataconsumer, facilitator, producer (for now)
+     */
+    roles: string[];
+  }) {
     return await this.#saasClient
       .Put(`spaces/${this.spaceId}/assignments/${this.#id}`, {
         roles: arg.roles,
