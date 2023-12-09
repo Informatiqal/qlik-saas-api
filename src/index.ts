@@ -3,6 +3,7 @@ import { Apps } from "./modules/Apps";
 import { Brands } from "./modules/Brands";
 import { DataAlerts } from "./modules/DataAlerts";
 import { Automations } from "./modules/Automations";
+import { AutomationConnections } from "./modules/AutomationConnections";
 import { APIKeys } from "./modules/APIKeys";
 import { Audits } from "./modules/Audits";
 import { DataConnections } from "./modules/DataConnections";
@@ -36,6 +37,7 @@ export namespace QlikSaaSApi {
     #saasClient: QlikSaaSClient;
     public apps: Apps;
     public automations: Automations;
+    public automationConnections: AutomationConnections;
     public apiKeys: APIKeys;
     public audits: Audits;
     public brands: Brands;
@@ -82,6 +84,7 @@ export namespace QlikSaaSApi {
 
       this.apps = new Apps(this.#saasClient);
       this.automations = new Automations(this.#saasClient);
+      this.automationConnections = new AutomationConnections(this.#saasClient);
       this.apiKeys = new APIKeys(this.#saasClient);
       this.audits = new Audits(this.#saasClient);
       this.brands = new Brands(this.#saasClient);

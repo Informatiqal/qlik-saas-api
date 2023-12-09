@@ -11,8 +11,6 @@ const saasApi = config.saasApi;
 const helpers = new Helpers();
 
 describe("Apps", function () {
-  this.timeout(30000);
-
   it("Script operations", async function () {
     const tempAppName = "Temp API Test app";
     const script1 = "let a = 1;";

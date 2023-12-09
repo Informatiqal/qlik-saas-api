@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.15.0 - 2023-12-09
+
+- - `AutomationConnections` - new API endpoints implementation [post](https://qlik.dev/changelog/68-api-updates-automation-connections/)
+- dependency updates
+
 ## 0.14.6 - 2023-09-20
 
 - space assignments

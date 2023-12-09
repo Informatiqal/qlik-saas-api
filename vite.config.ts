@@ -5,7 +5,7 @@ export default defineConfig({
     testTimeout: 300000,
     exclude: [
       ...configDefaults.exclude,
-      //"test/playground.spec.ts"
+      "test/playground.spec.ts"
     ],
   },
 });

@@ -33,7 +33,7 @@ export class AppScript {
   async getScriptContent() {
     this.details.script = await this.#saasClient
       .Get<string>(`apps/${this.appId}/scripts/${this.#id}`)
-      .then((res) => res.data);
+      .then((res) => res.data["script"]);
 
     return this.details.script;
   }
