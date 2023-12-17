@@ -13,6 +13,9 @@ Node.js module to interact with Qlik Sense SaaS API
 > **Note**
 > Node version >= 16.0.0
 
+> **Note**
+> Please open and issue if you are experiencing problems with the tabular reporting related methods - sharing tasks, report templates and report filters. The API itself is quite complicated and its hard to test and verify
+
 ## Authentication
 
 At this moment only JWT authentication is supported
