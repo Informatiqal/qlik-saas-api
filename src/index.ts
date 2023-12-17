@@ -18,6 +18,7 @@ import { Quotas } from "./modules/Quotas";
 import { Themes } from "./modules/Themes";
 import { Extensions } from "./modules/Extensions";
 import { Evaluations } from "./modules/Evaluations";
+import { Reports } from "./modules/Reports";
 import { Reloads } from "./modules/Reloads";
 import { ReloadTasks } from "./modules/ReloadTasks";
 import { Roles } from "./modules/Roles";
@@ -66,6 +67,7 @@ export namespace QlikSaaSApi {
      * See https://qlik.dev/changelog/deprecation-of-the-evaluations-api
      */
     public evaluations: Evaluations;
+    public reports: Reports;
     public reloads: Reloads;
     public reloadTasks: ReloadTasks;
     public roles: Roles;
@@ -102,6 +104,7 @@ export namespace QlikSaaSApi {
       this.themes = new Themes(this.#saasClient);
       this.extensions = new Extensions(this.#saasClient);
       this.evaluations = new Evaluations(this.#saasClient);
+      this.reports = new Reports(this.#saasClient);
       this.reloads = new Reloads(this.#saasClient);
       this.reloadTasks = new ReloadTasks(this.#saasClient);
       this.roles = new Roles(this.#saasClient);
