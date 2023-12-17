@@ -233,7 +233,7 @@ export interface IReportRequest {
   /**
    * Define the request metadata. It includes priority, deadline and future settings on execution policy of the request
    */
-  meta: {
+  meta?: {
     /**
      * Time to live of the final result artifacts in ISO8601 duration format. After that duration the request and underlying output files will not be guaranteed to be available. Default is 1 hour
      *
@@ -247,7 +247,7 @@ export interface IReportRequest {
      */
     exportDeadline: string;
   };
-  output: {
+  output?: {
     /**
      * Each template type supports specific output types:
      * - composition-1.0 supports only pdfcomposition and pptxcomposition output types
@@ -324,8 +324,8 @@ export interface IReportRequest {
   /**
    * Definitions of common properties that are shared between templates, e.g. selectionsByState can be the same for all templates within a composition of templates.
    */
-  definitions: {};
-  senseImageTemplate: {
+  definitions?: {};
+  senseImageTemplate?: {
     appId: string;
     visualization: IVisualization;
     /**
@@ -347,7 +347,7 @@ export interface IReportRequest {
   /**
    * Used to export a sheet as pdf
    */
-  senseSheetTemplate: {
+  senseSheetTemplate?: {
     appId: string;
     sheet: ISheet;
     /**
@@ -369,7 +369,7 @@ export interface IReportRequest {
   /**
    * Composition of senseSheetTemplate and/or senseImageTemplate templates
    */
-  compositionTemplates: {
+  compositionTemplates?: {
     /**
      * Template type and version using semantic versioning. It must have the following name convention, dashed-separated-template-name-MAJOR.MINOR
      *
