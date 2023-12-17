@@ -18,6 +18,8 @@ import { Quotas } from "./modules/Quotas";
 import { Themes } from "./modules/Themes";
 import { Extensions } from "./modules/Extensions";
 import { Evaluations } from "./modules/Evaluations";
+import { Reports } from "./modules/Reports";
+import { ReportTemplates } from "./modules/ReportTemplates";
 import { Reloads } from "./modules/Reloads";
 import { ReloadTasks } from "./modules/ReloadTasks";
 import { Roles } from "./modules/Roles";
@@ -30,6 +32,7 @@ import { Groups } from "./modules/Groups";
 import { Tenants } from "./modules/Tenants";
 import { WebIntegrations } from "./modules/WebIntegrations";
 import { Notifications } from "./modules/Notifications";
+import { SharingTasks } from "./modules/SharingTasks";
 import { Transports } from "./modules/Transports";
 
 export namespace QlikSaaSApi {
@@ -66,6 +69,8 @@ export namespace QlikSaaSApi {
      * See https://qlik.dev/changelog/deprecation-of-the-evaluations-api
      */
     public evaluations: Evaluations;
+    public reports: Reports;
+    public reportTemplates: ReportTemplates;
     public reloads: Reloads;
     public reloadTasks: ReloadTasks;
     public roles: Roles;
@@ -75,6 +80,7 @@ export namespace QlikSaaSApi {
     public oauthTokens: OAuthTokens;
     public collections: Collections;
     public identityProviders: IdentityProviders;
+    public sharingTasks: SharingTasks;
     public tenants: Tenants;
     public webIntegrations: WebIntegrations;
     public notifications: Notifications;
@@ -102,6 +108,8 @@ export namespace QlikSaaSApi {
       this.themes = new Themes(this.#saasClient);
       this.extensions = new Extensions(this.#saasClient);
       this.evaluations = new Evaluations(this.#saasClient);
+      this.reportTemplates = new ReportTemplates(this.#saasClient);
+      this.reports = new Reports(this.#saasClient);
       this.reloads = new Reloads(this.#saasClient);
       this.reloadTasks = new ReloadTasks(this.#saasClient);
       this.roles = new Roles(this.#saasClient);
@@ -112,6 +120,7 @@ export namespace QlikSaaSApi {
       this.collections = new Collections(this.#saasClient);
       this.identityProviders = new IdentityProviders(this.#saasClient);
       this.tenants = new Tenants(this.#saasClient);
+      this.sharingTasks = new SharingTasks(this.#saasClient);
       this.webIntegrations = new WebIntegrations(this.#saasClient);
       this.notifications = new Notifications(this.#saasClient);
     }

@@ -1,5 +1,5 @@
 import { ILinks } from "../types/Common";
-import { Custom, Privileges } from "../types/types";
+import { Custom, Privileges, Optional } from "../types/types";
 
 export interface ICreate {
   resource: string;
@@ -313,3 +313,30 @@ export interface AppObject {
   };
   privileges: Privileges;
 }
+
+export interface ReportFilter {
+  id: string;
+  name: string;
+  ownerId: string;
+  createdAt: string;
+  updatedAt: string;
+  filterType: "REP" | "SUB";
+  filterV1_0: {
+    fieldsByState: {
+      [key: string]: {
+        name: string;
+        values: {
+          valueType: string;
+          valueAsText: string;
+        }[];
+      }[];
+    };
+  };
+  description: string;
+  filterVersion: string;
+}
+
+export type ReportFilterRequest = Optional<
+  Omit<ReportFilter, "id">,
+  "ownerId" | "description"
+>;
