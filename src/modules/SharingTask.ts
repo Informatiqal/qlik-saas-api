@@ -29,6 +29,24 @@ export interface ITrigger {
     | "yearly";
 }
 
+export interface SharingTaskRecurringPersist_encryptedEmailContent {
+  body: {
+    cipher: string;
+  };
+  subject: {
+    cipher: string;
+  };
+}
+
+export interface IScheduleOptions {
+  timezone: string;
+  recurrence: string[];
+  endDateTime: string;
+  cronJobID: string;
+  lastExecutionTime: string;
+  nextExecutionTime: string;
+}
+
 export interface ISharingTask {
   id: string;
   name: string;
@@ -52,30 +70,122 @@ export interface ISharingTask {
   insightID: string;
   ownerName: string;
   startTime: string;
-  templates: string; //???
+  templates: {
+    type: string;
+    subType: string;
+    fileName: string;
+    chartData: {
+      appId: string;
+      jsOpts: {};
+      outDpi: number;
+      outZoom: null;
+      patches: {}[];
+      sheetId: string;
+      widthPx: number;
+      heightPx: number;
+      objectId: string;
+      objectDef: {};
+    };
+    fileAlias: string;
+    storyData: {
+      appId: string;
+      storyId: string;
+    };
+    fileTimeStamp: string;
+    multiSheetData: {
+      appId: string;
+      jsOpts: {};
+      sheetId: string;
+      widthPx: number;
+      heightPx: number;
+      isPrivate: boolean;
+      sheetName: string;
+      jsOptsById: {};
+      resizeType: string;
+      patchesById: {};
+    };
+  }[];
   thumbnail: string;
   updatedBy: string;
   expiration: string;
-  recipients: string; //???
+  recipients: {
+    DLUsers: {}[];
+    userIds: {
+      value: string;
+      groups: string[];
+      subscribed: boolean;
+      enabledByUser: boolean;
+      enabledBySystem: boolean;
+      taskGroupRecipientErrors: {
+        value: string;
+        timestamp: string;
+      }[];
+      alertingTaskGroupRecipientErrors: {
+        added: string;
+        value: string;
+      }[];
+    }[];
+    DLGroups: {}[];
+    groupIds: {
+      value: string;
+      enabledBySystem: boolean;
+      taskGroupRecipientErrors: {
+        value: string;
+        timestamp: string;
+      }[];
+      alertingTaskGroupRecipientErrors: {
+        added: string;
+        value: string;
+      }[];
+    }[];
+    emailAddresses: {
+      value: string;
+      enabled: boolean;
+      taskRecipientErrors: {
+        value: string;
+        timestamp: string;
+      }[];
+    }[];
+  };
   statusCode: string;
-  taskErrors: string; //???
+  taskErrors: {
+    value: string;
+    timestamp: string;
+  }[];
   templateId: string;
   dateCreated: string;
   description: string;
   lastUpdated: string;
   statusLabel: string;
-  emailContent: string; //???
+  emailContent: {
+    body: string;
+    subject: string;
+  };
   enabledByUser: boolean;
-  encryptedState: string; //???
+  encryptedState: {
+    cipher: string;
+  };
   byokMigrationId: string;
   enabledBySystem: boolean;
-  retentionPolicy: string; //???
-  scheduleOptions: string; //???
+  retentionPolicy: {
+    historySize: number;
+    overrideInterval: string;
+  };
+  scheduleOptions: IScheduleOptions;
   selectionErrors: {};
   dataConnectionID: string;
   hasSectionAccess: string;
   insightDirectURL: string;
-  multiInsightURLs: string; //???
+  multiInsightURLs: {
+    status: "successful" | "failed";
+    directURL: string;
+    resourceID: string;
+    /**
+     * @deprecated
+     */
+    templateID: string;
+    fallbackURL: string;
+  };
   nextScheduledRun: string;
   reportProperties: {};
   sharePointFolder: string;
@@ -83,13 +193,19 @@ export interface ISharingTask {
   lastExecutionDate: string;
   transportChannels: string[];
   distributionList: string;
-  encryptedTemplates: string; //???
+  encryptedTemplates: {
+    cipher: string;
+  };
   insightFallbackURL: string;
-  encryptedEmailContent: string; //???
+  encryptedEmailContent: SharingTaskRecurringPersist_encryptedEmailContent;
   failedExecutionsCount: number;
   failedVerificationCount: number;
   isCandidateForVerification: number;
-  links: string; //???
+  links: {
+    self: {
+      href: string;
+    };
+  };
   enabled: boolean;
   lastExecutionURL: string;
   lastExecutionFilesURL: string;
