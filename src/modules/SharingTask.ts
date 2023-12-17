@@ -47,6 +47,82 @@ export interface IScheduleOptions {
   nextExecutionTime: string;
 }
 
+export interface ISharingTaskRecurringRecipients {
+  DLUsers: {}[];
+  userIds: {
+    value: string;
+    groups: string[];
+    subscribed: boolean;
+    enabledByUser: boolean;
+    enabledBySystem: boolean;
+    taskGroupRecipientErrors: {
+      value: string;
+      timestamp: string;
+    }[];
+    alertingTaskGroupRecipientErrors: {
+      added: string;
+      value: string;
+    }[];
+  }[];
+  DLGroups: {}[];
+  groupIds: {
+    value: string;
+    enabledBySystem: boolean;
+    taskGroupRecipientErrors: {
+      value: string;
+      timestamp: string;
+    }[];
+    alertingTaskGroupRecipientErrors: {
+      added: string;
+      value: string;
+    }[];
+  }[];
+  emailAddresses: {
+    value: string;
+    enabled: boolean;
+    taskRecipientErrors: {
+      value: string;
+      timestamp: string;
+    }[];
+  }[];
+}
+
+export interface ITemplateResult {
+  type: string;
+  subType: string;
+  fileName: string;
+  chartData: {
+    appId: string;
+    jsOpts: {};
+    outDpi: number;
+    outZoom: null;
+    patches: {}[];
+    sheetId: string;
+    widthPx: number;
+    heightPx: number;
+    objectId: string;
+    objectDef: {};
+  };
+  fileAlias: string;
+  storyData: {
+    appId: string;
+    storyId: string;
+  };
+  fileTimeStamp: string;
+  multiSheetData: {
+    appId: string;
+    jsOpts: {};
+    sheetId: string;
+    widthPx: number;
+    heightPx: number;
+    isPrivate: boolean;
+    sheetName: string;
+    jsOptsById: {};
+    resizeType: string;
+    patchesById: {};
+  };
+}
+
 export interface ISharingTask {
   id: string;
   name: string;
@@ -70,83 +146,11 @@ export interface ISharingTask {
   insightID: string;
   ownerName: string;
   startTime: string;
-  templates: {
-    type: string;
-    subType: string;
-    fileName: string;
-    chartData: {
-      appId: string;
-      jsOpts: {};
-      outDpi: number;
-      outZoom: null;
-      patches: {}[];
-      sheetId: string;
-      widthPx: number;
-      heightPx: number;
-      objectId: string;
-      objectDef: {};
-    };
-    fileAlias: string;
-    storyData: {
-      appId: string;
-      storyId: string;
-    };
-    fileTimeStamp: string;
-    multiSheetData: {
-      appId: string;
-      jsOpts: {};
-      sheetId: string;
-      widthPx: number;
-      heightPx: number;
-      isPrivate: boolean;
-      sheetName: string;
-      jsOptsById: {};
-      resizeType: string;
-      patchesById: {};
-    };
-  }[];
+  templates: ITemplateResult[];
   thumbnail: string;
   updatedBy: string;
   expiration: string;
-  recipients: {
-    DLUsers: {}[];
-    userIds: {
-      value: string;
-      groups: string[];
-      subscribed: boolean;
-      enabledByUser: boolean;
-      enabledBySystem: boolean;
-      taskGroupRecipientErrors: {
-        value: string;
-        timestamp: string;
-      }[];
-      alertingTaskGroupRecipientErrors: {
-        added: string;
-        value: string;
-      }[];
-    }[];
-    DLGroups: {}[];
-    groupIds: {
-      value: string;
-      enabledBySystem: boolean;
-      taskGroupRecipientErrors: {
-        value: string;
-        timestamp: string;
-      }[];
-      alertingTaskGroupRecipientErrors: {
-        added: string;
-        value: string;
-      }[];
-    }[];
-    emailAddresses: {
-      value: string;
-      enabled: boolean;
-      taskRecipientErrors: {
-        value: string;
-        timestamp: string;
-      }[];
-    }[];
-  };
+  recipients: ISharingTaskRecurringRecipients;
   statusCode: string;
   taskErrors: {
     value: string;
@@ -211,6 +215,24 @@ export interface ISharingTask {
   lastExecutionFilesURL: string;
 }
 
+export interface ISharingTaskRecurringPatchRequestCompliant {
+  op: "replace";
+  path:
+    | "/name"
+    | "/tags"
+    | "/ownerId"
+    | "/enabled"
+    | "/description"
+    | "/scheduleOptions"
+    | "/templates"
+    | "/recipients"
+    | "/recipient"
+    | "/sharePointFolder"
+    | "/dataConnectionID"
+    | "/transportChannels";
+  value: {};
+}
+
 export class SharingTask {
   #id: string;
   #saasClient: QlikSaaSClient;
@@ -235,46 +257,39 @@ export class SharingTask {
     }
   }
 
-  // async remove() {
-  //   return await this.#saasClient
-  //     .Delete(`report-templates/${this.#id}`)
-  //     .then((res) => res.status);
-  // }
+  async remove() {
+    return await this.#saasClient
+      .Delete(`sharing-tasks/${this.#id}`)
+      .then((res) => res.status);
+  }
 
-  // async download() {
-  //   return await this.#saasClient
-  //     .Post<string>(`report-templates/${this.#id}/actions/download`, {})
-  //     .then((res) => res.data);
-  // }
+  async patch(arg: ISharingTaskRecurringPatchRequestCompliant[]) {
+    let updateStatus = 0;
 
-  // async patch(arg: IReportTemplatePatch[]) {
-  //   let updateStatus = 0;
+    return await this.#saasClient
+      .Patch(`sharing-tasks/${this.#id}`, arg)
+      .then((res) => {
+        updateStatus = res.status;
+        return this.init({ force: true });
+      })
+      .then(() => updateStatus);
+  }
 
-  //   return await this.#saasClient
-  //     .Patch(`report-templates/${this.#id}`, arg)
-  //     .then((res) => {
-  //       updateStatus = res.status;
-  //       return this.init({ force: true });
-  //     })
-  //     .then(() => updateStatus);
-  // }
+  /**
+   * Cancels a recurring sharing task
+   */
+  async cancel() {
+    return await this.#saasClient
+      .Post<number>(`sharing-tasks/${this.#id}/actions/cancel`, {})
+      .then((res) => res.status);
+  }
 
-  // async update(arg: IReportTemplateUpdate) {
-  //   if (!arg.temporaryContentId)
-  //     throw new Error(
-  //       `reportTemplate.update: "temporaryContentId" parameter is required`
-  //     );
-
-  //   if (!arg.name) arg.name = this.details.name;
-
-  //   let updateStatus = 0;
-
-  //   return await this.#saasClient
-  //     .Post<string>(`report-templates/${this.#id}/actions/download`, arg)
-  //     .then((res) => {
-  //       updateStatus = res.status;
-  //       return this.init({ force: true });
-  //     })
-  //     .then(() => updateStatus);
-  // }
+  /**
+   * Executes a recurring sharing task
+   */
+  async execute() {
+    return await this.#saasClient
+      .Post<number>(`sharing-tasks/${this.#id}/actions/execute`, {})
+      .then((res) => res.status);
+  }
 }

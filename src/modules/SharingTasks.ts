@@ -1,35 +1,97 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IReportTemplate, ReportTemplate } from "./ReportTemplate";
+import {
+  ISharingTask,
+  ISharingTaskRecurringRecipients,
+  ITemplateResult,
+  SharingTask,
+} from "./SharingTask";
+import { SharingTasksSettings } from "./SharingTasksSettings";
 
+export interface ISharingTaskRecurringCreateRequest {
+  name: string;
+  type:
+    | "chart-monitoring"
+    | "chart-sharing"
+    | "sheet-sharing"
+    | "template-sharing";
+  state: {
+    fields: {}[];
+    queryItems: {}[];
+    selections: {
+      name: string;
+      values: string[];
+      isNumeric: boolean;
+      stateName: string;
+      displayName?: string;
+      displayValues?: string[];
+    }[];
+  };
+  appName: string;
+  enabled?: boolean;
+  message?: string;
+  subType?: string;
+  tags?: string[];
+  trigger?: {
+    recurrence: string[];
+    chronosJobID?: string;
+    executeOnAppReload?: boolean;
+    executionHistoryInterval?: string;
+  };
+  startTime?: string;
+  templates: ITemplateResult[];
+  expiration?: string;
+  recipients?: ISharingTaskRecurringRecipients;
+  description?: string;
+  emailContent?: {
+    body: string;
+    subject: string;
+  };
+  retentionPolicy?: {
+    historySize: number;
+    overrideInterval: string;
+  };
+  scheduleOptions?: {
+    timezone: string;
+    recurrence: string[];
+    endDateTime: string;
+    chronosJobID: string;
+    startDateTime: string;
+    lastExecutionTime: string;
+    nextExecutionTime: string;
+  };
+  dataConnectionID?: string;
+  sharePointFolder?: string;
+  executeOnCreation?: boolean;
+  transportChannels?: string[];
+  distributionListId: string;
+}
 
 export class SharingTasks {
   #saasClient: QlikSaaSClient;
+  settings: SharingTasksSettings;
   constructor(saasClient: QlikSaaSClient) {
     this.#saasClient = saasClient;
+    this.settings = new SharingTasksSettings(this.#saasClient);
   }
 
-  /**
-   * Info about the tenant accessing the endpoint
-   */
   async get(arg: { id: string }) {
-    if (!arg.id)
-      throw new Error(`reportTemplates.get: "id" parameter is required`);
+    if (!arg.id) throw new Error(`sharingTask.get: "id" parameter is required`);
 
-    const rt: ReportTemplate = new ReportTemplate(this.#saasClient, arg.id);
-    await rt.init();
+    const st: SharingTask = new SharingTask(this.#saasClient, arg.id);
+    await st.init();
 
-    return rt;
+    return st;
   }
 
   /**
-   * Returns a list of report templates as an instance
+   * Returns a list of sharing tasks as an instance
    */
   async getAll() {
     return await this.#saasClient
-      .Get<IReportTemplate[]>(`report-templates?limit=50`)
+      .Get<ISharingTask[]>(`sharing-tasks?limit=50`)
       .then((res) => res.data)
       .then((data) =>
-        data.map((t) => new ReportTemplate(this.#saasClient, t.id, t))
+        data.map((t) => new SharingTask(this.#saasClient, t.id, t))
       );
   }
 
@@ -61,20 +123,11 @@ export class SharingTasks {
   // }
 
   /**
-   * Creates a new report template
+   * Creates a new recurring sharing task
    */
-  // async create(arg: ICreateTemplateRequest) {
-  //   if (!arg.name)
-  //     throw new Error(`reportTemplates.create: "name" parameter is required`);
-  //   if (!arg.temporaryContentId)
-  //     throw new Error(
-  //       `reportTemplates.create: "temporaryContentId" parameter is required`
-  //     );
-
-  //   return await this.#saasClient
-  //     .Post<IReportTemplate>(`report-templates`, arg)
-  //     .then(
-  //       (res) => new ReportTemplate(this.#saasClient, res.data.id, res.data)
-  //     );
-  // }
+  async create(arg: ISharingTaskRecurringCreateRequest) {
+    return await this.#saasClient
+      .Post<ISharingTask>(`shared-tasks`, arg)
+      .then((res) => new SharingTask(this.#saasClient, res.data.id, res.data));
+  }
 }

@@ -32,9 +32,6 @@ export class ReportTemplates {
     this.#saasClient = saasClient;
   }
 
-  /**
-   * Info about the tenant accessing the endpoint
-   */
   async get(arg: { id: string }) {
     if (!arg.id)
       throw new Error(`reportTemplates.get: "id" parameter is required`);
