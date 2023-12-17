@@ -18,12 +18,14 @@ import { AppEvaluations } from "./AppEvaluations";
 import { AppActions } from "./AppActions";
 import { AppScript } from "./AppScript";
 import { IItem } from "./Item";
+import { AppReportFilters } from "./AppReportFilters";
 
 export class App {
   #id: string;
   #saasClient: QlikSaaSClient;
   private swapResourceIdAndId = false;
   evaluations: AppEvaluations;
+  reportFilters: AppReportFilters;
   /**
    * Set of actions that are associated with the apps but are not part of the /apps API endpoints
    * Such actions are:
@@ -42,6 +44,7 @@ export class App {
     this.#id = id;
     this.#saasClient = saasClient;
     this.evaluations = new AppEvaluations(this.#saasClient, this.#id);
+    this.reportFilters = new AppReportFilters(this.#saasClient, this.#id);
     this._actions = new AppActions(this.#saasClient, this.#id);
 
     // if we have to swap id and resourceId properties

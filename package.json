@@ -64,13 +64,13 @@
     "dotenv": "16.3.1",
     "esm": "^3.2.25",
     "nyc": "15.1.0",
-    "rollup": "^4.7.0",
+    "rollup": "^4.9.0",
     "rollup-plugin-delete": "2.0.0",
     "ts-node": "10.9.2",
     "tslib": "^2.6.2",
     "typedoc": "0.25.4",
     "typescript": "5.0.4",
-    "vitest": "^1.0.3"
+    "vitest": "^0.34.6"
   },
   "dependencies": {
     "form-data": "^4.0.0",
