@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.17.0 - 2023-12-20
+
+- `Encryption` - new API endpoints implementation [post](https://qlik.dev/changelog/75-encryption-api/)
+- dependency update
+
 ## 0.16.0 - 2023-12-17
 
 - dependency updates
@@ -9,7 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ## 0.15.0 - 2023-12-09
 
-- - `AutomationConnections` - new API endpoints implementation [post](https://qlik.dev/changelog/68-api-updates-automation-connections/)
+- `AutomationConnections` - new API endpoints implementation [post](https://qlik.dev/changelog/68-api-updates-automation-connections/)
 - dependency updates
 
 ## 0.14.6 - 2023-09-20
