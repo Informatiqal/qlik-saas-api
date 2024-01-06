@@ -2,6 +2,7 @@ import { QlikSaaSClient } from "qlik-rest-api";
 import { Apps } from "./modules/Apps";
 import { Brands } from "./modules/Brands";
 import { DataAlerts } from "./modules/DataAlerts";
+import { DiProjects } from "./modules/DiProjects";
 import { Automations } from "./modules/Automations";
 import { AutomationConnections } from "./modules/AutomationConnections";
 import { APIKeys } from "./modules/APIKeys";
@@ -49,6 +50,7 @@ export namespace QlikSaaSApi {
      * BETA
      */
     public dataAlerts: DataAlerts;
+    public diProjects: DiProjects;
     public dataConnections: DataConnections;
     public dataCredentials: DataCredentials;
     public conditions: Conditions;
@@ -97,6 +99,7 @@ export namespace QlikSaaSApi {
       this.audits = new Audits(this.#saasClient);
       this.brands = new Brands(this.#saasClient);
       this.dataAlerts = new DataAlerts(this.#saasClient);
+      this.diProjects = new DiProjects(this.#saasClient);
       this.dataConnections = new DataConnections(this.#saasClient);
       this.dataCredentials = new DataCredentials(this.#saasClient);
       this.conditions = new Conditions(this.#saasClient);
