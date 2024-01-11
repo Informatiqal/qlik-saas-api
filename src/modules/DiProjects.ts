@@ -7,13 +7,16 @@ export class DiProjects {
     this.#saasClient = saasClient;
   }
 
+  /**
+   * Returns instance of single data integration project
+   */
   async get(arg: { id: string }) {
-    if (!arg.id) throw new Error(`diProject.get: "id" parameter is required`);
+    if (!arg.id) throw new Error(`diProjects.get: "id" parameter is required`);
 
-    const st: DiProject = new DiProject(this.#saasClient, arg.id);
-    await st.init();
+    const di: DiProject = new DiProject(this.#saasClient, arg.id);
+    await di.init();
 
-    return st;
+    return di;
   }
 
   /**

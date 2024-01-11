@@ -88,6 +88,6 @@ export class DiProjectTask {
       .Get<IDataTaskInstanceState>(
         `di-projects/${this.#projectId}/di-tasks/${this.#id}/state`
       )
-      .then((res) => res.status);
+      .then((res) => res.data);
   }
 }

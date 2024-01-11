@@ -1,4 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
+import { DiProjectTasks } from "./DiProjectTasks";
 
 export interface IDiProject {
   id: string;
@@ -12,12 +13,14 @@ export class DiProject {
   #id: string;
   #saasClient: QlikSaaSClient;
   details: IDiProject;
+  tasks: DiProjectTasks;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IDiProject) {
     if (!id) throw new Error(`diProject.get: "id" parameter is required`);
 
     this.details = details ?? ({} as IDiProject);
     this.#id = id;
     this.#saasClient = saasClient;
+    this.tasks = new DiProjectTasks(saasClient, id);
   }
 
   async init(arg?: { force: boolean }) {

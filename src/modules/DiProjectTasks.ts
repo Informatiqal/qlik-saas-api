@@ -9,6 +9,9 @@ export class DiProjectTasks {
     this.#projectId = projectId;
   }
 
+  /**
+   * Returns instance of single data integration task
+   */
   async get(arg: { id: string; projectId: string }) {
     if (!arg.id)
       throw new Error(`diProjectTasks.get: "id" parameter is required`);
@@ -17,18 +20,18 @@ export class DiProjectTasks {
         `diProjectTasks.projectId: "projectId" parameter is required`
       );
 
-    const st: DiProjectTask = new DiProjectTask(
+    const diTask: DiProjectTask = new DiProjectTask(
       this.#saasClient,
       arg.id,
       arg.projectId
     );
-    await st.init();
+    await diTask.init();
 
-    return st;
+    return diTask;
   }
 
   /**
-   * Returns a list of data integrations tasks as an instance
+   * Returns instances list of data integrations tasks
    */
   async getAll() {
     return await this.#saasClient
