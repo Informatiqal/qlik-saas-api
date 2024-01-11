@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.18.0 - 2024-01-11
+
+- `Data Integrations` - new API endpoints implementation [post](https://qlik.dev/changelog/76-api-updates-di-projects/)
+- dependency updates
+
 ## 0.17.0 - 2023-12-20
 
 - `Encryption` - new API endpoints implementation [post](https://qlik.dev/changelog/75-encryption-api/)
