@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.18.1 - 2024-01-11
+
+- security audit fix
+
 ## 0.18.0 - 2024-01-11
 
 - `Data Integrations` - new API endpoints implementation [post](https://qlik.dev/changelog/76-api-updates-di-projects/)
