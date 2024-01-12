@@ -1,6 +1,6 @@
 {
   "name": "qlik-saas-api",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "description": "Interact with Qlik Sense SaaS REST API",
   "author": {
     "email": "info@informatiqal.com",
@@ -64,7 +64,7 @@
     "dotenv": "16.3.1",
     "esm": "^3.2.25",
     "nyc": "15.1.0",
-    "rollup": "^4.9.4",
+    "rollup": "^4.9.5",
     "rollup-plugin-delete": "2.0.0",
     "ts-node": "10.9.2",
     "tslib": "^2.6.2",
