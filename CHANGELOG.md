@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.18.2 - 2024-01-11
+
+- mark `POST /sharing-tasks` `appName` argument as deprecated. [Blog post](https://qlik.dev/changelog/77-api-deprecation-sharing-tasks/)
+- dependency update
+
 ## 0.18.1 - 2024-01-11
 
 - security audit fix

@@ -26,6 +26,9 @@ export interface ISharingTaskRecurringCreateRequest {
       displayValues?: string[];
     }[];
   };
+  /**
+   * @deprecated https://qlik.dev/changelog/77-api-deprecation-sharing-tasks/
+   */
   appName: string;
   enabled?: boolean;
   message?: string;
