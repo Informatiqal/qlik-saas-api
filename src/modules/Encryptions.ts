@@ -36,7 +36,7 @@ export interface IMigrationInformation {
   migratingToFingerprint: string;
 }
 
-export class Encryption {
+export class Encryptions {
   #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
     this.#saasClient = saasClient;

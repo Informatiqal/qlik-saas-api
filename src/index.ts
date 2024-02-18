@@ -25,7 +25,7 @@ import { Reloads } from "./modules/Reloads";
 import { ReloadTasks } from "./modules/ReloadTasks";
 import { Roles } from "./modules/Roles";
 import { Users } from "./modules/Users";
-import { Encryption } from "./modules/Encryption";
+import { Encryptions } from "./modules/Encryptions";
 import { WebHooks } from "./modules/WebHooks";
 import { OAuthTokens } from "./modules/OAuthTokens";
 import { Collections } from "./modules/Collections";
@@ -79,7 +79,7 @@ export namespace QlikSaaSApi {
     public roles: Roles;
     public transports: Transports;
     public users: Users;
-    public encryption: Encryption;
+    public encryptions: Encryptions;
     public webHooks: WebHooks;
     public oauthTokens: OAuthTokens;
     public collections: Collections;
@@ -120,7 +120,7 @@ export namespace QlikSaaSApi {
       this.roles = new Roles(this.#saasClient);
       this.transports = new Transports(this.#saasClient);
       this.users = new Users(this.#saasClient);
-      this.encryption = new Encryption(this.#saasClient);
+      this.encryptions = new Encryptions(this.#saasClient);
       this.webHooks = new WebHooks(this.#saasClient);
       this.oauthTokens = new OAuthTokens(this.#saasClient);
       this.collections = new Collections(this.#saasClient);

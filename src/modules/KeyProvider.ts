@@ -1,5 +1,5 @@
 import { QlikSaaSClient } from "qlik-rest-api";
-import { IMigrationInformation } from "./Encryption";
+import { IMigrationInformation } from "./Encryptions";
 
 export interface IKeyProvider {
   /**

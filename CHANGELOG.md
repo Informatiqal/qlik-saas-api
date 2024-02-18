@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.18.3 - 2024-02-18
+
+- `Encryption` methods are replaced to be `Encryptions`
+- dependency updates
+
 ## 0.18.2 - 2024-01-11
 
 - mark `POST /sharing-tasks` `appName` argument as deprecated. [Blog post](https://qlik.dev/changelog/77-api-deprecation-sharing-tasks/)
