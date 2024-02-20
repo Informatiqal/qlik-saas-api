@@ -61,7 +61,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/form-data": "^2.5.0",
     "@types/node": "20.11.19",
-    "dotenv": "16.4.4",
+    "dotenv": "16.4.5",
     "esm": "^3.2.25",
     "nyc": "15.1.0",
     "rollup": "^4.12.0",
