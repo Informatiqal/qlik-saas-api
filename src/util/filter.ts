@@ -21,8 +21,10 @@ export function parseFilter(
 ) {
   //   if (!filter) throw new Error("");
 
-  // split the conditions on "and" and "or" (ignore cases: AND = and = And etc.)
-  const r = new RegExp(/(?: and | or )+/, "ig");
+  // split the conditions on "and" and "or"
+  // - ignore cases: AND = and = And etc.
+  // - can be preceded or followed by any number of spaces
+  const r = new RegExp(/(?:\s*and\s* | \s*or\s* )+/, "ig");
 
   // use the above regex to get list of all conditions
   const conditions = filter.split(r);
@@ -53,26 +55,26 @@ function constructFilter(
   operations: string[],
   baseObjPath: string
 ) {
-  const c = {
-    // equal
-    eq: (p, v) => `${p} == ${v}`,
-    // not equal
-    ne: (p, v) => `${p} != ${v}`,
-    // starts with
-    sw: (p, v) => `${p}.startsWith(${v})`,
-    // ends with
-    ew: (p, v) => `${p}.endsWith(${v})`,
-    // substring of
-    so: (p, v) => `${p}.includes(${v})`,
-    // grater than
-    gt: (p, v) => `${p} > ${v}`,
-    // greater than or equal
-    ge: (p, v) => `${p} >= ${v}`,
-    // less than
-    lt: (p, v) => `${p} < ${v}`,
-    // less than or equal
-    le: (p, v) => `${p} <= ${v}`,
-  };
+    const c = {
+      // equal
+      eq: (p, v) => `${p} == ${v}`,
+      // not equal
+      ne: (p, v) => `${p} != ${v}`,
+      // starts with
+      sw: (p, v) => `${p}.startsWith(${v})`,
+      // ends with
+      ew: (p, v) => `${p}.endsWith(${v})`,
+      // substring of
+      so: (p, v) => `${p}.includes(${v})`,
+      // grater than
+      gt: (p, v) => `${p} > ${v}`,
+      // greater than or equal
+      ge: (p, v) => `${p} >= ${v}`,
+      // less than
+      lt: (p, v) => `${p} < ${v}`,
+      // less than or equal
+      le: (p, v) => `${p} <= ${v}`,
+    };
 
   const op = {
     and: "&&",

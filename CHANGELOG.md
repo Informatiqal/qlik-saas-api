@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.18.4 - 2024-08-22
+
+- dependency updates
+
 ## 0.18.3 - 2024-02-18
 
 - `Encryption` methods are replaced to be `Encryptions`
