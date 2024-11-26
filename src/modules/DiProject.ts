@@ -1,5 +1,6 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { DiProjectTasks } from "./DiProjectTasks";
+import { DiProjectActions } from "./DiProjectActions";
 
 export interface IDiProject {
   id: string;
@@ -14,6 +15,7 @@ export class DiProject {
   #saasClient: QlikSaaSClient;
   details: IDiProject;
   tasks: DiProjectTasks;
+  _actions: DiProjectActions;
   constructor(saasClient: QlikSaaSClient, id: string, details?: IDiProject) {
     if (!id) throw new Error(`diProject.get: "id" parameter is required`);
 
@@ -21,6 +23,7 @@ export class DiProject {
     this.#id = id;
     this.#saasClient = saasClient;
     this.tasks = new DiProjectTasks(saasClient, id);
+    this._actions = new DiProjectActions(this.#saasClient, this.#id);
   }
 
   async init(arg?: { force: boolean }) {
@@ -33,5 +36,21 @@ export class DiProject {
         .Get<IDiProject>(`di-projects/${this.#id}`)
         .then((res) => res.data);
     }
+  }
+
+  async bindings(): Promise<{
+    variables: { name: string; value: string }[];
+  }> {
+    return await this.#saasClient
+      .Get<{ variables: { name: string; value: string }[] }>(
+        `di-projects/${this.#id}/bindings`
+      )
+      .then((res) => res.data);
+  }
+
+  async updateBindings(arg: { name: string; value: string }[]) {
+    return await this.#saasClient
+      .Put<{}>(`di-projects/${this.#id}/bindings`, { variables: [...arg] })
+      .then((res) => res.data);
   }
 }

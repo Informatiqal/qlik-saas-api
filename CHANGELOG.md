@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.19.0 - 2024-11-26
+
+- data integration projects - `import` and `export` actions
+- dependency updates
+
 ## 0.18.4 - 2024-08-22
 
 - dependency updates

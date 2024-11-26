@@ -1,6 +1,37 @@
 import { QlikSaaSClient } from "qlik-rest-api";
 import { DiProject, IDiProject } from "./DiProject";
 
+export interface IDiCreate {
+  /**
+   * The name of the project
+   */
+  name: string;
+  /**
+   * The type of the project
+   */
+  type: string;
+  /**
+   * The ID of the space where the project will be created
+   */
+  space: string;
+  /**
+   * A description of the project
+   */
+  description: string;
+  /**
+   * The platform type of the project
+   */
+  platformType: string;
+  /**
+   * The platform connection string
+   */
+  platformConnection: string;
+  /**
+   * The landing storage connection string
+   */
+  landingStorageConnection: string;
+}
+
 export class DiProjects {
   #saasClient: QlikSaaSClient;
   constructor(saasClient: QlikSaaSClient) {
@@ -29,5 +60,32 @@ export class DiProjects {
       .then((data) =>
         data.map((t) => new DiProject(this.#saasClient, t.id, t))
       );
+  }
+
+  async create(arg: IDiCreate) {
+    if (!arg.name)
+      throw new Error(`diProjects.create: "name" parameter is required`);
+    if (!arg.type)
+      throw new Error(`diProjects.create: "type" parameter is required`);
+    if (!arg.space)
+      throw new Error(`diProjects.create: "space" parameter is required`);
+    if (!arg.description)
+      throw new Error(`diProjects.create: "description" parameter is required`);
+    if (!arg.platformType)
+      throw new Error(
+        `diProjects.create: "platformType" parameter is required`
+      );
+    if (!arg.platformConnection)
+      throw new Error(
+        `diProjects.create: "platformConnection" parameter is required`
+      );
+    if (!arg.landingStorageConnection)
+      throw new Error(
+        `diProjects.create: "landingStorageConnection" parameter is required`
+      );
+
+    return await this.#saasClient
+      .Post<IDiProject>(`di-projects`, arg)
+      .then((res) => new DiProject(this.#saasClient, res.data.id, res.data));
   }
 }
