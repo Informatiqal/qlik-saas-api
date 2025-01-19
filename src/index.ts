@@ -12,6 +12,7 @@ import { DataCredentials } from "./modules/DataCredentials";
 import { Conditions } from "./modules/Conditions";
 import { Spaces } from "./modules/Spaces";
 import { Items } from "./modules/Items";
+import { Knowledgebases } from "./modules/Knowledgebases";
 import { NL } from "./modules/NaturalLanguage";
 import { ML } from "./modules/ML";
 import { Licenses } from "./modules/Licenses";
@@ -58,6 +59,7 @@ export namespace QlikSaaSApi {
     public spaces: Spaces;
     public groups: Groups;
     public items: Items;
+    public knowledgebases: Knowledgebases;
     public naturalLanguage: NL;
     public machineLearning: ML;
     public origins: Origins;
@@ -108,6 +110,7 @@ export namespace QlikSaaSApi {
       this.spaces = new Spaces(this.#saasClient);
       this.groups = new Groups(this.#saasClient);
       this.items = new Items(this.#saasClient);
+      this.knowledgebases = new Knowledgebases(this.#saasClient);
       this.naturalLanguage = new NL(this.#saasClient);
       this.machineLearning = new ML(this.#saasClient);
       this.licenses = new Licenses(this.#saasClient);
